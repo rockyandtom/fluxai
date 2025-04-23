@@ -4,6 +4,38 @@ import axios from 'axios';
 // API基础URL
 const API_BASE_URL = 'https://www.runninghub.cn';
 
+// 添加重试逻辑的函数
+async function fetchWithRetry(url: string, data: any, headers: any, maxRetries = 3) {
+  let lastError;
+  
+  for (let attempt = 1; attempt <= maxRetries; attempt++) {
+    try {
+      console.log(`尝试获取状态 (第${attempt}/${maxRetries}次)...`);
+      
+      const response = await axios.post(url, data, {
+        headers,
+        timeout: 60000 // 60秒超时
+      });
+      
+      // 如果成功，立即返回结果
+      return response;
+    } catch (error) {
+      lastError = error;
+      console.error(`第${attempt}次尝试失败:`, error);
+      
+      // 如果不是最后一次尝试，则等待一段时间再重试
+      if (attempt < maxRetries) {
+        const delayMs = 1000 * attempt; // 第一次失败等待1秒，第二次失败等待2秒
+        console.log(`等待${delayMs}ms后重试...`);
+        await new Promise(resolve => setTimeout(resolve, delayMs));
+      }
+    }
+  }
+  
+  // 所有重试都失败，抛出最后一个错误
+  throw lastError;
+}
+
 export async function POST(request: Request) {
   try {
     // 获取请求数据
@@ -19,20 +51,22 @@ export async function POST(request: Request) {
     
     console.log('服务端检查任务状态:', { taskId, apiKey: apiKey.substring(0, 5) + '...' });
     
-    // 发送请求
-    const response = await axios.post(
+    // 发送请求（使用重试机制）
+    const requestData = {
+      apiKey,
+      taskId
+    };
+    
+    const headers = {
+      'Content-Type': 'application/json',
+      'Host': 'www.runninghub.cn'
+    };
+    
+    // 使用重试机制发送请求
+    const response = await fetchWithRetry(
       `${API_BASE_URL}/task/openapi/status`,
-      {
-        apiKey,
-        taskId
-      },
-      {
-        headers: {
-          'Content-Type': 'application/json',
-          'Host': 'www.runninghub.cn'
-        },
-        timeout: 30000 // 30秒超时
-      }
+      requestData,
+      headers
     );
     
     console.log('RunningHub状态响应:', response.data);
@@ -106,8 +140,21 @@ export async function POST(request: Request) {
         });
       }
       
-      errorMessage = error.response?.data?.msg || error.message;
-      statusCode = error.response?.status || 500;
+      // 超时错误处理
+      if (error.code === 'ECONNABORTED') {
+        errorMessage = '获取状态超时，请稍后再试';
+        statusCode = 504;
+        
+        // 对于超时错误，返回RUNNING状态，而不是错误
+        return NextResponse.json({
+          success: true,
+          status: 'RUNNING',
+          progress: 50
+        });
+      } else {
+        errorMessage = error.response?.data?.msg || error.message;
+        statusCode = error.response?.status || 500;
+      }
     } else if (error instanceof Error) {
       errorMessage = error.message;
     }

@@ -49,7 +49,7 @@ export async function POST(request: Request) {
           'Content-Type': 'multipart/form-data',
           'Host': 'www.runninghub.cn'
         },
-        timeout: 30000 // 30秒超时
+        timeout: 60000 // 60秒超时，增加等待时间
       }
     );
     
@@ -81,8 +81,14 @@ export async function POST(request: Request) {
         message: error.message
       });
       
-      errorMessage = error.response?.data?.msg || error.message;
-      statusCode = error.response?.status || 500;
+      // 如果是超时错误，返回更友好的提示信息
+      if (error.code === 'ECONNABORTED') {
+        errorMessage = '上传请求超时，请稍后再试或上传较小的图片';
+        statusCode = 504;
+      } else {
+        errorMessage = error.response?.data?.msg || error.message;
+        statusCode = error.response?.status || 500;
+      }
     } else if (error instanceof Error) {
       errorMessage = error.message;
     }

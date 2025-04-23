@@ -4,6 +4,38 @@ import axios from 'axios';
 // API基础URL
 const API_BASE_URL = 'https://www.runninghub.cn';
 
+// 添加重试逻辑的函数
+async function fetchWithRetry(url: string, data: any, headers: any, maxRetries = 2) {
+  let lastError;
+  
+  for (let attempt = 1; attempt <= maxRetries; attempt++) {
+    try {
+      console.log(`尝试创建AI任务 (第${attempt}/${maxRetries}次)...`);
+      
+      const response = await axios.post(url, data, {
+        headers,
+        timeout: 60000 // 60秒超时
+      });
+      
+      // 如果成功，立即返回结果
+      return response;
+    } catch (error) {
+      lastError = error;
+      console.error(`第${attempt}次尝试失败:`, error);
+      
+      // 如果不是最后一次尝试，则等待一段时间再重试
+      if (attempt < maxRetries) {
+        const delayMs = 1500 * attempt; // 第一次失败等待1.5秒
+        console.log(`等待${delayMs}ms后重试...`);
+        await new Promise(resolve => setTimeout(resolve, delayMs));
+      }
+    }
+  }
+  
+  // 所有重试都失败，抛出最后一个错误
+  throw lastError;
+}
+
 export async function POST(request: Request) {
   try {
     // 获取请求数据
@@ -38,16 +70,16 @@ export async function POST(request: Request) {
     // 发送请求
     console.log('服务端发送AI任务请求:', JSON.stringify(requestData));
     
-    const response = await axios.post(
+    const headers = {
+      'Content-Type': 'application/json',
+      'Host': 'www.runninghub.cn'
+    };
+    
+    // 使用重试机制发送请求
+    const response = await fetchWithRetry(
       `${API_BASE_URL}/task/openapi/ai-app/run`,
       requestData,
-      {
-        headers: {
-          'Content-Type': 'application/json',
-          'Host': 'www.runninghub.cn'
-        },
-        timeout: 30000 // 30秒超时
-      }
+      headers
     );
     
     console.log('RunningHub AI任务响应:', response.data);
@@ -83,8 +115,14 @@ export async function POST(request: Request) {
         message: error.message
       });
       
-      errorMessage = error.response?.data?.msg || error.message;
-      statusCode = error.response?.status || 500;
+      // 超时错误处理
+      if (error.code === 'ECONNABORTED') {
+        errorMessage = '创建AI任务超时，请稍后再试或尝试上传较小的图片';
+        statusCode = 504;
+      } else {
+        errorMessage = error.response?.data?.msg || error.message;
+        statusCode = error.response?.status || 500;
+      }
     } else if (error instanceof Error) {
       errorMessage = error.message;
     }
