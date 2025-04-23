@@ -25,6 +25,7 @@ export default function ExampleResults({ toolId }: ExampleResultsProps) {
         setIsLoading(true);
         setError(null);
         
+        console.log(`Loading saved images for tool: ${toolId}`);
         const response = await fetch(`/api/saveImage?toolId=${toolId}`);
         
         if (!response.ok) {
@@ -32,6 +33,7 @@ export default function ExampleResults({ toolId }: ExampleResultsProps) {
         }
         
         const data = await response.json();
+        console.log(`Received ${data.images?.length || 0} saved images`);
         
         if (data.success) {
           setResults(data.images || []);
@@ -41,6 +43,9 @@ export default function ExampleResults({ toolId }: ExampleResultsProps) {
       } catch (error) {
         console.error('Failed to load saved image results:', error);
         setError(error instanceof Error ? error.message : 'Failed to load results');
+        
+        // 发生错误时设置空结果而不是保持加载状态
+        setResults([]);
       } finally {
         setIsLoading(false);
       }
@@ -98,13 +103,16 @@ export default function ExampleResults({ toolId }: ExampleResultsProps) {
               whileHover={{ scale: 1.03, transition: { duration: 0.2 } }}
             >
               <div className="aspect-square relative">
-                <Image
+                {/* 使用普通img标签替代Next.js Image组件，避免构造函数错误 */}
+                <img
                   src={result.imageUrl}
                   alt={`AI Generated Image ${index + 1}`}
-                  fill
-                  className="object-cover"
-                  sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 16vw"
-                  unoptimized={true}
+                  className="absolute inset-0 w-full h-full object-cover"
+                  onError={(e) => {
+                    console.error(`Image load error for ${result.imageUrl}`);
+                    // 设置为默认图像或错误占位图
+                    e.currentTarget.src = '/placeholder-error.png';
+                  }}
                 />
               </div>
               <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-2">

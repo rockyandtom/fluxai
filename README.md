@@ -5,6 +5,9 @@ FluxAI 是一个先进的AI图片特效工具合集，提供多种图片处理�
 ## 功能特点
 
 - 多种AI图片生成特效
+  - Ghibli AI: 将照片转换成宫崎骏吉卜力工作室风格的动画效果
+  - Polaroid Style: 将照片转换成复古拍立得风格
+  - 更多特效工具...
 - 简洁直观的用户界面
 - 快速的图片处理能力
 - 移动端响应式设计
@@ -30,6 +33,7 @@ FluxAI 是一个先进的AI图片特效工具合集，提供多种图片处理�
 NEXT_PUBLIC_RUNNINGHUB_API_KEY=your_api_key_here
 
 # Tool WebApp IDs
+NEXT_PUBLIC_GHIBLI_WEBAPP_ID=1907296046433886210
 NEXT_PUBLIC_CARTOON_WEBAPP_ID=cartoon_webapp_id
 NEXT_PUBLIC_SKETCH_WEBAPP_ID=sketch_webapp_id
 NEXT_PUBLIC_ANIME_WEBAPP_ID=anime_webapp_id
@@ -37,6 +41,7 @@ NEXT_PUBLIC_OIL_PAINTING_WEBAPP_ID=oil_painting_webapp_id
 NEXT_PUBLIC_PIXEL_ART_WEBAPP_ID=pixel_art_webapp_id
 
 # Tool Node IDs
+NEXT_PUBLIC_GHIBLI_NODE_ID=365
 NEXT_PUBLIC_CARTOON_NODE_ID=cartoon_node_id
 NEXT_PUBLIC_SKETCH_NODE_ID=sketch_node_id
 NEXT_PUBLIC_ANIME_NODE_ID=anime_node_id
@@ -178,6 +183,7 @@ MIT License
 
 ### 最新更新 (2024-05-xx)
 
+- 添加了新的Ghibli AI工具，可将照片转换成宫崎骏吉卜力工作室动画风格
 - 添加了自动保存生成结果的功能
 - 优化了结果展示区域UI
 - 为每个工具增加了历史结果展示

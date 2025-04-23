@@ -19,6 +19,19 @@ const PLACEHOLDER_IMAGE = "/thumbnails/placeholder.svg";
 // 工具配置列表
 export const tools: ToolConfig[] = [
   {
+    id: "ghibli",
+    name: "Ghibli AI",
+    description: "Transform your photos into Studio Ghibli animation style",
+    webappId: process.env.NEXT_PUBLIC_GHIBLI_WEBAPP_ID || '1907296046433886210',
+    nodeId: process.env.NEXT_PUBLIC_GHIBLI_NODE_ID || '365',
+    apiKey: API_KEY,
+    thumbnail: "/thumbnails/ghibli.svg",
+    demoImages: [
+      PLACEHOLDER_IMAGE,
+      PLACEHOLDER_IMAGE,
+    ]
+  },
+  {
     id: "polaroid",
     name: "Polaroid Style",
     description: "Transform your photos into vintage Polaroid-style images",

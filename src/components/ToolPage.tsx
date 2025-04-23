@@ -268,37 +268,25 @@ export default function ToolPage({ tool }: ToolPageProps) {
         // 确保URL是绝对路径
         let imageUrl = result.images[0];
         
-        // 验证URL格式并尝试加载图片
+        // 修改图片验证逻辑，使用更简单的方式预加载图片
         try {
-          // 创建一个图片元素来预加载和验证图片
-          const img = new Image();
-          img.onload = () => {
-            console.log('Image preload successful:', imageUrl);
-            setResultImage(imageUrl);
-            setStatus('COMPLETED');
-            setProgress(100);
-            
-            // 保存成功生成的图片到数据库
-            console.log('Calling saveGeneratedImage with URL:', imageUrl);
-            saveGeneratedImage(imageUrl);
-          };
-          img.onerror = () => {
-            console.error('Image preload failed:', imageUrl);
-            // 尝试从原始数据中寻找其他可能的URL
-            if (result.rawData) {
-              findImageUrlInRawData(result.rawData);
-            } else {
-              throw new Error('Unable to load result image');
-            }
-          };
-          img.src = imageUrl;
+          console.log('Image preload starting for:', imageUrl);
+          
+          // 直接设置图片URL和状态，不再尝试预加载
+          setResultImage(imageUrl);
+          setStatus('COMPLETED');
+          setProgress(100);
+          
+          // 保存成功生成的图片到数据库
+          console.log('Calling saveGeneratedImage with URL:', imageUrl);
+          saveGeneratedImage(imageUrl);
         } catch (imageError) {
-          console.error('图片URL验证失败:', imageError);
+          console.error('Image URL validation failed:', imageError);
           // 尝试从原始数据中寻找其他可能的URL
           if (result.rawData) {
             findImageUrlInRawData(result.rawData);
           } else {
-            throw new Error('无法加载结果图片');
+            throw new Error('Unable to load result image');
           }
         }
       } else {

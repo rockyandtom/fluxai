@@ -15,22 +15,16 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'www.runninghub.cn',
+        hostname: 'rh-images.xiaoyaoyou.com',
         port: '',
         pathname: '/**',
       },
       {
         protocol: 'https',
-        hostname: 'rh-images.xiaoyaoyou.com',
+        hostname: 'www.runninghub.cn',
         port: '',
         pathname: '/**',
       },
-      {
-        protocol: 'http',
-        hostname: 'rh-images.xiaoyaoyou.com',
-        port: '',
-        pathname: '/**',
-      }
     ],
   },
 };
