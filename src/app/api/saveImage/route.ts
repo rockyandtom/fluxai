@@ -55,11 +55,22 @@ function getSavedImages(): SavedImagesData {
   }
 }
 
-// 保存图片数据
+// 保存图片数据到文件系统
 function saveImages(data: SavedImagesData): void {
   try {
-    writeFileSync(IMAGES_JSON_PATH, JSON.stringify(data, null, 2), 'utf-8');
+    const jsonString = JSON.stringify(data, null, 2);
+    console.log(`Saving data to ${IMAGES_JSON_PATH}, data size: ${jsonString.length} bytes`);
+    
+    writeFileSync(IMAGES_JSON_PATH, jsonString, 'utf-8');
     console.log(`Successfully saved images data with ${Object.keys(data).length} tools`);
+    
+    // 验证文件是否正确写入
+    if (existsSync(IMAGES_JSON_PATH)) {
+      const fileStats = require('fs').statSync(IMAGES_JSON_PATH);
+      console.log(`File saved successfully, size: ${fileStats.size} bytes`);
+    } else {
+      console.error(`File not found after saving: ${IMAGES_JSON_PATH}`);
+    }
   } catch (error) {
     console.error('Error saving images data:', error);
     throw error; // Re-throw to handle in caller
@@ -72,6 +83,8 @@ export async function POST(request: Request) {
     const data = await request.json();
     const { toolId, imageUrl } = data;
     
+    console.log(`POST request to saveImage received with toolId: ${toolId}`);
+    
     if (!toolId || !imageUrl) {
       console.log('Missing required parameters:', { toolId, imageUrl: imageUrl ? '[exists]' : '[missing]' });
       return NextResponse.json(
@@ -80,7 +93,24 @@ export async function POST(request: Request) {
       );
     }
     
-    console.log(`Saving image for tool ${toolId}`);
+    // 验证图片URL格式
+    if (typeof imageUrl !== 'string' || !imageUrl.trim()) {
+      console.error('Invalid image URL format:', imageUrl);
+      return NextResponse.json(
+        { success: false, error: 'Invalid image URL format' },
+        { status: 400 }
+      );
+    }
+    
+    // 判断URL是否是有效的图片URL
+    if (!imageUrl.match(/^https?:\/\/.*\.(jpg|jpeg|png|gif|webp|svg)(\?.*)?$/i) &&
+        !imageUrl.includes('runninghub.cn') && 
+        !imageUrl.includes('rh-images.xiaoyaoyou.com')) {
+      console.warn('URL may not be a valid image:', imageUrl);
+      // 继续处理，但记录警告
+    }
+    
+    console.log(`Saving image for tool ${toolId}, URL: ${imageUrl.substring(0, 50)}...`);
     
     // 获取保存的图片数据
     const savedImages = getSavedImages();
@@ -89,6 +119,16 @@ export async function POST(request: Request) {
     if (!savedImages[toolId]) {
       console.log(`Initializing new array for tool ${toolId}`);
       savedImages[toolId] = [];
+    }
+    
+    // 检查是否已存在相同URL，避免重复
+    const exists = savedImages[toolId].some(item => item.imageUrl === imageUrl);
+    if (exists) {
+      console.log(`Image URL already exists for tool ${toolId}, skipping save`);
+      return NextResponse.json({
+        success: true,
+        message: 'Image already exists'
+      });
     }
     
     // 添加新图片，确保每个工具最多保存30个图片
@@ -109,12 +149,14 @@ export async function POST(request: Request) {
     // 返回成功结果
     return NextResponse.json({
       success: true,
-      message: 'Image saved successfully'
+      message: 'Image saved successfully',
+      toolId,
+      imagesCount: savedImages[toolId].length
     });
   } catch (error) {
     console.error('Error saving image:', error);
     return NextResponse.json(
-      { success: false, error: 'Failed to save image' },
+      { success: false, error: 'Failed to save image: ' + (error instanceof Error ? error.message : String(error)) },
       { status: 500 }
     );
   }

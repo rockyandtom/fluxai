@@ -273,21 +273,22 @@ export default function ToolPage({ tool }: ToolPageProps) {
           // 创建一个图片元素来预加载和验证图片
           const img = new Image();
           img.onload = () => {
-            console.log('图片预加载成功:', imageUrl);
+            console.log('Image preload successful:', imageUrl);
             setResultImage(imageUrl);
             setStatus('COMPLETED');
             setProgress(100);
             
             // 保存成功生成的图片到数据库
+            console.log('Calling saveGeneratedImage with URL:', imageUrl);
             saveGeneratedImage(imageUrl);
           };
           img.onerror = () => {
-            console.error('图片预加载失败:', imageUrl);
+            console.error('Image preload failed:', imageUrl);
             // 尝试从原始数据中寻找其他可能的URL
             if (result.rawData) {
               findImageUrlInRawData(result.rawData);
             } else {
-              throw new Error('无法加载结果图片');
+              throw new Error('Unable to load result image');
             }
           };
           img.src = imageUrl;
@@ -392,17 +393,18 @@ export default function ToolPage({ tool }: ToolPageProps) {
         }
       }
       
-      console.log('从原始数据中找到图像URL:', foundUrl);
+      console.log('Found image URL in raw data:', foundUrl);
       setResultImage(foundUrl);
       setStatus('COMPLETED');
       setProgress(100);
       
       // 保存成功生成的图片到数据库
+      console.log('Calling saveGeneratedImage with URL from raw data:', foundUrl);
       saveGeneratedImage(foundUrl);
       return;
     }
     
-    console.error('未能在原始数据中找到有效的图像URL');
+    console.error('No valid image URL found in raw data');
     setStatus('ERROR');
     setErrorMessage('No valid image URL found in the result');
   };
@@ -410,6 +412,8 @@ export default function ToolPage({ tool }: ToolPageProps) {
   // 保存生成的图片到数据库
   const saveGeneratedImage = async (imageUrl: string) => {
     try {
+      console.log('saveGeneratedImage called with toolId:', tool.id, 'imageUrl:', imageUrl);
+      
       const response = await fetch('/api/saveImage', {
         method: 'POST',
         headers: {
@@ -421,15 +425,18 @@ export default function ToolPage({ tool }: ToolPageProps) {
         }),
       });
       
+      console.log('saveImage API response status:', response.status);
+      
       const data = await response.json();
+      console.log('saveImage API response data:', data);
       
       if (!data.success) {
-        console.error('保存图片失败:', data.error);
+        console.error('Failed to save image:', data.error);
       } else {
-        console.log('成功保存图片:', data.message);
+        console.log('Image saved successfully:', data.message);
       }
     } catch (error) {
-      console.error('保存图片过程中出错:', error);
+      console.error('Error while saving image:', error);
     }
   };
 
