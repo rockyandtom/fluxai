@@ -11,15 +11,29 @@ interface ResultDisplayProps {
 export default function ResultDisplay({ imageUrl }: ResultDisplayProps) {
   const [isLoading, setIsLoading] = useState(true);
   const [isDownloading, setIsDownloading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   // 处理图片下载
   const handleDownload = async () => {
     try {
       setIsDownloading(true);
+      setError(null);
+      
+      // 通过fetch获取图片并转换为blob
+      const response = await fetch(imageUrl);
+      
+      if (!response.ok) {
+        throw new Error(`下载图片失败: ${response.status} ${response.statusText}`);
+      }
+      
+      const blob = await response.blob();
+      
+      // 创建blob URL
+      const blobUrl = URL.createObjectURL(blob);
       
       // 创建一个标签并模拟点击
       const link = document.createElement('a');
-      link.href = imageUrl;
+      link.href = blobUrl;
       
       // 从URL中提取文件名，如果提取不到则使用时间戳
       const fileName = imageUrl.split('/').pop() || `fluxai-${Date.now()}.png`;
@@ -29,6 +43,11 @@ export default function ResultDisplay({ imageUrl }: ResultDisplayProps) {
       link.click();
       document.body.removeChild(link);
       
+      // 释放blob URL
+      setTimeout(() => {
+        URL.revokeObjectURL(blobUrl);
+      }, 100);
+      
       // 显示下载动画
       setTimeout(() => {
         setIsDownloading(false);
@@ -36,6 +55,7 @@ export default function ResultDisplay({ imageUrl }: ResultDisplayProps) {
     } catch (error) {
       console.error('Download failed:', error);
       setIsDownloading(false);
+      setError(error instanceof Error ? error.message : '下载失败');
     }
   };
 
@@ -60,8 +80,13 @@ export default function ResultDisplay({ imageUrl }: ResultDisplayProps) {
             fill
             className="object-contain"
             onLoad={() => setIsLoading(false)}
+            onError={() => {
+              setIsLoading(false);
+              setError('图片加载失败');
+            }}
             quality={100}
             sizes="(max-width: 768px) 100vw, 50vw"
+            unoptimized={true}
           />
         </div>
         
@@ -69,6 +94,7 @@ export default function ResultDisplay({ imageUrl }: ResultDisplayProps) {
           <div>
             <h3 className="text-lg font-semibold text-white">AI Generated Result</h3>
             <p className="text-sm text-gray-400">Ready to download</p>
+            {error && <p className="text-sm text-red-500 mt-1">{error}</p>}
           </div>
           
           <motion.button

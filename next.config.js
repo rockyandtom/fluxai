@@ -10,6 +10,29 @@ const nextConfig = {
     // 仅检查，不阻止构建
     ignoreDuringBuilds: true,
   },
+  // 配置图片域名
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'www.runninghub.cn',
+        port: '',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'rh-images.xiaoyaoyou.com',
+        port: '',
+        pathname: '/**',
+      },
+      {
+        protocol: 'http',
+        hostname: 'rh-images.xiaoyaoyou.com',
+        port: '',
+        pathname: '/**',
+      }
+    ],
+  },
 };
 
 module.exports = nextConfig; 

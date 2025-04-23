@@ -73,7 +73,59 @@ export async function POST(request: Request) {
           console.log('筛选项:', { item, hasUrl, validType });
           return hasUrl && validType;
         })
-        .map(item => item.fileUrl);
+        .map(item => {
+          // 确保URL格式正确
+          let url = item.fileUrl;
+          
+          // 检查URL是否为相对路径，如果是则添加API基础URL
+          if (url && !url.startsWith('http')) {
+            if (url.startsWith('/')) {
+              url = `${API_BASE_URL}${url}`;
+            } else {
+              url = `${API_BASE_URL}/${url}`;
+            }
+          }
+          
+          console.log('处理后的图片URL:', url);
+          return url;
+        });
+    }
+    
+    // 处理单个结果对象的情况
+    if (response.data.data && !Array.isArray(response.data.data) && typeof response.data.data === 'object') {
+      console.log('单个结果对象:', response.data.data);
+      
+      // 尝试从不同字段中提取URL
+      const extractUrl = (obj: any): string | null => {
+        if (!obj) return null;
+        
+        // 按照优先级检查不同的可能URL字段
+        if (obj.fileUrl) return obj.fileUrl;
+        if (obj.url) return obj.url;
+        if (obj.imageUrl) return obj.imageUrl;
+        if (obj.image) return obj.image;
+        if (obj.outputUrl) return obj.outputUrl;
+        
+        return null;
+      };
+      
+      const url = extractUrl(response.data.data);
+      if (url) {
+        // 确保URL格式正确
+        let processedUrl = url;
+        
+        // 检查URL是否为相对路径，如果是则添加API基础URL
+        if (!processedUrl.startsWith('http')) {
+          if (processedUrl.startsWith('/')) {
+            processedUrl = `${API_BASE_URL}${processedUrl}`;
+          } else {
+            processedUrl = `${API_BASE_URL}/${processedUrl}`;
+          }
+        }
+        
+        console.log('处理后的单个图片URL:', processedUrl);
+        images.push(processedUrl);
+      }
     }
     
     console.log('提取的图像URL:', images);

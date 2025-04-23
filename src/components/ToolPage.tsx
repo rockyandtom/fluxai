@@ -264,47 +264,140 @@ export default function ToolPage({ tool }: ToolPageProps) {
       
       if (result.images && result.images.length > 0) {
         console.log('设置结果图像:', result.images[0]);
-        setResultImage(result.images[0]);
-        setStatus('COMPLETED');
-        setProgress(100);
+        // 确保URL是绝对路径
+        let imageUrl = result.images[0];
+        
+        // 验证URL格式并尝试加载图片
+        try {
+          // 创建一个图片元素来预加载和验证图片
+          const img = new Image();
+          img.onload = () => {
+            console.log('图片预加载成功:', imageUrl);
+            setResultImage(imageUrl);
+            setStatus('COMPLETED');
+            setProgress(100);
+          };
+          img.onerror = () => {
+            console.error('图片预加载失败:', imageUrl);
+            // 尝试从原始数据中寻找其他可能的URL
+            if (result.rawData) {
+              findImageUrlInRawData(result.rawData);
+            } else {
+              throw new Error('无法加载结果图片');
+            }
+          };
+          img.src = imageUrl;
+        } catch (imageError) {
+          console.error('图片URL验证失败:', imageError);
+          // 尝试从原始数据中寻找其他可能的URL
+          if (result.rawData) {
+            findImageUrlInRawData(result.rawData);
+          } else {
+            throw new Error('无法加载结果图片');
+          }
+        }
       } else {
         // 检查原始结果数据，可能图像URL在不同的字段
         if (result.rawData) {
-          console.log('检查原始数据中的图像URL');
-          let foundUrl = null;
-          
-          if (Array.isArray(result.rawData)) {
-            // 尝试从不同字段中查找URL
-            for (const item of result.rawData) {
-              if (item.fileUrl) {
-                foundUrl = item.fileUrl;
-                break;
-              } else if (item.url) {
-                foundUrl = item.url;
-                break;
-              } else if (item.imageUrl) {
-                foundUrl = item.imageUrl;
-                break;
-              }
-            }
-          }
-          
-          if (foundUrl) {
-            console.log('从原始数据中找到图像URL:', foundUrl);
-            setResultImage(foundUrl);
-            setStatus('COMPLETED');
-            setProgress(100);
-            return;
-          }
+          findImageUrlInRawData(result.rawData);
+        } else {
+          throw new Error('No result image found');
         }
-        
-        throw new Error('No result image found');
       }
     } catch (error) {
       console.error('获取结果时出错:', error);
       setStatus('ERROR');
       setErrorMessage(error instanceof Error ? error.message : 'Failed to get result');
     }
+  };
+
+  // 从原始数据中寻找图片URL
+  const findImageUrlInRawData = (rawData: any) => {
+    console.log('检查原始数据中的图像URL:', rawData);
+    let foundUrl = null;
+    
+    // 处理数组格式的数据
+    if (Array.isArray(rawData)) {
+      // 尝试从不同字段中查找URL
+      for (const item of rawData) {
+        if (item.fileUrl) {
+          foundUrl = item.fileUrl;
+          break;
+        } else if (item.url) {
+          foundUrl = item.url;
+          break;
+        } else if (item.imageUrl) {
+          foundUrl = item.imageUrl;
+          break;
+        } else if (item.image) {
+          foundUrl = item.image;
+          break;
+        } else if (item.outputUrl) {
+          foundUrl = item.outputUrl;
+          break;
+        }
+      }
+    } 
+    // 处理对象格式的数据
+    else if (typeof rawData === 'object' && rawData !== null) {
+      if (rawData.fileUrl) {
+        foundUrl = rawData.fileUrl;
+      } else if (rawData.url) {
+        foundUrl = rawData.url;
+      } else if (rawData.imageUrl) {
+        foundUrl = rawData.imageUrl;
+      } else if (rawData.image) {
+        foundUrl = rawData.image;
+      } else if (rawData.outputUrl) {
+        foundUrl = rawData.outputUrl;
+      }
+      
+      // 尝试在嵌套对象中查找
+      if (!foundUrl) {
+        const nestedKeys = ['result', 'output', 'data', 'content'];
+        for (const key of nestedKeys) {
+          if (rawData[key] && typeof rawData[key] === 'object') {
+            if (rawData[key].fileUrl) {
+              foundUrl = rawData[key].fileUrl;
+              break;
+            } else if (rawData[key].url) {
+              foundUrl = rawData[key].url;
+              break;
+            } else if (rawData[key].imageUrl) {
+              foundUrl = rawData[key].imageUrl;
+              break;
+            } else if (rawData[key].image) {
+              foundUrl = rawData[key].image;
+              break;
+            } else if (rawData[key].outputUrl) {
+              foundUrl = rawData[key].outputUrl;
+              break;
+            }
+          }
+        }
+      }
+    }
+    
+    if (foundUrl) {
+      // 确保URL是绝对路径
+      if (!foundUrl.startsWith('http')) {
+        if (foundUrl.startsWith('/')) {
+          foundUrl = `https://www.runninghub.cn${foundUrl}`;
+        } else {
+          foundUrl = `https://www.runninghub.cn/${foundUrl}`;
+        }
+      }
+      
+      console.log('从原始数据中找到图像URL:', foundUrl);
+      setResultImage(foundUrl);
+      setStatus('COMPLETED');
+      setProgress(100);
+      return;
+    }
+    
+    console.error('未能在原始数据中找到有效的图像URL');
+    setStatus('ERROR');
+    setErrorMessage('No valid image URL found in the result');
   };
 
   // 如果组件还未挂载，先不显示内容
