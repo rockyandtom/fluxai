@@ -98,6 +98,7 @@ fluxai/
 │   └── demos/       # 示例图片
 ├── src/
 │   ├── app/         # 页面组件
+│   │   └── api/     # API路由
 │   ├── components/  # UI组件
 │   ├── config/      # 配置文件
 │   └── lib/         # 工具函数和API集成
@@ -108,7 +109,39 @@ fluxai/
 
 ## API集成
 
-所有工具都使用RunningHub API进行AI处理，只需要为每个工具配置不同的`webappId`和`nodeId`参数。详细的API集成参见`src/lib/api.ts`文件。
+所有工具都使用RunningHub API进行AI处理，每个工具配置不同的`webappId`和`nodeId`参数。详细的API集成参见`src/lib/api.ts`文件。
+
+### API集成注意事项
+
+在使用RunningHub API时，需要注意以下几点：
+
+1. **文件上传规范**：
+   - 使用正确的上传端点 `/task/openapi/upload`
+   - 保留完整的文件ID，包括 `api/` 前缀
+   
+2. **API路由代理**：
+   - 为了避免CORS问题，项目创建了服务端API路由来代理请求
+   - 客户端代码调用这些API路由，而不是直接调用RunningHub API
+
+3. **错误处理**：
+   - 对常见的API错误都进行了处理，如 `APIKEY_TASK_IS_RUNNING`
+   - 在服务端和客户端都添加了详细的日志记录
+
+4. **API端点**：
+   - `/api/upload` - 处理图片上传
+   - `/api/generate` - 启动AI任务
+   - `/api/status` - 查询任务状态
+   - `/api/result` - 获取任务结果
+
+### 上传问题修复
+
+如果遇到上传图片的问题，本项目已经实施了以下修复：
+
+1. 使用服务端API路由代理请求，避免浏览器CORS限制
+2. 保留完整的文件ID，包括 `api/` 前缀
+3. 增强了错误处理和日志记录
+4. 在上传请求中明确设置了 `Content-Type: multipart/form-data`
+5. 增加了请求超时设置，防止长时间无响应
 
 ## 许可证
 

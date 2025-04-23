@@ -20,25 +20,54 @@ export async function uploadImage(file: File, apiKey: string) {
   const formData = new FormData();
   formData.append('file', file);
   
+  // 记录文件信息
+  console.log('上传文件信息:', {
+    name: file.name,
+    type: file.type,
+    size: file.size,
+    lastModified: new Date(file.lastModified).toISOString(),
+  });
+  
   try {
-    // 发送请求
+    console.log(`开始通过本地API代理上传文件，apiKey=${apiKey.substring(0, 5)}...`);
+    
+    // 使用本地API路由代理请求
     const response = await axios.post(
-      `${API_BASE_URL}/task/openapi/upload?apiKey=${apiKey}`, 
-      formData
+      `/api/upload?apiKey=${apiKey}`, 
+      formData,
+      { 
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+        timeout: 30000 // 30秒超时
+      }
     );
     
+    console.log('上传响应:', response.data);
+    
     // 验证结果
-    if (response.data.code !== 0) {
-      throw new Error(response.data.msg || '上传失败');
+    if (!response.data.success) {
+      throw new Error(response.data.error || '上传失败');
     }
     
     // 返回文件ID
     return {
       success: true,
-      fileId: response.data.data.fileName
+      fileId: response.data.fileId
     };
   } catch (error) {
     console.error('上传图片失败:', error);
+    
+    // 详细记录错误信息
+    if (axios.isAxiosError(error)) {
+      console.error('API错误详情:', {
+        status: error.response?.status,
+        statusText: error.response?.statusText,
+        data: error.response?.data,
+        message: error.message
+      });
+    }
+    
     return {
       success: false,
       error: error instanceof Error ? error.message : '上传失败'
@@ -58,50 +87,58 @@ export async function generateImage(imageId: string, apiKey: string, webappId: s
   // 调试日志
   console.log('开始图片生成，接收到的参数：', { imageId, apiKey, webappId, nodeId });
   
-  // 确保imageId格式正确 - 移除可能的"api/"前缀
-  const processedImageId = imageId.replace(/^api\//, '');
+  // 确保imageId格式正确 - 保留完整的fileId，包括api/前缀
+  const processedImageId = imageId; // 不再移除api/前缀
   console.log('处理后的imageId:', processedImageId);
   
   // 构建请求数据
   const data = {
-    webappId,
+    imageId: processedImageId,
     apiKey,
-    nodeInfoList: [{
-      nodeId,
-      fieldName: "image",
-      fieldValue: processedImageId
-    }]
+    webappId,
+    nodeId
   };
   
   console.log('发送的请求数据:', JSON.stringify(data));
   
   try {
-    // 发送请求
+    // 使用本地API路由代理请求
     const response = await axios.post(
-      `${API_BASE_URL}/task/openapi/ai-app/run`,
+      `/api/generate`,
       data,
-      { headers }
+      { 
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        timeout: 30000 // 30秒超时
+      }
     );
     
-    console.log('API响应:', response.data);
+    console.log('生成任务响应:', response.data);
     
     // 验证结果
-    if (response.data.code !== 0 || !response.data.data) {
-      throw new Error(response.data.msg || '任务创建失败');
+    if (!response.data.success) {
+      throw new Error(response.data.error || '任务创建失败');
     }
     
     // 返回任务信息
     return {
       success: true,
-      data: {
-        taskId: response.data.data.taskId,
-        clientId: response.data.data.clientId,
-        webSocketUrl: response.data.data.netWssUrl,
-        taskStatus: response.data.data.taskStatus || 'RUNNING'
-      }
+      data: response.data.data
     };
   } catch (error) {
     console.error('创建任务失败:', error);
+    
+    // 详细记录错误信息
+    if (axios.isAxiosError(error)) {
+      console.error('API错误详情:', {
+        status: error.response?.status,
+        statusText: error.response?.statusText,
+        data: error.response?.data,
+        message: error.message
+      });
+    }
+    
     return {
       success: false,
       error: error instanceof Error ? error.message : '任务创建失败'
@@ -117,73 +154,49 @@ export async function generateImage(imageId: string, apiKey: string, webappId: s
  */
 export async function checkTaskStatus(taskId: string, apiKey: string) {
   try {
-    // 发送请求
+    console.log(`通过本地API代理检查任务状态: ${taskId}`);
+    
+    // 使用本地API路由代理请求
     const response = await axios.post(
-      `${API_BASE_URL}/task/openapi/status`,
+      `/api/status`,
       {
         apiKey,
         taskId
       },
-      { headers }
+      { 
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        timeout: 30000 // 30秒超时
+      }
     );
     
     console.log('状态API响应:', response.data);
     
-    // 特殊情况处理：如果返回APIKEY_TASK_IS_RUNNING，表示任务仍在进行中
-    if (response.data.code !== 0 && response.data.msg === 'APIKEY_TASK_IS_RUNNING') {
-      return {
-        success: true,
-        status: 'RUNNING',
-        progress: 50
-      };
-    }
-    
     // 验证结果
-    if (response.data.code !== 0) {
-      throw new Error(response.data.msg || '获取状态失败');
-    }
-    
-    // 处理状态信息
-    let status = 'UNKNOWN';
-    let progress = 0;
-    
-    // 检查 data 是否为字符串类型
-    if (typeof response.data.data === 'string') {
-      // 状态映射
-      if (response.data.data === 'SUCCESS' || response.data.data === 'COMPLETED') {
-        status = 'COMPLETED';
-        progress = 100;
-      } else if (response.data.data === 'RUNNING' || response.data.data === 'PENDING') {
-        status = 'RUNNING';
-        progress = 50;  // 默认进度
-      } else if (response.data.data === 'FAILED' || response.data.data === 'ERROR') {
-        status = 'ERROR';
-      } else {
-        status = response.data.data;
-      }
-    } else if (response.data.data && typeof response.data.data === 'object') {
-      // 对象格式的状态
-      status = response.data.data.status || 'UNKNOWN';
-      progress = response.data.data.progress || 0;
+    if (!response.data.success) {
+      throw new Error(response.data.error || '获取状态失败');
     }
     
     // 返回状态信息
     return {
       success: true,
-      status,
-      progress
+      status: response.data.status,
+      progress: response.data.progress
     };
   } catch (error) {
-    // 特殊情况处理：如果错误消息是APIKEY_TASK_IS_RUNNING
-    if (error instanceof Error && error.message === 'APIKEY_TASK_IS_RUNNING') {
-      return {
-        success: true,
-        status: 'RUNNING',
-        progress: 50  // 默认进度
-      };
+    console.error('获取任务状态失败:', error);
+    
+    // 详细记录错误信息
+    if (axios.isAxiosError(error)) {
+      console.error('API错误详情:', {
+        status: error.response?.status,
+        statusText: error.response?.statusText,
+        data: error.response?.data,
+        message: error.message
+      });
     }
     
-    console.error('获取任务状态失败:', error);
     return {
       success: false,
       error: error instanceof Error ? error.message : '获取状态失败'
@@ -201,77 +214,50 @@ export async function getTaskResult(taskId: string, apiKey: string) {
   console.log('开始获取任务结果，任务ID:', taskId);
   
   try {
-    // 发送请求
+    console.log(`通过本地API代理获取任务结果: ${taskId}`);
+    
+    // 使用本地API路由代理请求
     const response = await axios.post(
-      `${API_BASE_URL}/task/openapi/outputs`,
+      `/api/result`,
       {
         apiKey,
         taskId
       },
-      { headers }
+      { 
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        timeout: 30000 // 30秒超时
+      }
     );
     
     console.log('结果API响应:', response.data);
     
-    // 特殊情况：任务仍在进行中
-    if (response.data.code !== 0 && response.data.msg === 'APIKEY_TASK_IS_RUNNING') {
-      console.log('任务仍在运行中，需要继续等待');
-      return {
-        success: true,
-        isRunning: true,
-        images: [],
-        rawData: null
-      };
-    }
-    
     // 验证结果
-    if (response.data.code !== 0) {
-      throw new Error(response.data.msg || '获取结果失败');
+    if (!response.data.success) {
+      throw new Error(response.data.error || '获取结果失败');
     }
-    
-    // 提取图像 URL
-    let images: string[] = [];
-    
-    // 处理数组格式的数据
-    if (response.data.data && Array.isArray(response.data.data)) {
-      console.log('原始结果数据:', response.data.data);
-      
-      images = response.data.data
-        .filter(item => {
-          const hasUrl = !!item.fileUrl;
-          const validType = !item.fileType || 
-            item.fileType.toLowerCase().includes('png') || 
-            item.fileType.toLowerCase().includes('jpg') || 
-            item.fileType.toLowerCase().includes('jpeg');
-          
-          console.log('筛选项:', { item, hasUrl, validType });
-          return hasUrl && validType;
-        })
-        .map(item => item.fileUrl);
-    }
-    
-    console.log('提取的图像URL:', images);
     
     // 返回结果
     return {
       success: true,
-      isRunning: false,
-      images,
-      rawData: response.data.data // 返回原始数据，方便调试
+      isRunning: response.data.isRunning,
+      images: response.data.images,
+      rawData: response.data.rawData
     };
   } catch (error) {
-    // 特殊情况：如果错误消息是任务正在运行
-    if (error instanceof Error && error.message === 'APIKEY_TASK_IS_RUNNING') {
-      console.log('任务仍在运行中，需要继续等待');
-      return {
-        success: true,
-        isRunning: true,
-        images: [],
-        rawData: null
-      };
+    console.error('获取任务结果失败:', error);
+    
+    // 详细记录错误信息
+    if (axios.isAxiosError(error)) {
+      console.error('API错误详情:', {
+        status: error.response?.status,
+        statusText: error.response?.statusText,
+        data: error.response?.data,
+        message: error.message
+      });
     }
     
-    console.error('获取任务结果失败:', error);
     return {
       success: false,
       error: error instanceof Error ? error.message : '获取结果失败'

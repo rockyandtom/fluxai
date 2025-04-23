@@ -4,6 +4,7 @@ import "./globals.css";
 import { Toaster } from 'react-hot-toast';
 import ClientOnlyWrapper from "@/components/ClientOnlyWrapper";
 import Link from 'next/link';
+import Script from 'next/script';
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,6 +20,17 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="scroll-smooth">
+      {/* Google Analytics 追踪代码 */}
+      <Script async src="https://www.googletagmanager.com/gtag/js?id=G-D1MZFL0J94" />
+      <Script id="google-analytics">
+        {`
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+        
+          gtag('config', 'G-D1MZFL0J94');
+        `}
+      </Script>
       <body className={`${inter.className} bg-black text-white min-h-screen`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 md:py-8">
           <header className="mb-8">
