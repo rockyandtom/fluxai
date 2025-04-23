@@ -6,10 +6,9 @@ import { motion, AnimatePresence } from 'framer-motion';
 
 interface DemoGalleryProps {
   images: string[];
-  title?: string;
 }
 
-export default function DemoGallery({ images, title }: DemoGalleryProps) {
+export default function DemoGallery({ images }: DemoGalleryProps) {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
   if (images.length === 0) {

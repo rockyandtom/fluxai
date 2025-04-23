@@ -6,10 +6,9 @@ import { ToolConfig } from '@/config/tools';
 
 interface ToolCardProps {
   tool: ToolConfig;
-  index: number;
 }
 
-export default function ToolCard({ tool, index }: ToolCardProps) {
+export default function ToolCard({ tool }: ToolCardProps) {
   return (
     <div className="h-full">
       <Link href={`/${tool.id}`} className="block h-full">

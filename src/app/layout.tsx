@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { Toaster } from 'react-hot-toast';
 import ClientOnlyWrapper from "@/components/ClientOnlyWrapper";
+import Link from 'next/link';
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -22,14 +23,14 @@ export default function RootLayout({
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 md:py-8">
           <header className="mb-8">
             <nav className="flex justify-between items-center">
-              <a href="/" className="text-2xl font-bold text-white hover:text-purple-400 transition-colors">
+              <Link href="/" className="text-2xl font-bold text-white hover:text-purple-400 transition-colors">
                 Flux<span className="text-purple-500">AI</span>
-              </a>
+              </Link>
               
               <div className="flex space-x-4">
-                <a href="/" className="text-gray-300 hover:text-white transition-colors">
+                <Link href="/" className="text-gray-300 hover:text-white transition-colors">
                   Home
-                </a>
+                </Link>
                 <a href="https://github.com/rockyandtom" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-white transition-colors">
                   GitHub
                 </a>

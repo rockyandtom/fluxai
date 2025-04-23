@@ -280,6 +280,21 @@ export async function getTaskResult(taskId: string, apiKey: string) {
 }
 
 /**
+ * WebSocket消息数据类型接口
+ */
+interface WebSocketMessageData {
+  type?: string;
+  progress?: number;
+  data?: {
+    status?: {
+      progress?: number;
+    };
+  };
+  error?: string;
+  [key: string]: unknown;
+}
+
+/**
  * 创建WebSocket连接
  * @param webSocketUrl WebSocket URL
  * @param onMessage 消息处理函数
@@ -288,7 +303,7 @@ export async function getTaskResult(taskId: string, apiKey: string) {
  */
 export function createWebSocketConnection(
   webSocketUrl: string,
-  onMessage: (data: any) => void,
+  onMessage: (data: WebSocketMessageData) => void,
   onError: (error: Error) => void
 ) {
   console.log('尝试建立WebSocket连接:', webSocketUrl);

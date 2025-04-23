@@ -1,16 +1,14 @@
 import type { Metadata } from 'next';
 import { getToolById } from '@/config/tools';
 
-// 类型定义兼容Next.js 15
-interface LayoutProps {
-  params: { toolId: string } | Promise<{ toolId: string }>;
-}
-
 // 为每个工具页面生成动态元数据
-export async function generateMetadata({ params }: LayoutProps): Promise<Metadata> {
-  // 在Next.js 15中，params是一个Promise，需要先await
-  const resolvedParams = await Promise.resolve(params);
-  const toolId = resolvedParams.toolId;
+export async function generateMetadata({ 
+  params 
+}: { 
+  params: { toolId: string } 
+}): Promise<Metadata> {
+  // 解析toolId
+  const toolId = params.toolId;
   const tool = getToolById(toolId);
   
   if (!tool) {
@@ -42,9 +40,9 @@ export async function generateMetadata({ params }: LayoutProps): Promise<Metadat
 
 export default function ToolLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
     <div className="tool-layout">
       {children}

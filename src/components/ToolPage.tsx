@@ -1,13 +1,11 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
-import { v4 as uuidv4 } from 'uuid';
 import toast from 'react-hot-toast';
 import Image from 'next/image';
 import ImageUploader from './ImageUploader';
 import ProcessingStatus from './ProcessingStatus';
 import ResultDisplay from './ResultDisplay';
-import DemoGallery from './DemoGallery';
 import { ToolConfig } from '@/config/tools';
 import { uploadImage, generateImage, checkTaskStatus, getTaskResult, createWebSocketConnection } from '@/lib/api';
 
