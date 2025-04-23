@@ -8,6 +8,7 @@ FluxAI 是一个先进的AI图片特效工具合集，提供多种图片处理�
 - 简洁直观的用户界面
 - 快速的图片处理能力
 - 移动端响应式设计
+- 自动保存生成结果，展示最新30张图片
 
 ## 技术栈
 
@@ -16,6 +17,7 @@ FluxAI 是一个先进的AI图片特效工具合集，提供多种图片处理�
 - **API集成**：RunningHub 工作流API
 - **状态管理**：React Hooks
 - **动画效果**：Framer Motion
+- **数据存储**：文件系统JSON存储
 
 ## 开发指南
 
@@ -95,11 +97,22 @@ npm run build
 fluxai/
 ├── public/          # 静态资源
 │   ├── thumbnails/  # 工具缩略图
-│   └── demos/       # 示例图片
+│   ├── demos/       # 示例图片
+│   └── saved-images/# 保存的生成结果数据
 ├── src/
 │   ├── app/         # 页面组件
-│   │   └── api/     # API路由
+│   │   ├── api/     # API路由
+│   │   │   ├── generate/  # 生成图片API
+│   │   │   ├── result/    # 获取结果API
+│   │   │   ├── saveImage/ # 保存图片URL API
+│   │   │   └── upload/    # 上传图片API
+│   │   └── [toolId]/      # 工具详情页面
 │   ├── components/  # UI组件
+│   │   ├── ExampleResults.tsx # 图片结果展示组件
+│   │   ├── ImageUploader.tsx  # 图片上传组件
+│   │   ├── ProcessingStatus.tsx # 处理状态组件
+│   │   ├── ResultDisplay.tsx    # 结果展示组件
+│   │   └── ToolPage.tsx         # 工具页面组件
 │   ├── config/      # 配置文件
 │   └── lib/         # 工具函数和API集成
 ├── .eslintrc.json   # ESLint配置
@@ -143,6 +156,28 @@ fluxai/
 4. 在上传请求中明确设置了 `Content-Type: multipart/form-data`
 5. 增加了请求超时设置，防止长时间无响应
 
+### 图片结果保存功能
+
+本项目现在支持自动保存生成的图片结果，并在工具详情页面展示最新的30张结果图片。该功能具有以下特点：
+
+1. **自动保存** - 当图片成功生成时，系统会自动保存图片URL到JSON文件
+2. **按工具分类** - 每个工具的结果都会单独保存和展示
+3. **最新优先** - 始终显示最新生成的30张图片
+4. **持久化存储** - 使用文件系统存储，确保数据在服务器重启后依然保留
+5. **实时更新** - 新用户访问时也能看到其他用户生成的最新结果
+
+#### 相关文件
+
+- `src/app/api/saveImage/route.ts` - 处理图片URL的保存和获取
+- `src/components/ExampleResults.tsx` - 展示保存的图片结果
+- `public/saved-images/images.json` - 保存的图片数据文件
+
 ## 许可证
 
 MIT License
+
+### 最新更新 (2024-05-xx)
+
+- 添加了自动保存生成结果的功能
+- 优化了结果展示区域UI
+- 为每个工具增加了历史结果展示

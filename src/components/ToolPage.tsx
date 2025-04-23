@@ -6,6 +6,7 @@ import Image from 'next/image';
 import ImageUploader from './ImageUploader';
 import ProcessingStatus from './ProcessingStatus';
 import ResultDisplay from './ResultDisplay';
+import ExampleResults from './ExampleResults';
 import { ToolConfig } from '@/config/tools';
 import { uploadImage, generateImage, checkTaskStatus, getTaskResult, createWebSocketConnection } from '@/lib/api';
 
@@ -276,6 +277,9 @@ export default function ToolPage({ tool }: ToolPageProps) {
             setResultImage(imageUrl);
             setStatus('COMPLETED');
             setProgress(100);
+            
+            // 保存成功生成的图片到数据库
+            saveGeneratedImage(imageUrl);
           };
           img.onerror = () => {
             console.error('图片预加载失败:', imageUrl);
@@ -392,12 +396,41 @@ export default function ToolPage({ tool }: ToolPageProps) {
       setResultImage(foundUrl);
       setStatus('COMPLETED');
       setProgress(100);
+      
+      // 保存成功生成的图片到数据库
+      saveGeneratedImage(foundUrl);
       return;
     }
     
     console.error('未能在原始数据中找到有效的图像URL');
     setStatus('ERROR');
     setErrorMessage('No valid image URL found in the result');
+  };
+
+  // 保存生成的图片到数据库
+  const saveGeneratedImage = async (imageUrl: string) => {
+    try {
+      const response = await fetch('/api/saveImage', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          toolId: tool.id,
+          imageUrl,
+        }),
+      });
+      
+      const data = await response.json();
+      
+      if (!data.success) {
+        console.error('保存图片失败:', data.error);
+      } else {
+        console.log('成功保存图片:', data.message);
+      }
+    } catch (error) {
+      console.error('保存图片过程中出错:', error);
+    }
   };
 
   // 如果组件还未挂载，先不显示内容
@@ -538,35 +571,7 @@ export default function ToolPage({ tool }: ToolPageProps) {
       
       {/* 第三部分：更大的示例展示区 */}
       <div style={{ marginBottom: '60px' }}>
-        <h2 style={{ fontSize: '28px', fontWeight: 'bold', color: 'white', marginBottom: '24px' }}>
-          Example Results
-        </h2>
-        <div style={{ 
-          display: 'grid', 
-          gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))',
-          gap: '16px'
-        }}>
-          {extendedDemoImages.map((image, index) => (
-            <div 
-              key={index}
-              style={{
-                borderRadius: '12px',
-                overflow: 'hidden',
-                aspectRatio: '1/1',
-                position: 'relative',
-                cursor: 'pointer',
-              }}
-            >
-              <Image
-                src={image}
-                alt={`Demo ${index + 1}`}
-                fill
-                style={{ objectFit: 'cover' }}
-                sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 180px"
-              />
-            </div>
-          ))}
-        </div>
+        <ExampleResults toolId={tool.id} />
       </div>
 
       {status === 'ERROR' && (
