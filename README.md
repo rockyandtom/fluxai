@@ -12,6 +12,7 @@ FluxAI 是一个先进的AI图片特效工具合集，提供多种图片处理�
 - 快速的图片处理能力
 - 移动端响应式设计
 - 自动保存生成结果，展示最新30张图片
+- 工具缩略图左右分屏比较效果，可拖动查看前后对比
 
 ## 技术栈
 
@@ -102,6 +103,7 @@ npm run build
 fluxai/
 ├── public/          # 静态资源
 │   ├── thumbnails/  # 工具缩略图
+│   │   └── comparison/ # 分屏比较的前后图片
 │   ├── demos/       # 示例图片
 │   └── saved-images/# 保存的生成结果数据
 ├── src/
@@ -114,6 +116,7 @@ fluxai/
 │   │   └── [toolId]/      # 工具详情页面
 │   ├── components/  # UI组件
 │   │   ├── ExampleResults.tsx # 图片结果展示组件
+│   │   ├── ImageCompare.tsx   # 图片分屏比较组件
 │   │   ├── ImageUploader.tsx  # 图片上传组件
 │   │   ├── ProcessingStatus.tsx # 处理状态组件
 │   │   ├── ResultDisplay.tsx    # 结果展示组件
@@ -177,12 +180,47 @@ fluxai/
 - `src/components/ExampleResults.tsx` - 展示保存的图片结果
 - `public/saved-images/images.json` - 保存的图片数据文件
 
+### 缩略图前后分屏比较功能
+
+项目现在支持在工具卡片中展示前后分屏比较效果，用户可以通过拖动分割线来比较原始图片和处理后的效果。
+
+#### 缩略图规范
+
+1. **命名规则**：
+   - 原始图片：`工具ID-before.jpg`（例如：`ghibli-before.jpg`）
+   - 处理后图片：`工具ID-after.jpg`（例如：`ghibli-after.jpg`）
+
+2. **图片尺寸**：
+   - 建议尺寸：640 x 480 像素
+   - 宽高比：4:3
+   - 文件格式：JPG 或 WEBP（推荐）以获得更好的压缩率
+   - 文件大小：建议不超过100KB
+
+3. **存放位置**：
+   - 原始和处理后的图片都放在 `public/thumbnails/` 目录下
+
+4. **图片内容要求**：
+   - 原始图片和处理后图片应该是同一张图片的不同版本
+   - 两张图片尺寸应完全相同
+   - 处理后图片应清晰展示工具的特效效果
+
+#### 如何添加新的比较图片
+
+1. 准备好原始图片和处理后的图片，按照上述命名规则命名
+2. 将图片放入 `public/thumbnails/` 目录
+3. 在 `src/config/tools.ts` 文件中更新对应工具的 `beforeImage` 和 `afterImage` 配置
+
 ## 许可证
 
 MIT License
 
-### 最新更新 (2024-05-xx)
+### 最新更新 (2024-07-08)
 
+- 添加了工具卡片前后分屏比较功能：
+  - 创建了新的 `ImageCompare` 组件，支持拖动分割线比较前后效果
+  - 更新了 `ToolCard` 组件，使用分屏比较组件替代原来的单图展示
+  - 修改了工具配置接口，添加了 `beforeImage` 和 `afterImage` 字段
+  - 为所有工具配置了默认的前后对比图片
 - 添加了新的Ghibli AI工具，可将照片转换成宫崎骏吉卜力工作室动画风格
 - 添加了自动保存生成结果的功能
 - 优化了结果展示区域UI

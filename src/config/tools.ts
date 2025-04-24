@@ -6,7 +6,9 @@ export interface ToolConfig {
   webappId: string;  // RunningHub WebappID
   nodeId: string;    // RunningHub NodeID
   apiKey: string;    // API密钥
-  thumbnail: string; // 缩略图URL
+  thumbnail: string; // 缩略图URL（兼容旧版）
+  beforeImage?: string; // 原始图片URL（左侧）
+  afterImage?: string; // 处理后图片URL（右侧）
   demoImages: string[]; // 演示图片
 }
 
@@ -15,6 +17,8 @@ const API_KEY = 'fb88fac46b0349c1986c9cbb4f14d44e';
 
 // 占位图片
 const PLACEHOLDER_IMAGE = "/thumbnails/placeholder.svg";
+const BEFORE_PLACEHOLDER = "/thumbnails/before-placeholder.jpg";
+const AFTER_PLACEHOLDER = "/thumbnails/after-placeholder.jpg";
 
 // 工具配置列表
 export const tools: ToolConfig[] = [
@@ -26,6 +30,8 @@ export const tools: ToolConfig[] = [
     nodeId: process.env.NEXT_PUBLIC_GHIBLI_NODE_ID || '365',
     apiKey: API_KEY,
     thumbnail: "/thumbnails/ghibli.svg",
+    beforeImage: "/thumbnails/ghibli-before.jpg",
+    afterImage: "/thumbnails/ghibli-after.jpg",
     demoImages: [
       PLACEHOLDER_IMAGE,
       PLACEHOLDER_IMAGE,
@@ -39,6 +45,8 @@ export const tools: ToolConfig[] = [
     nodeId: '226',
     apiKey: API_KEY,
     thumbnail: "/thumbnails/polaroid.svg",
+    beforeImage: "/thumbnails/polaroid-before.jpg",
+    afterImage: "/thumbnails/polaroid-after.jpg",
     demoImages: [
       PLACEHOLDER_IMAGE,
       PLACEHOLDER_IMAGE,
@@ -52,6 +60,8 @@ export const tools: ToolConfig[] = [
     nodeId: 'cartoon_node_id',
     apiKey: API_KEY,
     thumbnail: "/thumbnails/cartoon.svg",
+    beforeImage: "/thumbnails/cartoon-before.jpg",
+    afterImage: "/thumbnails/cartoon-after.jpg",
     demoImages: [
       PLACEHOLDER_IMAGE,
       PLACEHOLDER_IMAGE,
@@ -65,6 +75,8 @@ export const tools: ToolConfig[] = [
     nodeId: 'sketch_node_id',
     apiKey: API_KEY,
     thumbnail: "/thumbnails/sketch.svg",
+    beforeImage: "/thumbnails/sketch-before.jpg",
+    afterImage: "/thumbnails/sketch-after.jpg",
     demoImages: [
       PLACEHOLDER_IMAGE,
       PLACEHOLDER_IMAGE,
@@ -78,6 +90,8 @@ export const tools: ToolConfig[] = [
     nodeId: 'anime_node_id',
     apiKey: API_KEY,
     thumbnail: "/thumbnails/anime.svg",
+    beforeImage: "/thumbnails/anime-before.jpg",
+    afterImage: "/thumbnails/anime-after.jpg",
     demoImages: [
       PLACEHOLDER_IMAGE,
       PLACEHOLDER_IMAGE,
@@ -91,6 +105,8 @@ export const tools: ToolConfig[] = [
     nodeId: 'oil_painting_node_id',
     apiKey: API_KEY,
     thumbnail: "/thumbnails/oil-painting.svg",
+    beforeImage: "/thumbnails/oil-painting-before.jpg",
+    afterImage: "/thumbnails/oil-painting-after.jpg",
     demoImages: [
       PLACEHOLDER_IMAGE,
       PLACEHOLDER_IMAGE,
@@ -104,6 +120,8 @@ export const tools: ToolConfig[] = [
     nodeId: 'pixel_art_node_id',
     apiKey: API_KEY,
     thumbnail: "/thumbnails/pixel-art.svg",
+    beforeImage: "/thumbnails/pixel-art-before.jpg",
+    afterImage: "/thumbnails/pixel-art-after.jpg",
     demoImages: [
       PLACEHOLDER_IMAGE,
       PLACEHOLDER_IMAGE,

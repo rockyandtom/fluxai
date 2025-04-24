@@ -3,12 +3,21 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { ToolConfig } from '@/config/tools';
+import ImageCompare from './ImageCompare';
 
 interface ToolCardProps {
   tool: ToolConfig;
 }
 
+// 默认占位图路径
+const DEFAULT_BEFORE_IMAGE = '/thumbnails/before-placeholder.jpg';
+const DEFAULT_AFTER_IMAGE = '/thumbnails/after-placeholder.jpg';
+
 export default function ToolCard({ tool }: ToolCardProps) {
+  // 确保始终有前后图片
+  const beforeImage = tool.beforeImage || DEFAULT_BEFORE_IMAGE;
+  const afterImage = tool.afterImage || DEFAULT_AFTER_IMAGE;
+
   return (
     <div className="h-full">
       <Link href={`/${tool.id}`} className="block h-full">
@@ -23,24 +32,27 @@ export default function ToolCard({ tool }: ToolCardProps) {
           border: '1px solid rgba(75, 85, 99, 0.3)',
           transition: 'all 0.3s ease',
         }}>
-          {/* 图片区域 */}
+          {/* 图片区域 - 使用分屏比较组件 */}
           <div style={{ 
             position: 'relative', 
             width: '100%', 
             paddingTop: '65%', 
             overflow: 'hidden' 
           }}>
-            <Image
-              src={tool.thumbnail}
-              alt={tool.name}
-              fill
-              style={{
-                objectFit: 'cover',
-                transition: 'transform 0.5s ease',
-              }}
-              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-              priority
-            />
+            <div style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              width: '100%',
+              height: '100%'
+            }}>
+              <ImageCompare
+                beforeImage={beforeImage}
+                afterImage={afterImage}
+                height="100%"
+                width="100%"
+              />
+            </div>
             <div style={{
               position: 'absolute',
               bottom: 0,
@@ -49,6 +61,7 @@ export default function ToolCard({ tool }: ToolCardProps) {
               padding: '12px',
               background: 'linear-gradient(to top, rgba(0,0,0,0.7), transparent)',
               color: 'white',
+              zIndex: 20,
             }}>
               <h3 style={{ 
                 fontSize: '18px', 
