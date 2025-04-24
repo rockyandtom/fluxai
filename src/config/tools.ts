@@ -20,6 +20,13 @@ const PLACEHOLDER_IMAGE = "/thumbnails/placeholder.svg";
 const BEFORE_PLACEHOLDER = "/thumbnails/before-placeholder.jpg";
 const AFTER_PLACEHOLDER = "/thumbnails/after-placeholder.jpg";
 
+// 打印图片路径，以便调试
+console.log('占位图片路径:', { 
+  PLACEHOLDER_IMAGE,
+  BEFORE_PLACEHOLDER,
+  AFTER_PLACEHOLDER
+});
+
 // 工具配置列表
 export const tools: ToolConfig[] = [
   {

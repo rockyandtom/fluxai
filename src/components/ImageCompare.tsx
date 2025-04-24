@@ -21,6 +21,15 @@ export default function ImageCompare({
   const [position, setPosition] = useState(50);
   const containerRef = useRef<HTMLDivElement>(null);
   const isDragging = useRef(false);
+  const [beforeLoaded, setBeforeLoaded] = useState(false);
+  const [afterLoaded, setAfterLoaded] = useState(false);
+  const [beforeError, setBeforeError] = useState(false);
+  const [afterError, setAfterError] = useState(false);
+
+  // 在组件挂载时，打印图片路径以进行调试
+  useEffect(() => {
+    console.log('ImageCompare 图片路径:', { beforeImage, afterImage });
+  }, [beforeImage, afterImage]);
 
   // 处理拖动逻辑
   const handleMouseDown = (e: React.MouseEvent) => {
@@ -111,12 +120,41 @@ export default function ImageCompare({
     };
   }, []);
 
+  // 图片加载状态
+  const areImagesLoaded = beforeLoaded && afterLoaded;
+  const hasImageError = beforeError || afterError;
+
+  // 调试信息
+  const debugInfo = {
+    beforeImage,
+    afterImage,
+    beforeLoaded,
+    afterLoaded,
+    beforeError,
+    afterError
+  };
+  console.log('ImageCompare Debug:', debugInfo);
+
   return (
     <div
       ref={containerRef}
       className={`relative overflow-hidden select-none ${className}`}
       style={{ height, width }}
     >
+      {/* 加载状态指示器 */}
+      {(!areImagesLoaded && !hasImageError) && (
+        <div className="absolute inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50 z-20">
+          <div className="text-white text-sm">加载中...</div>
+        </div>
+      )}
+      
+      {/* 错误状态指示器 */}
+      {hasImageError && (
+        <div className="absolute inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50 z-20">
+          <div className="text-white text-sm">图片加载失败</div>
+        </div>
+      )}
+
       {/* 左侧图片（原始照片） */}
       <div className="absolute inset-0">
         <Image
@@ -126,6 +164,8 @@ export default function ImageCompare({
           sizes="100vw"
           priority={true}
           style={{ objectFit: 'cover' }}
+          onLoad={() => setBeforeLoaded(true)}
+          onError={() => setBeforeError(true)}
         />
       </div>
 
@@ -134,45 +174,48 @@ export default function ImageCompare({
         className="absolute top-0 bottom-0 right-0 overflow-hidden"
         style={{ width: `${position}%` }}
       >
-        <Image
-          src={afterImage}
-          alt="After"
-          fill
-          sizes="100vw"
-          priority={true}
-          style={{ 
-            objectFit: 'cover',
-            width: '100vw',
-            // 关键技巧：图片向左偏移，使其在小窗口内显示正确部分
-            left: `calc(-${100 - position}% + 0px)`,
-            position: 'absolute'
-          }}
-        />
-      </div>
-
-      {/* 分隔线 */}
-      <div
-        className="absolute top-0 bottom-0 w-1 bg-white cursor-ew-resize"
-        style={{
-          left: `${position}%`,
-          transform: 'translateX(-0.5px)',
-          zIndex: 15,
-          boxShadow: '0 0 4px rgba(0, 0, 0, 0.7)'
-        }}
-        onMouseDown={handleMouseDown}
-        onTouchStart={handleTouchStart}
-      >
-        {/* 手柄 */}
-        <div
-          className="absolute top-1/2 left-1/2 w-8 h-8 -translate-x-1/2 -translate-y-1/2 bg-white rounded-full shadow-lg flex items-center justify-center"
-          style={{ boxShadow: '0 0 8px rgba(0, 0, 0, 0.8)' }}
-        >
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M18 8L22 12L18 16" stroke="#333" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-            <path d="M6 8L2 12L6 16" stroke="#333" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-          </svg>
+        <div className="relative h-full w-full">
+          <Image
+            src={afterImage}
+            alt="After"
+            fill
+            sizes="100vw"
+            priority={true}
+            style={{ 
+              objectFit: 'cover',
+              transform: `translateX(${100 - position}%)`
+            }}
+            onLoad={() => setAfterLoaded(true)}
+            onError={() => setAfterError(true)}
+          />
         </div>
       </div>
+
+      {/* 分隔线 - 只在图片加载成功时显示 */}
+      {areImagesLoaded && !hasImageError && (
+        <div
+          className="absolute top-0 bottom-0 w-1 bg-white cursor-ew-resize"
+          style={{
+            left: `${position}%`,
+            transform: 'translateX(-0.5px)',
+            zIndex: 15,
+            boxShadow: '0 0 4px rgba(0, 0, 0, 0.7)'
+          }}
+          onMouseDown={handleMouseDown}
+          onTouchStart={handleTouchStart}
+        >
+          {/* 手柄 */}
+          <div
+            className="absolute top-1/2 left-1/2 w-8 h-8 -translate-x-1/2 -translate-y-1/2 bg-white rounded-full shadow-lg flex items-center justify-center"
+            style={{ boxShadow: '0 0 8px rgba(0, 0, 0, 0.8)' }}
+          >
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M18 8L22 12L18 16" stroke="#333" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              <path d="M6 8L2 12L6 16" stroke="#333" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+          </div>
+        </div>
+      )}
     </div>
   );
 } 

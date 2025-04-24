@@ -10,7 +10,7 @@ const nextConfig = {
     // 仅检查，不阻止构建
     ignoreDuringBuilds: true,
   },
-  // 配置图片域名
+  // 配置图片域名和优化选项
   images: {
     remotePatterns: [
       {
@@ -26,6 +26,8 @@ const nextConfig = {
         pathname: '/**',
       },
     ],
+    // 禁用图片优化，直接使用原始图片
+    unoptimized: true
   },
   // 暂时禁用内容安全策略，以便开发测试期间可以正常加载所有资源
   // 在生产环境应该重新配置更严格的CSP规则
