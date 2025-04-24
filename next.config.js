@@ -27,6 +27,20 @@ const nextConfig = {
       },
     ],
   },
+  // 添加内容安全策略配置
+  async headers() {
+    return [
+      {
+        source: '/(.*)',
+        headers: [
+          {
+            key: 'Content-Security-Policy',
+            value: "default-src 'self'; script-src 'self' 'unsafe-eval' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https://rh-images.xiaoyaoyou.com https://www.runninghub.cn; connect-src 'self' https://rh-images.xiaoyaoyou.com https://www.runninghub.cn"
+          }
+        ]
+      }
+    ];
+  }
 };
 
 module.exports = nextConfig; 
