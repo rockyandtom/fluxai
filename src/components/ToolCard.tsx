@@ -1,7 +1,6 @@
 'use client';
 
 import Link from 'next/link';
-import Image from 'next/image';
 import { ToolConfig } from '@/config/tools';
 import ImageCompare from './ImageCompare';
 
@@ -37,14 +36,16 @@ export default function ToolCard({ tool }: ToolCardProps) {
             position: 'relative', 
             width: '100%', 
             paddingTop: '65%', 
-            overflow: 'hidden' 
+            overflow: 'hidden',
+            backgroundColor: 'rgba(0, 0, 0, 0.3)'
           }}>
             <div style={{
               position: 'absolute',
               top: 0,
               left: 0,
               width: '100%',
-              height: '100%'
+              height: '100%',
+              zIndex: 5
             }}>
               <ImageCompare
                 beforeImage={beforeImage}
