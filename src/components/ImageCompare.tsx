@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import Image from 'next/image';
 
 interface ImageCompareProps {
   beforeImage: string;
@@ -155,67 +154,61 @@ export default function ImageCompare({
         </div>
       )}
 
-      {/* 左侧图片（原始照片） */}
-      <div className="absolute inset-0">
-        <Image
+      {/* 使用简单的HTML结构和普通img标签 */}
+      <div className="relative w-full h-full">
+        {/* 背景图（左侧原始图片） */}
+        <img
           src={beforeImage}
           alt="Before"
-          fill
-          sizes="100vw"
-          priority={true}
-          style={{ objectFit: 'cover' }}
+          className="absolute top-0 left-0 w-full h-full object-cover"
           onLoad={() => setBeforeLoaded(true)}
           onError={() => setBeforeError(true)}
         />
-      </div>
-
-      {/* 遮罩层（显示右侧图片的区域） */}
-      <div
-        className="absolute top-0 bottom-0 right-0 overflow-hidden"
-        style={{ width: `${position}%` }}
-      >
-        <div className="relative h-full w-full">
-          <Image
+        
+        {/* 前景图（右侧处理后图片） */}
+        <div 
+          className="absolute top-0 h-full overflow-hidden"
+          style={{ 
+            left: `${100 - position}%`, 
+            right: 0,
+            width: `${position}%`
+          }}
+        >
+          <img
             src={afterImage}
             alt="After"
-            fill
-            sizes="100vw"
-            priority={true}
-            style={{ 
-              objectFit: 'cover',
-              transform: `translateX(${100 - position}%)`
-            }}
+            className="absolute top-0 right-0 h-full object-cover"
+            style={{ width: '100vw', right: 0 }}
             onLoad={() => setAfterLoaded(true)}
             onError={() => setAfterError(true)}
           />
         </div>
-      </div>
-
-      {/* 分隔线 - 只在图片加载成功时显示 */}
-      {areImagesLoaded && !hasImageError && (
-        <div
-          className="absolute top-0 bottom-0 w-1 bg-white cursor-ew-resize"
-          style={{
-            left: `${position}%`,
-            transform: 'translateX(-0.5px)',
-            zIndex: 15,
-            boxShadow: '0 0 4px rgba(0, 0, 0, 0.7)'
-          }}
-          onMouseDown={handleMouseDown}
-          onTouchStart={handleTouchStart}
-        >
-          {/* 手柄 */}
+        
+        {/* 分隔线 - 只在图片加载成功时显示 */}
+        {areImagesLoaded && !hasImageError && (
           <div
-            className="absolute top-1/2 left-1/2 w-8 h-8 -translate-x-1/2 -translate-y-1/2 bg-white rounded-full shadow-lg flex items-center justify-center"
-            style={{ boxShadow: '0 0 8px rgba(0, 0, 0, 0.8)' }}
+            className="absolute top-0 bottom-0 w-1 bg-white cursor-ew-resize"
+            style={{
+              left: `${100 - position}%`,
+              zIndex: 15,
+              boxShadow: '0 0 4px rgba(0, 0, 0, 0.7)'
+            }}
+            onMouseDown={handleMouseDown}
+            onTouchStart={handleTouchStart}
           >
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M18 8L22 12L18 16" stroke="#333" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              <path d="M6 8L2 12L6 16" stroke="#333" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
+            {/* 手柄 */}
+            <div
+              className="absolute top-1/2 left-1/2 w-8 h-8 -translate-x-1/2 -translate-y-1/2 bg-white rounded-full shadow-lg flex items-center justify-center"
+              style={{ boxShadow: '0 0 8px rgba(0, 0, 0, 0.8)' }}
+            >
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M18 8L22 12L18 16" stroke="#333" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                <path d="M6 8L2 12L6 16" stroke="#333" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 } 

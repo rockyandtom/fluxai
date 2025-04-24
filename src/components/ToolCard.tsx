@@ -47,12 +47,21 @@ export default function ToolCard({ tool }: ToolCardProps) {
               height: '100%',
               zIndex: 5
             }}>
+              {/* 使用普通的HTML img标签来显示图片 - 仅用于调试 */}
+              <div className="relative w-full h-full">
+                <img src={beforeImage} className="absolute left-0 top-0 w-1/2 h-full object-cover" alt={tool.name} />
+                <img src={afterImage} className="absolute right-0 top-0 w-1/2 h-full object-cover" alt={tool.name} />
+                <div className="absolute top-0 bottom-0 left-1/2 w-1 bg-white z-10" style={{transform: 'translateX(-50%)'}}></div>
+              </div>
+              
+              {/* 当分屏组件修复后再使用
               <ImageCompare
                 beforeImage={beforeImage}
                 afterImage={afterImage}
                 height="100%"
                 width="100%"
               />
+              */}
             </div>
             <div style={{
               position: 'absolute',
