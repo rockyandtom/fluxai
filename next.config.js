@@ -27,7 +27,9 @@ const nextConfig = {
       },
     ],
   },
-  // 添加内容安全策略配置
+  // 暂时禁用内容安全策略，以便开发测试期间可以正常加载所有资源
+  // 在生产环境应该重新配置更严格的CSP规则
+  /*
   async headers() {
     return [
       {
@@ -41,6 +43,7 @@ const nextConfig = {
       }
     ];
   }
+  */
 };
 
 module.exports = nextConfig; 

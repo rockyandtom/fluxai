@@ -39,7 +39,7 @@ export default function ImageCompare({
   };
 
   const handleTouchStart = (e: React.TouchEvent) => {
-    e.preventDefault(); // 防止触摸时触发其他事件
+    // 注意：不再调用e.preventDefault()，以允许点击链接
     isDragging.current = true;
     
     // 在触摸开始时立即更新位置
@@ -72,6 +72,11 @@ export default function ImageCompare({
   };
 
   const handleTouchMove = (e: TouchEvent) => {
+    // 只有在拖动状态下才阻止默认行为
+    if (isDragging.current) {
+      e.preventDefault();
+    }
+    
     if (!isDragging.current || !containerRef.current) return;
     
     const container = containerRef.current;
@@ -93,6 +98,8 @@ export default function ImageCompare({
 
     document.addEventListener('mousemove', handleMouseMove);
     document.addEventListener('mouseup', handleGlobalMouseUp);
+    
+    // 将touchmove事件设置为被动模式，以提高性能
     document.addEventListener('touchmove', handleTouchMove as any, { passive: false });
     document.addEventListener('touchend', handleGlobalMouseUp);
     
@@ -110,6 +117,11 @@ export default function ImageCompare({
       className={`relative overflow-hidden select-none touch-none ${className}`}
       style={{ height, width }}
     >
+      {/* 调试显示 */}
+      <div className="absolute top-0 left-0 z-50 text-xs text-white bg-black bg-opacity-50 p-1" style={{ pointerEvents: 'none' }}>
+        Current: {position.toFixed(0)}%
+      </div>
+      
       {/* 原始图片（左侧） */}
       <div className="absolute inset-0 w-full h-full">
         <Image
@@ -117,6 +129,7 @@ export default function ImageCompare({
           alt="Before"
           fill
           sizes="100vw"
+          priority={true}
           style={{ 
             objectFit: 'cover'
           }}
@@ -141,6 +154,7 @@ export default function ImageCompare({
             alt="After"
             fill
             sizes="100vw"
+            priority={true}
             style={{ 
               objectFit: 'cover'
             }}
@@ -150,20 +164,20 @@ export default function ImageCompare({
       
       {/* 拖动分界线 */}
       <div
-        className="absolute top-0 bottom-0 w-1 bg-white cursor-ew-resize"
+        className="absolute top-0 bottom-0 w-2 bg-white cursor-ew-resize"
         style={{ 
           left: `${position}%`,
           transform: 'translateX(-50%)',
           zIndex: 10,
-          boxShadow: '0 0 4px rgba(0, 0, 0, 0.5)'
+          boxShadow: '0 0 6px rgba(0, 0, 0, 0.8)'
         }}
         onMouseDown={handleMouseDown}
         onTouchStart={handleTouchStart}
       >
         {/* 圆形滑块手柄 */}
         <div 
-          className="absolute top-1/2 left-1/2 w-8 h-8 -translate-x-1/2 -translate-y-1/2 bg-white rounded-full shadow-lg flex items-center justify-center"
-          style={{ boxShadow: '0 0 8px rgba(0, 0, 0, 0.5)' }}
+          className="absolute top-1/2 left-1/2 w-10 h-10 -translate-x-1/2 -translate-y-1/2 bg-white rounded-full shadow-xl flex items-center justify-center"
+          style={{ boxShadow: '0 0 10px rgba(0, 0, 0, 0.8)' }}
         >
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M18 8L22 12L18 16" stroke="#333" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
