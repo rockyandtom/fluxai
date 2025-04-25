@@ -7,6 +7,7 @@ FluxAI 是一个先进的AI图片特效工具合集，提供多种图片处理�
 - 多种AI图片生成特效
   - Ghibli AI: 将照片转换成宫崎骏吉卜力工作室风格的动画效果
   - Polaroid Style: 将照片转换成复古拍立得风格
+  - Four-panel Comic: 将照片转换成四格漫画风格
   - 更多特效工具...
 - 简洁直观的用户界面
 - 快速的图片处理能力
@@ -40,6 +41,7 @@ NEXT_PUBLIC_SKETCH_WEBAPP_ID=sketch_webapp_id
 NEXT_PUBLIC_ANIME_WEBAPP_ID=anime_webapp_id
 NEXT_PUBLIC_OIL_PAINTING_WEBAPP_ID=oil_painting_webapp_id
 NEXT_PUBLIC_PIXEL_ART_WEBAPP_ID=pixel_art_webapp_id
+NEXT_PUBLIC_FOUR_PANEL_COMIC_WEBAPP_ID=1909559296592441345
 
 # Tool Node IDs
 NEXT_PUBLIC_GHIBLI_NODE_ID=365
@@ -48,6 +50,7 @@ NEXT_PUBLIC_SKETCH_NODE_ID=sketch_node_id
 NEXT_PUBLIC_ANIME_NODE_ID=anime_node_id
 NEXT_PUBLIC_OIL_PAINTING_NODE_ID=oil_painting_node_id
 NEXT_PUBLIC_PIXEL_ART_NODE_ID=pixel_art_node_id
+NEXT_PUBLIC_FOUR_PANEL_COMIC_NODE_ID=226
 ```
 
 将`your_api_key_here`替换为您的RunningHub API密钥，并将各工具的`webapp_id`和`node_id`替换为相应的实际值。
@@ -222,6 +225,7 @@ MIT License
   - 修改了工具配置接口，添加了 `beforeImage` 和 `afterImage` 字段
   - 为所有工具配置了默认的前后对比图片
 - 添加了新的Ghibli AI工具，可将照片转换成宫崎骏吉卜力工作室动画风格
+- 添加了新的Four-panel Comic工具，可将照片转换成四格漫画风格
 - 添加了自动保存生成结果的功能
 - 优化了结果展示区域UI
 - 为每个工具增加了历史结果展示
@@ -241,3 +245,22 @@ MIT License
   - 示例结果区域标题改为"Inspiration comes true"
   - 日期时间格式设置为美式英文格式
   - 所有控制台日志和错误消息统一为英文，方便调试
+
+### 最新更新 (2024-07-10)
+
+- 成功对接新工具"Four-panel Comic"功能：
+  - 添加工具配置，设置正确的WebApp ID (1909559296592441345)和Node ID (226)
+  - 创建工具图标SVG，并配置缩略图
+  - 设置前后对比图片
+  - 添加环境变量配置支持，便于后续修改
+  - 更新README文档，添加新功能说明
+- 优化API对接方式：
+  - 确保在线上环境正常使用
+  - 完全遵循RunningHub API规范
+  - 保留完整的文件ID格式，包括api/前缀
+- 提高系统稳定性：
+  - 使用重试机制确保API调用成功
+  - 增加请求超时时间
+- 面向未来的扩展性改进：
+  - 所有新工具采用相同的集成模式，便于后续添加
+  - 环境变量支持，便于线上配置

@@ -60,6 +60,21 @@ export const tools: ToolConfig[] = [
     ]
   },
   {
+    id: "four-panel-comic",
+    name: "Four-panel Comic",
+    description: "Turn your photo into a four-panel comic strip",
+    webappId: process.env.NEXT_PUBLIC_FOUR_PANEL_COMIC_WEBAPP_ID || '1909559296592441345',
+    nodeId: process.env.NEXT_PUBLIC_FOUR_PANEL_COMIC_NODE_ID || '226',
+    apiKey: API_KEY,
+    thumbnail: "/thumbnails/comic.svg",
+    beforeImage: "/thumbnails/four-panel-comic-before.jpg",
+    afterImage: "/thumbnails/four-panel-comic-after.jpg",
+    demoImages: [
+      PLACEHOLDER_IMAGE,
+      PLACEHOLDER_IMAGE,
+    ]
+  },
+  {
     id: "cartoon",
     name: "Cartoon Effect",
     description: "Transform your photos into cartoon-style artwork",
