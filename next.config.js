@@ -29,9 +29,8 @@ const nextConfig = {
     // 禁用图片优化，直接使用原始图片
     unoptimized: true
   },
-  // 暂时禁用内容安全策略，以便开发测试期间可以正常加载所有资源
-  // 在生产环境应该重新配置更严格的CSP规则
-  /*
+  
+  // 允许eval和内联脚本，关闭CSP限制
   async headers() {
     return [
       {
@@ -39,13 +38,12 @@ const nextConfig = {
         headers: [
           {
             key: 'Content-Security-Policy',
-            value: "default-src 'self'; script-src 'self' 'unsafe-eval' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https://rh-images.xiaoyaoyou.com https://www.runninghub.cn; connect-src 'self' https://rh-images.xiaoyaoyou.com https://www.runninghub.cn"
+            value: "default-src * 'unsafe-inline' 'unsafe-eval'; script-src * 'unsafe-inline' 'unsafe-eval'; connect-src * 'unsafe-inline'; img-src * data: blob: 'unsafe-inline'; frame-src *; style-src * 'unsafe-inline';"
           }
         ]
       }
     ];
   }
-  */
 };
 
 module.exports = nextConfig; 

@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { ToolConfig } from '@/config/tools';
-import ImageCompare from './ImageCompare';
+import { useState } from 'react';
 
 interface ToolCardProps {
   tool: ToolConfig;
@@ -16,6 +16,33 @@ export default function ToolCard({ tool }: ToolCardProps) {
   // 确保始终有前后图片
   const beforeImage = tool.beforeImage || DEFAULT_BEFORE_IMAGE;
   const afterImage = tool.afterImage || DEFAULT_AFTER_IMAGE;
+  
+  // 图片加载状态
+  const [beforeLoaded, setBeforeLoaded] = useState(false);
+  const [afterLoaded, setAfterLoaded] = useState(false);
+  const [beforeError, setBeforeError] = useState(false);
+  const [afterError, setAfterError] = useState(false);
+  
+  // 调试信息
+  const handleBeforeLoad = () => {
+    console.log(`BeforeImage loaded for ${tool.id}:`, beforeImage);
+    setBeforeLoaded(true);
+  };
+  
+  const handleAfterLoad = () => {
+    console.log(`AfterImage loaded for ${tool.id}:`, afterImage);
+    setAfterLoaded(true);
+  };
+  
+  const handleBeforeError = () => {
+    console.error(`BeforeImage error for ${tool.id}:`, beforeImage);
+    setBeforeError(true);
+  };
+  
+  const handleAfterError = () => {
+    console.error(`AfterImage error for ${tool.id}:`, afterImage);
+    setAfterError(true);
+  };
 
   return (
     <div className="h-full">
@@ -31,7 +58,7 @@ export default function ToolCard({ tool }: ToolCardProps) {
           border: '1px solid rgba(75, 85, 99, 0.3)',
           transition: 'all 0.3s ease',
         }}>
-          {/* 图片区域 - 使用分屏比较组件 */}
+          {/* 图片区域 - 使用简单HTML结构显示前后对比 */}
           <div style={{ 
             position: 'relative', 
             width: '100%', 
@@ -47,14 +74,16 @@ export default function ToolCard({ tool }: ToolCardProps) {
               height: '100%',
               zIndex: 5
             }}>
-              {/* 使用普通的HTML img标签来显示图片 - 仅用于调试 */}
+              {/* 使用普通的HTML img标签来显示图片 */}
               <div className="relative w-full h-full">
                 {/* 左侧图片 - 原始照片 */}
                 <div className="absolute left-0 top-0 w-1/2 h-full overflow-hidden">
                   <img 
                     src={beforeImage} 
                     className="w-full h-full object-cover" 
-                    alt={`${tool.name} 原图`} 
+                    alt={`${tool.name} 原图`}
+                    onLoad={handleBeforeLoad}
+                    onError={handleBeforeError}
                   />
                 </div>
                 
@@ -63,7 +92,9 @@ export default function ToolCard({ tool }: ToolCardProps) {
                   <img 
                     src={afterImage} 
                     className="w-full h-full object-cover" 
-                    alt={`${tool.name} 效果`} 
+                    alt={`${tool.name} 效果`}
+                    onLoad={handleAfterLoad}
+                    onError={handleAfterError}
                   />
                 </div>
                 
@@ -87,15 +118,6 @@ export default function ToolCard({ tool }: ToolCardProps) {
                   </div>
                 </div>
               </div>
-              
-              {/* 当分屏组件修复后再使用
-              <ImageCompare
-                beforeImage={beforeImage}
-                afterImage={afterImage}
-                height="100%"
-                width="100%"
-              />
-              */}
             </div>
             <div style={{
               position: 'absolute',
