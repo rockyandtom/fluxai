@@ -76,16 +76,31 @@ export async function uploadImage(file: File, apiKey: string) {
 }
 
 /**
- * 发起AI任务
- * @param imageId 图片ID
+ * 发起AI图像生成任务
+ * @param imageId 上传的图片ID
  * @param apiKey API密钥
- * @param webappId 应用ID
+ * @param webappId WebApp ID
  * @param nodeId 节点ID
- * @returns 任务信息
+ * @param toolId 工具ID，用于特定工具的参数配置
+ * @returns 任务创建结果
  */
-export async function generateImage(imageId: string, apiKey: string, webappId: string, nodeId: string) {
+export async function generateImage(
+  imageId: string, 
+  apiKey: string, 
+  webappId: string, 
+  nodeId: string,
+  toolId?: string, 
+  additionalNodes?: Array<{nodeId: string, fieldName: string, fieldValue: string}>
+) {
   // 调试日志
-  console.log('开始图片生成，接收到的参数：', { imageId, apiKey, webappId, nodeId });
+  console.log('开始图片生成，接收到的参数：', { 
+    imageId, 
+    apiKey, 
+    webappId, 
+    nodeId,
+    toolId,
+    hasAdditionalNodes: additionalNodes && additionalNodes.length > 0
+  });
   
   // 确保imageId格式正确 - 保留完整的fileId，包括api/前缀
   const processedImageId = imageId; // 不再移除api/前缀
@@ -96,7 +111,9 @@ export async function generateImage(imageId: string, apiKey: string, webappId: s
     imageId: processedImageId,
     apiKey,
     webappId,
-    nodeId
+    nodeId,
+    toolId,
+    additionalNodes
   };
   
   console.log('发送的请求数据:', JSON.stringify(data));

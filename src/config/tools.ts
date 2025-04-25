@@ -75,6 +75,21 @@ export const tools: ToolConfig[] = [
     ]
   },
   {
+    id: "id-photo",
+    name: "Perfect ID Photos",
+    description: "Create professional passport and ID photos with perfect standards",
+    webappId: process.env.NEXT_PUBLIC_ID_PHOTO_WEBAPP_ID || '1881214058983563265',
+    nodeId: process.env.NEXT_PUBLIC_ID_PHOTO_NODE_ID || '265',
+    apiKey: API_KEY,
+    thumbnail: "/thumbnails/id-photo.svg",
+    beforeImage: BEFORE_PLACEHOLDER,
+    afterImage: AFTER_PLACEHOLDER,
+    demoImages: [
+      PLACEHOLDER_IMAGE,
+      PLACEHOLDER_IMAGE,
+    ]
+  },
+  {
     id: "cartoon",
     name: "Cartoon Effect",
     description: "Transform your photos into cartoon-style artwork",

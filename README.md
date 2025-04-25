@@ -8,6 +8,7 @@ FluxAI 是一个先进的AI图片特效工具合集，提供多种图片处理�
   - Ghibli AI: 将照片转换成宫崎骏吉卜力工作室风格的动画效果
   - Polaroid Style: 将照片转换成复古拍立得风格
   - Four-panel Comic: 将照片转换成四格漫画风格
+  - Perfect ID Photos: 生成标准证件照，支持高级模型渲染
   - 更多特效工具...
 - 简洁直观的用户界面
 - 快速的图片处理能力
@@ -42,6 +43,7 @@ NEXT_PUBLIC_ANIME_WEBAPP_ID=anime_webapp_id
 NEXT_PUBLIC_OIL_PAINTING_WEBAPP_ID=oil_painting_webapp_id
 NEXT_PUBLIC_PIXEL_ART_WEBAPP_ID=pixel_art_webapp_id
 NEXT_PUBLIC_FOUR_PANEL_COMIC_WEBAPP_ID=1909559296592441345
+NEXT_PUBLIC_ID_PHOTO_WEBAPP_ID=1881214058983563265
 
 # Tool Node IDs
 NEXT_PUBLIC_GHIBLI_NODE_ID=365
@@ -51,6 +53,7 @@ NEXT_PUBLIC_ANIME_NODE_ID=anime_node_id
 NEXT_PUBLIC_OIL_PAINTING_NODE_ID=oil_painting_node_id
 NEXT_PUBLIC_PIXEL_ART_NODE_ID=pixel_art_node_id
 NEXT_PUBLIC_FOUR_PANEL_COMIC_NODE_ID=226
+NEXT_PUBLIC_ID_PHOTO_NODE_ID=265
 ```
 
 将`your_api_key_here`替换为您的RunningHub API密钥，并将各工具的`webapp_id`和`node_id`替换为相应的实际值。
@@ -300,3 +303,19 @@ MIT License
 - **占位图机制**：提供默认占位图，确保在专用资源不可用时UI仍然美观
 
 通过实施这些最佳实践，我们实现了多个RunningHub API的无缝集成，特别是最新的Four-panel Comic功能一次性就成功对接，没有出现任何问题。这些经验将有助于后续更多工具的快速集成。
+
+### 最新更新 (2024-07-15)
+
+- 新增"Perfect ID Photos"功能：
+  - 添加了专业证件照生成工具，支持生成符合标准的证件照
+  - 集成高级模型"STOIQONewrealityFLUXSD_XLLight10"，提供更逼真的渲染效果
+  - 添加了示例图片和前后对比展示
+  - 配置了环境变量支持，便于后续调整参数
+- 优化API集成架构：
+  - 增强API调用框架，支持多节点参数处理
+  - 添加了工具ID参数，实现不同工具的定制处理逻辑
+  - 优化了错误处理和状态更新机制
+- 提升用户体验：
+  - 为新工具创建了专属SVG图标
+  - 更新了README文档，添加新功能说明
+  - 完善错误提示，提高用户体验

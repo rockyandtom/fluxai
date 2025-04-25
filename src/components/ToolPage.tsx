@@ -90,7 +90,8 @@ export default function ToolPage({ tool }: ToolPageProps) {
         uploadResult.fileId, 
         tool.apiKey, 
         tool.webappId, 
-        tool.nodeId
+        tool.nodeId,
+        tool.id
       );
       
       if (!generateResult.success) {

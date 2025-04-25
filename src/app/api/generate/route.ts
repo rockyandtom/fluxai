@@ -40,7 +40,7 @@ export async function POST(request: Request) {
   try {
     // 获取请求数据
     const data = await request.json();
-    const { imageId, apiKey, webappId, nodeId } = data;
+    const { imageId, apiKey, webappId, nodeId, toolId, additionalNodes = [] } = data;
     
     if (!imageId || !apiKey || !webappId || !nodeId) {
       return NextResponse.json(
@@ -53,18 +53,38 @@ export async function POST(request: Request) {
       imageId,
       apiKey: apiKey.substring(0, 5) + '...',
       webappId,
-      nodeId
+      nodeId,
+      toolId,
+      hasAdditionalNodes: additionalNodes.length > 0
     });
     
-    // 构建请求数据 - 保持完整的imageId，包括api/前缀
+    // 构建请求数据 - 基本节点信息
+    let nodeInfoList = [{
+      nodeId,
+      fieldName: "image",
+      fieldValue: imageId
+    }];
+    
+    // 添加特定工具的额外节点（如适用）
+    if (toolId === 'id-photo') {
+      // ID照片工具需要额外的模型参数
+      nodeInfoList.push({
+        nodeId: "88", // 模型节点ID
+        fieldName: "ckpt_name",
+        fieldValue: "STOIQONewrealityFLUXSD_XLLight10.safetensors"
+      });
+    }
+    
+    // 添加任何其他额外节点（如果有）
+    if (additionalNodes && additionalNodes.length > 0) {
+      nodeInfoList = [...nodeInfoList, ...additionalNodes];
+    }
+    
+    // 构建最终请求数据
     const requestData = {
       webappId,
       apiKey,
-      nodeInfoList: [{
-        nodeId,
-        fieldName: "image",
-        fieldValue: imageId
-      }]
+      nodeInfoList
     };
     
     // 发送请求
