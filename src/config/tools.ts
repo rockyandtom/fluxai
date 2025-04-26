@@ -163,6 +163,36 @@ export const tools: ToolConfig[] = [
       PLACEHOLDER_IMAGE,
       PLACEHOLDER_IMAGE,
     ]
+  },
+  {
+    id: "digital-human",
+    name: "Digital Human",
+    description: "Transform your photos into anthropomorphic digital human images",
+    webappId: process.env.NEXT_PUBLIC_DIGITAL_HUMAN_WEBAPP_ID || '1914267264068087810',
+    nodeId: process.env.NEXT_PUBLIC_DIGITAL_HUMAN_NODE_ID || '226',
+    apiKey: API_KEY,
+    thumbnail: "/thumbnails/digital-human.svg",
+    beforeImage: "/thumbnails/digital-human-before.jpg",
+    afterImage: "/thumbnails/digital-human-after.jpg",
+    demoImages: [
+      PLACEHOLDER_IMAGE,
+      PLACEHOLDER_IMAGE,
+    ]
+  },
+  {
+    id: "blind-box",
+    name: "3D Blind-box Figurine",
+    description: "Transform your photos into cute 3D blind-box figurine style",
+    webappId: process.env.NEXT_PUBLIC_BLIND_BOX_WEBAPP_ID || '1911985272408502273',
+    nodeId: process.env.NEXT_PUBLIC_BLIND_BOX_NODE_ID || '226',
+    apiKey: API_KEY,
+    thumbnail: "/thumbnails/blind-box.svg",
+    beforeImage: "/thumbnails/blind-box-before.jpg",
+    afterImage: "/thumbnails/blind-box-after.jpg",
+    demoImages: [
+      PLACEHOLDER_IMAGE,
+      PLACEHOLDER_IMAGE,
+    ]
   }
 ];
 

@@ -502,6 +502,20 @@ export default function ToolPage({ tool }: ToolPageProps) {
             </div>
           )}
           
+          {/* 生成时间和保存提示 */}
+          <div style={{
+            padding: '12px',
+            backgroundColor: 'rgba(59, 130, 246, 0.1)',
+            borderRadius: '8px',
+            marginBottom: '16px',
+            marginTop: '16px',
+            borderLeft: '4px solid #3b82f6',
+          }}>
+            <p style={{ fontSize: '14px', color: '#e2e8f0' }}>
+              Generation may take 1-3 minutes. Please download your results promptly as they are not permanently stored on our platform.
+            </p>
+          </div>
+           
           <div style={{ marginTop: '24px' }}>
             <button
               onClick={handleGenerate}
