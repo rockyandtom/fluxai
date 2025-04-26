@@ -52,8 +52,8 @@ export const tools: ToolConfig[] = [
     nodeId: '226',
     apiKey: API_KEY,
     thumbnail: "/thumbnails/polaroid.svg",
-    beforeImage: BEFORE_PLACEHOLDER,
-    afterImage: AFTER_PLACEHOLDER,
+    beforeImage: "/thumbnails/polaroid-before.jpg",
+    afterImage: "/thumbnails/polaroid-after.jpg",
     demoImages: [
       PLACEHOLDER_IMAGE,
       PLACEHOLDER_IMAGE,
@@ -82,8 +82,8 @@ export const tools: ToolConfig[] = [
     nodeId: process.env.NEXT_PUBLIC_ID_PHOTO_NODE_ID || '265',
     apiKey: API_KEY,
     thumbnail: "/thumbnails/id-photo.svg",
-    beforeImage: BEFORE_PLACEHOLDER,
-    afterImage: AFTER_PLACEHOLDER,
+    beforeImage: "/thumbnails/id-photo-before.jpg",
+    afterImage: "/thumbnails/id-photo-after.jpg",
     demoImages: [
       PLACEHOLDER_IMAGE,
       PLACEHOLDER_IMAGE,

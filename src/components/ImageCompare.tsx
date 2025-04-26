@@ -143,14 +143,14 @@ export default function ImageCompare({
       {/* 加载状态指示器 */}
       {(!areImagesLoaded && !hasImageError) && (
         <div className="absolute inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50 z-20">
-          <div className="text-white text-sm">加载中...</div>
+          <div className="text-white text-sm">Loading...</div>
         </div>
       )}
       
       {/* 错误状态指示器 */}
       {hasImageError && (
         <div className="absolute inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50 z-20">
-          <div className="text-white text-sm">图片加载失败</div>
+          <div className="text-white text-sm">Image loading failed</div>
         </div>
       )}
 

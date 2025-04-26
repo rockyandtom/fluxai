@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { ToolConfig } from '@/config/tools';
 import { useState } from 'react';
+import ImageCompare from './ImageCompare';
 
 interface ToolCardProps {
   tool: ToolConfig;
@@ -58,7 +59,7 @@ export default function ToolCard({ tool }: ToolCardProps) {
           border: '1px solid rgba(75, 85, 99, 0.3)',
           transition: 'all 0.3s ease',
         }}>
-          {/* 图片区域 - 使用简单HTML结构显示前后对比 */}
+          {/* 图片区域 - 使用ImageCompare组件显示前后对比 */}
           <div style={{ 
             position: 'relative', 
             width: '100%', 
@@ -74,50 +75,13 @@ export default function ToolCard({ tool }: ToolCardProps) {
               height: '100%',
               zIndex: 5
             }}>
-              {/* 使用普通的HTML img标签来显示图片 */}
-              <div className="relative w-full h-full">
-                {/* 左侧图片 - 原始照片 */}
-                <div className="absolute left-0 top-0 w-1/2 h-full overflow-hidden">
-                  <img 
-                    src={beforeImage} 
-                    className="w-full h-full object-cover" 
-                    alt={`${tool.name} 原图`}
-                    onLoad={handleBeforeLoad}
-                    onError={handleBeforeError}
-                  />
-                </div>
-                
-                {/* 右侧图片 - 处理后效果 */}
-                <div className="absolute right-0 top-0 w-1/2 h-full overflow-hidden">
-                  <img 
-                    src={afterImage} 
-                    className="w-full h-full object-cover" 
-                    alt={`${tool.name} 效果`}
-                    onLoad={handleAfterLoad}
-                    onError={handleAfterError}
-                  />
-                </div>
-                
-                {/* 中间分隔线 */}
-                <div 
-                  className="absolute top-0 bottom-0 left-1/2 w-1 bg-white z-10"
-                  style={{
-                    transform: 'translateX(-50%)',
-                    boxShadow: '0 0 4px rgba(0, 0, 0, 0.7)'
-                  }}
-                >
-                  {/* 分隔线上的手柄 */}
-                  <div
-                    className="absolute top-1/2 left-1/2 w-6 h-6 -translate-x-1/2 -translate-y-1/2 bg-white rounded-full shadow-lg flex items-center justify-center"
-                    style={{ boxShadow: '0 0 8px rgba(0, 0, 0, 0.8)' }}
-                  >
-                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M18 8L22 12L18 16" stroke="#333" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                      <path d="M6 8L2 12L6 16" stroke="#333" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                    </svg>
-                  </div>
-                </div>
-              </div>
+              {/* 使用ImageCompare组件替代原来的分屏实现 */}
+              <ImageCompare 
+                beforeImage={beforeImage}
+                afterImage={afterImage}
+                width="100%"
+                height="100%"
+              />
             </div>
             <div style={{
               position: 'absolute',
