@@ -4,6 +4,38 @@ import axios from 'axios';
 // API基础URL
 const API_BASE_URL = 'https://www.runninghub.cn';
 
+// 添加重试逻辑的函数
+async function fetchWithRetry(url: string, formData: FormData, config: any, maxRetries = 3) {
+  let lastError;
+  
+  for (let attempt = 1; attempt <= maxRetries; attempt++) {
+    try {
+      console.log(`尝试上传图片 (第${attempt}/${maxRetries}次)...`);
+      
+      const response = await axios.post(url, formData, {
+        ...config,
+        timeout: 120000 // 增加到120秒超时
+      });
+      
+      // 如果成功，立即返回结果
+      return response;
+    } catch (error) {
+      lastError = error;
+      console.error(`第${attempt}次尝试失败:`, error);
+      
+      // 如果不是最后一次尝试，则等待一段时间再重试
+      if (attempt < maxRetries) {
+        const delayMs = 2000 * attempt; // 第一次失败等待2秒，第二次失败等待4秒
+        console.log(`等待${delayMs}ms后重试...`);
+        await new Promise(resolve => setTimeout(resolve, delayMs));
+      }
+    }
+  }
+  
+  // 所有重试都失败，抛出最后一个错误
+  throw lastError;
+}
+
 export async function POST(request: Request) {
   try {
     // 获取API密钥
@@ -38,19 +70,21 @@ export async function POST(request: Request) {
     const apiFormData = new FormData();
     apiFormData.append('file', file);
     
-    // 发送请求
+    // 请求配置
+    const config = {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        'Host': 'www.runninghub.cn'
+      }
+    };
+    
+    // 发送请求（使用重试机制）
     console.log(`服务端开始上传文件至RunningHub: ${API_BASE_URL}/task/openapi/upload`);
     
-    const response = await axios.post(
+    const response = await fetchWithRetry(
       `${API_BASE_URL}/task/openapi/upload?apiKey=${apiKey}`,
       apiFormData,
-      {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-          'Host': 'www.runninghub.cn'
-        },
-        timeout: 60000 // 60秒超时，增加等待时间
-      }
+      config
     );
     
     console.log('RunningHub上传响应:', response.data);

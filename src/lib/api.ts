@@ -39,7 +39,7 @@ export async function uploadImage(file: File, apiKey: string) {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
-        timeout: 30000 // 30秒超时
+        timeout: 120000 // 增加到120秒超时
       }
     );
     
@@ -127,7 +127,7 @@ export async function generateImage(
         headers: {
           'Content-Type': 'application/json'
         },
-        timeout: 30000 // 30秒超时
+        timeout: 120000 // 增加到120秒超时
       }
     );
     

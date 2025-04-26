@@ -5,7 +5,7 @@ import axios from 'axios';
 const API_BASE_URL = 'https://www.runninghub.cn';
 
 // 添加重试逻辑的函数
-async function fetchWithRetry(url: string, data: any, headers: any, maxRetries = 2) {
+async function fetchWithRetry(url: string, data: any, headers: any, maxRetries = 3) {
   let lastError;
   
   for (let attempt = 1; attempt <= maxRetries; attempt++) {
@@ -14,7 +14,7 @@ async function fetchWithRetry(url: string, data: any, headers: any, maxRetries =
       
       const response = await axios.post(url, data, {
         headers,
-        timeout: 60000 // 60秒超时
+        timeout: 120000 // 增加到120秒超时
       });
       
       // 如果成功，立即返回结果
@@ -25,7 +25,7 @@ async function fetchWithRetry(url: string, data: any, headers: any, maxRetries =
       
       // 如果不是最后一次尝试，则等待一段时间再重试
       if (attempt < maxRetries) {
-        const delayMs = 1500 * attempt; // 第一次失败等待1.5秒
+        const delayMs = 2000 * attempt; // 第一次失败等待2秒，第二次失败等待4秒
         console.log(`等待${delayMs}ms后重试...`);
         await new Promise(resolve => setTimeout(resolve, delayMs));
       }

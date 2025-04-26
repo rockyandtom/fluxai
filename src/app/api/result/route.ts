@@ -14,7 +14,7 @@ async function fetchWithRetry(url: string, data: any, headers: any, maxRetries =
       
       const response = await axios.post(url, data, {
         headers,
-        timeout: 60000 // 60秒超时
+        timeout: 120000 // 增加到120秒超时
       });
       
       // 如果成功，立即返回结果
