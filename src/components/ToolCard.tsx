@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { ToolConfig } from '@/config/tools';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import ImageCompare from './ImageCompare';
 
 interface ToolCardProps {
@@ -23,6 +23,15 @@ export default function ToolCard({ tool }: ToolCardProps) {
   const [afterLoaded, setAfterLoaded] = useState(false);
   const [beforeError, setBeforeError] = useState(false);
   const [afterError, setAfterError] = useState(false);
+  
+  // 打印完整的工具信息，包括图片路径
+  useEffect(() => {
+    console.log(`工具配置 [${tool.id}]:`, {
+      ...tool,
+      beforeImage,
+      afterImage
+    });
+  }, [tool, beforeImage, afterImage]);
   
   // 调试信息
   const handleBeforeLoad = () => {

@@ -123,6 +123,27 @@ export default function ImageCompare({
   const areImagesLoaded = beforeLoaded && afterLoaded;
   const hasImageError = beforeError || afterError;
 
+  // 处理图片加载
+  const handleBeforeImageLoad = () => {
+    console.log('✅ 前图片加载成功:', beforeImage);
+    setBeforeLoaded(true);
+  };
+
+  const handleAfterImageLoad = () => {
+    console.log('✅ 后图片加载成功:', afterImage);
+    setAfterLoaded(true);
+  };
+
+  const handleBeforeImageError = () => {
+    console.error('❌ 前图片加载失败:', beforeImage);
+    setBeforeError(true);
+  };
+
+  const handleAfterImageError = () => {
+    console.error('❌ 后图片加载失败:', afterImage);
+    setAfterError(true);
+  };
+
   // 调试信息
   const debugInfo = {
     beforeImage,
@@ -149,8 +170,10 @@ export default function ImageCompare({
       
       {/* 错误状态指示器 */}
       {hasImageError && (
-        <div className="absolute inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50 z-20">
-          <div className="text-white text-sm">Image loading failed</div>
+        <div className="absolute inset-0 flex flex-col items-center justify-center bg-gray-800 bg-opacity-50 z-20 p-2">
+          <div className="text-white text-sm mb-1">Image loading failed</div>
+          {beforeError && <div className="text-red-300 text-xs mb-1">Before: {beforeImage}</div>}
+          {afterError && <div className="text-red-300 text-xs">After: {afterImage}</div>}
         </div>
       )}
 
@@ -161,8 +184,8 @@ export default function ImageCompare({
           src={beforeImage}
           alt="Before"
           className="absolute top-0 left-0 w-full h-full object-cover"
-          onLoad={() => setBeforeLoaded(true)}
-          onError={() => setBeforeError(true)}
+          onLoad={handleBeforeImageLoad}
+          onError={handleBeforeImageError}
         />
         
         {/* 前景图（右侧处理后图片） */}
@@ -179,8 +202,8 @@ export default function ImageCompare({
             alt="After"
             className="absolute top-0 right-0 h-full object-cover"
             style={{ width: '100vw', right: 0 }}
-            onLoad={() => setAfterLoaded(true)}
-            onError={() => setAfterError(true)}
+            onLoad={handleAfterImageLoad}
+            onError={handleAfterImageError}
           />
         </div>
         

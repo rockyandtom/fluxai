@@ -16,9 +16,9 @@ export interface ToolConfig {
 const API_KEY = 'fb88fac46b0349c1986c9cbb4f14d44e';
 
 // 占位图片
-const PLACEHOLDER_IMAGE = "/thumbnails/placeholder.svg";
-const BEFORE_PLACEHOLDER = "/thumbnails/before-placeholder.jpg";
-const AFTER_PLACEHOLDER = "/thumbnails/after-placeholder.jpg";
+const PLACEHOLDER_IMAGE = "/thumbnails/ghibli-before.jpg"; // 使用已存在的图片作为占位符
+const BEFORE_PLACEHOLDER = "/thumbnails/ghibli-before.jpg";
+const AFTER_PLACEHOLDER = "/thumbnails/ghibli-after.jpg";
 
 // 打印图片路径，以便调试
 console.log('占位图片路径:', { 
@@ -36,7 +36,7 @@ export const tools: ToolConfig[] = [
     webappId: process.env.NEXT_PUBLIC_GHIBLI_WEBAPP_ID || '1907296046433886210',
     nodeId: process.env.NEXT_PUBLIC_GHIBLI_NODE_ID || '365',
     apiKey: API_KEY,
-    thumbnail: "/thumbnails/ghibli.svg",
+    thumbnail: "/thumbnails/ghibli-before.jpg", // 改用JPG图片
     beforeImage: "/thumbnails/ghibli-before.jpg",
     afterImage: "/thumbnails/ghibli-after.jpg",
     demoImages: [
@@ -51,7 +51,7 @@ export const tools: ToolConfig[] = [
     webappId: '1912088541617422337',
     nodeId: '226',
     apiKey: API_KEY,
-    thumbnail: "/thumbnails/polaroid.svg",
+    thumbnail: "/thumbnails/polaroid-before.jpg", // 改用JPG图片
     beforeImage: "/thumbnails/polaroid-before.jpg",
     afterImage: "/thumbnails/polaroid-after.jpg",
     demoImages: [
@@ -66,9 +66,9 @@ export const tools: ToolConfig[] = [
     webappId: process.env.NEXT_PUBLIC_FOUR_PANEL_COMIC_WEBAPP_ID || '1909559296592441345',
     nodeId: process.env.NEXT_PUBLIC_FOUR_PANEL_COMIC_NODE_ID || '226',
     apiKey: API_KEY,
-    thumbnail: "/thumbnails/comic.svg",
-    beforeImage: "/thumbnails/four-panel-comic-before.jpg",
-    afterImage: "/thumbnails/four-panel-comic-after.jpg",
+    thumbnail: "/thumbnails/Fourpanel Comic-before.jpg", // 使用原始文件名，包括空格
+    beforeImage: "/thumbnails/Fourpanel Comic-before.jpg",
+    afterImage: "/thumbnails/Fourpanel Comic-after.jpg",
     demoImages: [
       PLACEHOLDER_IMAGE,
       PLACEHOLDER_IMAGE,
@@ -81,9 +81,9 @@ export const tools: ToolConfig[] = [
     webappId: process.env.NEXT_PUBLIC_ID_PHOTO_WEBAPP_ID || '1881214058983563265',
     nodeId: process.env.NEXT_PUBLIC_ID_PHOTO_NODE_ID || '265',
     apiKey: API_KEY,
-    thumbnail: "/thumbnails/id-photo.svg",
-    beforeImage: "/thumbnails/id-photo-before.jpg",
-    afterImage: "/thumbnails/id-photo-after.jpg",
+    thumbnail: "/thumbnails/Perfect ID Photos-before.jpg", // 使用原始文件名，包括空格
+    beforeImage: "/thumbnails/Perfect ID Photos-before.jpg",
+    afterImage: "/thumbnails/Perfect ID Photos-after.jpg",
     demoImages: [
       PLACEHOLDER_IMAGE,
       PLACEHOLDER_IMAGE,
@@ -96,9 +96,9 @@ export const tools: ToolConfig[] = [
     webappId: process.env.NEXT_PUBLIC_DIGITAL_HUMAN_WEBAPP_ID || '1914267264068087810',
     nodeId: process.env.NEXT_PUBLIC_DIGITAL_HUMAN_NODE_ID || '226',
     apiKey: API_KEY,
-    thumbnail: "/thumbnails/digital-human.svg",
-    beforeImage: "/thumbnails/digital-human-before.jpg",
-    afterImage: "/thumbnails/digital-human-after.jpg",
+    thumbnail: "/thumbnails/Digital Human-before.jpg", // 使用原始文件名，包括空格
+    beforeImage: "/thumbnails/Digital Human-before.jpg",
+    afterImage: "/thumbnails/Digital Human-after.jpg",
     demoImages: [
       PLACEHOLDER_IMAGE,
       PLACEHOLDER_IMAGE,
@@ -111,9 +111,9 @@ export const tools: ToolConfig[] = [
     webappId: process.env.NEXT_PUBLIC_BLIND_BOX_WEBAPP_ID || '1911985272408502273',
     nodeId: process.env.NEXT_PUBLIC_BLIND_BOX_NODE_ID || '226',
     apiKey: API_KEY,
-    thumbnail: "/thumbnails/blind-box.svg",
-    beforeImage: "/thumbnails/blind-box-before.jpg",
-    afterImage: "/thumbnails/blind-box-after.jpg",
+    thumbnail: "/thumbnails/3D Blind-before.jpg", // 使用原始文件名，包括空格
+    beforeImage: "/thumbnails/3D Blind-before.jpg", 
+    afterImage: "/thumbnails/3D Blind-after.jpg",
     demoImages: [
       PLACEHOLDER_IMAGE,
       PLACEHOLDER_IMAGE,
