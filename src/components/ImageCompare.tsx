@@ -188,20 +188,18 @@ export default function ImageCompare({
           onError={handleBeforeImageError}
         />
         
-        {/* 前景图（右侧处理后图片） */}
+        {/* 前景图（右侧处理后图片） - 修复样式问题 */}
         <div 
           className="absolute top-0 h-full overflow-hidden"
           style={{ 
             left: `${100 - position}%`, 
-            right: 0,
             width: `${position}%`
           }}
         >
           <img
             src={afterImage}
             alt="After"
-            className="absolute top-0 right-0 h-full object-cover"
-            style={{ width: '100vw', right: 0 }}
+            className="absolute top-0 left-0 h-full w-full object-cover"
             onLoad={handleAfterImageLoad}
             onError={handleAfterImageError}
           />
