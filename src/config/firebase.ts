@@ -1,5 +1,5 @@
-import { initializeApp } from 'firebase/app';
-import { getAuth, GoogleAuthProvider } from 'firebase/auth';
+import { initializeApp, FirebaseApp } from 'firebase/app';
+import { getAuth, GoogleAuthProvider, Auth } from 'firebase/auth';
 
 // Firebase 配置
 const firebaseConfig = {
@@ -31,9 +31,9 @@ if (!isFirebaseConfigured) {
 }
 
 // 初始化 Firebase
-let app;
-let auth;
-let googleProvider;
+let app: FirebaseApp | undefined;
+let auth: Auth | undefined;
+let googleProvider: GoogleAuthProvider | undefined;
 
 try {
   app = initializeApp(firebaseConfig);
