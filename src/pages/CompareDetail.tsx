@@ -2,7 +2,6 @@ import React from 'react';
 import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import Navbar from '../components/Navbar';
-import LangSwitchBtn from '../components/Navbar';
 
 const detailKeys = [
   { key: 'gpt4o', link: 'compare.gpt4o.link', detail: 'compare.gpt4o.detail' },
@@ -35,7 +34,6 @@ const CompareDetail: React.FC = () => {
   return (
     <>
       <Navbar />
-      <div className="absolute top-6 right-8 z-50"><LangSwitchBtn /></div>
       <div className="min-h-screen flex items-center justify-center bg-gray-50 pt-24 pb-12">
         <div className="max-w-2xl w-full bg-white p-8 rounded-2xl shadow-lg">
           <h1 className="text-3xl font-bold mb-6">{t(item.link)}</h1>
