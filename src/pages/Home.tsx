@@ -156,12 +156,17 @@ const Home: React.FC = () => {
   return (
     <>
       <Helmet>
-        <title>Flux AI: Leading AI Art Style Generation Platform</title>
+        <title>FLUX AI - NEW VERSION 2024 UPDATED</title>
         <meta name="description" content="Transform your images into stunning AI art with Flux AI. Our platform offers easy-to-use templates, powered by advanced AI technology, perfect for social media and creative projects. Start creating unique artwork today!" />
         <link rel="canonical" href="https://www.fluxai.life" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta name="robots" content="index, follow" />
       </Helmet>
+
+      {/* 测试标识 - 确认新版本已加载 */}
+      <div className="fixed top-0 left-0 bg-red-500 text-white px-4 py-2 z-50 text-sm font-bold">
+        ✅ NEW VERSION LOADED - 2024 UPDATE
+      </div>
 
       <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-blue-50">
         {/* 导航栏 */}
@@ -173,7 +178,7 @@ const Home: React.FC = () => {
           <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
             <div className="text-center">
               <h1 className="text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-600 mb-8">
-                {t('FLUX AI: Innovators in the field of AI image generation')}
+                🚀 FLUX AI: 全新2024版本已上线！
               </h1>
               <p className="text-xl text-gray-600 mb-12 max-w-3xl mx-auto">
                 {t('使用最先进的AI技术，将您的创意转化为令人惊叹的艺术作品。无需专业技能，即刻开始创作！')}
