@@ -1,46 +1,112 @@
-# Getting Started with Create React App
+# Flux AI Website
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+🚀 **现已上线**: [https://www.fluxai.life/](https://www.fluxai.life/)
 
-## Available Scripts
+一个现代化的AI图像生成网站，提供专业的Flux AI服务，支持多种艺术风格转换和图像生成功能。
 
-In the project directory, you can run:
+## ✨ 功能特性
 
-### `npm start`
+- 🎨 **AI图像生成**: 基于先进的Flux AI技术
+- 🌍 **多语言支持**: 中英文无缝切换
+- 📱 **响应式设计**: 完美适配桌面端和移动端
+- 🎯 **用户友好**: 简洁直观的操作界面
+- 🔒 **安全可靠**: 完整的用户认证系统
+- ⚡ **高性能**: 优化的加载速度和用户体验
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## 🛠️ 技术栈
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+- **前端框架**: React 18 + TypeScript
+- **路由管理**: React Router DOM
+- **国际化**: react-i18next
+- **样式框架**: Tailwind CSS
+- **构建工具**: Create React App
+- **部署平台**: Vercel + GitHub Pages
+- **版本控制**: Git + GitHub
 
-### `npm test`
+## 🌐 在线访问
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- **主站**: [https://www.fluxai.life/](https://www.fluxai.life/)
+- **GitHub Pages**: [https://rockyandtom.github.io/fluxai](https://rockyandtom.github.io/fluxai)
+- **源码仓库**: [https://github.com/rockyandtom/fluxai](https://github.com/rockyandtom/fluxai)
 
-### `npm run build`
+## 🚀 本地开发
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### 环境要求
+- Node.js 16+
+- npm 或 yarn
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### 安装依赖
+```bash
+npm install --legacy-peer-deps
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### 启动开发服务器
+```bash
+npm start
+```
 
-### `npm run eject`
+### 构建生产版本
+```bash
+npm run build
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+### 部署到GitHub Pages
+```bash
+npm run deploy
+```
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## 📁 项目结构
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+```
+flux-ai-website/
+├── public/                 # 静态资源
+│   ├── images/            # 图片资源
+│   └── index.html         # HTML模板
+├── src/
+│   ├── components/        # 可复用组件
+│   ├── pages/            # 页面组件
+│   ├── contexts/         # React Context
+│   ├── config/           # 配置文件
+│   ├── i18n.ts          # 国际化配置
+│   └── App.tsx          # 主应用组件
+├── vercel.json           # Vercel部署配置
+├── .npmrc               # npm配置
+└── package.json         # 项目依赖
+```
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+## 🌟 主要页面
 
-## Learn More
+- **首页**: 产品介绍、功能展示、FAQ
+- **用户系统**: 注册、登录、个人资料
+- **图像生成**: AI图像生成功能
+- **竞品对比**: 与其他AI工具的对比分析
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## 🔧 配置说明
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### 国际化配置
+项目支持中英文切换，配置文件位于 `src/i18n.ts`
+
+### 部署配置
+- **Vercel**: 通过 `vercel.json` 配置
+- **GitHub Pages**: 通过 `package.json` 中的 `homepage` 和 `deploy` 脚本
+
+## 📝 更新日志
+
+### v1.0.0 (2024-06-12)
+- ✅ 完成网站基础架构
+- ✅ 实现中英文国际化
+- ✅ 完善FAQ功能
+- ✅ 优化响应式设计
+- ✅ 成功部署上线
+
+## 👥 贡献
+
+欢迎提交 Issue 和 Pull Request 来改进项目。
+
+## 📄 许可证
+
+MIT License
+
+---
+
+**Flux AI** - 让AI图像生成更简单、更专业
