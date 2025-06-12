@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/fluxai/static/css/main.9b9f067b.css",
+    "main.js": "/fluxai/static/js/main.f7cd0b53.js",
+    "index.html": "/fluxai/index.html",
+    "main.9b9f067b.css.map": "/fluxai/static/css/main.9b9f067b.css.map",
+    "main.f7cd0b53.js.map": "/fluxai/static/js/main.f7cd0b53.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.9b9f067b.css",
+    "static/js/main.f7cd0b53.js"
+  ]
+}
