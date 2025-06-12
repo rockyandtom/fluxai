@@ -7,7 +7,7 @@ import {
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
 } from 'firebase/auth';
-import { auth, googleProvider } from '../config/firebase';
+import { auth, googleProvider, isFirebaseConfigured } from '../config/firebase';
 
 interface AuthContextType {
   user: User | null;
@@ -17,6 +17,7 @@ interface AuthContextType {
   signInWithEmail: (email: string, password: string) => Promise<User>;
   registerWithEmail: (email: string, password: string) => Promise<User>;
   loginAttempts: Record<string, { count: number; lastAttempt: number }>;
+  isFirebaseConfigured: boolean;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -30,21 +31,34 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   useEffect(() => {
     console.log('AuthProvider 初始化');
-    console.log('环境变量检查 (AuthProvider):');
-    console.log('GOOGLE_CLIENT_ID:', process.env.REACT_APP_GOOGLE_CLIENT_ID ? '已设置' : '未设置');
+    console.log('Firebase 配置状态:', isFirebaseConfigured ? '已配置' : '未配置');
     
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      console.log('认证状态变化:', user ? '用户已登录' : '用户未登录');
-      setUser(user);
+    if (!isFirebaseConfigured || !auth) {
+      console.warn('Firebase未配置，跳过认证监听');
       setLoading(false);
-    });
+      return;
+    }
 
-    return unsubscribe;
+    try {
+      const unsubscribe = onAuthStateChanged(auth, (user) => {
+        console.log('认证状态变化:', user ? '用户已登录' : '用户未登录');
+        setUser(user);
+        setLoading(false);
+      });
+
+      return unsubscribe;
+    } catch (error) {
+      console.warn('Firebase认证监听失败:', error);
+      setLoading(false);
+    }
   }, []);
 
   const signInWithGoogle = async (): Promise<void> => {
+    if (!isFirebaseConfigured || !auth || !googleProvider) {
+      throw new Error('Firebase未配置，无法使用登录功能');
+    }
+
     console.log('AuthContext: 开始谷歌登录流程');
-    console.log('googleProvider 配置:', googleProvider);
     
     try {
       console.log('尝试弹出谷歌登录窗口');
@@ -58,6 +72,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   const signOut = async () => {
+    if (!isFirebaseConfigured || !auth) {
+      throw new Error('Firebase未配置，无法使用登出功能');
+    }
+
     try {
       await firebaseSignOut(auth);
       setUser(null);
@@ -68,6 +86,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   const signInWithEmail = async (email: string, password: string): Promise<User> => {
+    if (!isFirebaseConfigured || !auth) {
+      throw new Error('Firebase未配置，无法使用邮箱登录功能');
+    }
+
     // 检查是否被锁定
     const attempts = loginAttempts[email];
     const now = Date.now();
@@ -102,6 +124,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   const registerWithEmail = async (email: string, password: string): Promise<User> => {
+    if (!isFirebaseConfigured || !auth) {
+      throw new Error('Firebase未配置，无法使用注册功能');
+    }
+
     const result = await createUserWithEmailAndPassword(auth, email, password);
     setUser(result.user);
     return result.user;
@@ -115,6 +141,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     signInWithEmail,
     registerWithEmail,
     loginAttempts,
+    isFirebaseConfigured,
   };
 
   return (
