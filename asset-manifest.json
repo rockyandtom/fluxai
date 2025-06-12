@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "/fluxai/static/css/main.9b9f067b.css",
-    "main.js": "/fluxai/static/js/main.f7cd0b53.js",
-    "index.html": "/fluxai/index.html",
-    "main.9b9f067b.css.map": "/fluxai/static/css/main.9b9f067b.css.map",
-    "main.f7cd0b53.js.map": "/fluxai/static/js/main.f7cd0b53.js.map"
+    "main.css": "/static/css/main.9b9f067b.css",
+    "main.js": "/static/js/main.22d955c3.js",
+    "index.html": "/index.html",
+    "main.9b9f067b.css.map": "/static/css/main.9b9f067b.css.map",
+    "main.22d955c3.js.map": "/static/js/main.22d955c3.js.map"
   },
   "entrypoints": [
     "static/css/main.9b9f067b.css",
-    "static/js/main.f7cd0b53.js"
+    "static/js/main.22d955c3.js"
   ]
 }
