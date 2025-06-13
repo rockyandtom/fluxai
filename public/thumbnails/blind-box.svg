@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <!-- 盲盒主体 -->
+  <rect x="4" y="6" width="16" height="14" rx="2" />
+  <!-- 盲盒顶部 -->
+  <path d="M5 6 L8 3 L16 3 L19 6" />
+  <!-- 盲盒问号装饰 -->
+  <path d="M12 10 Q14 10 14 12 Q14 14 12 14 Q10 14 10 12" />
+  <line x1="12" y1="14" x2="12" y2="16" />
+  <!-- 盲盒眼睛 -->
+  <circle cx="9" cy="10" r="1" />
+  <circle cx="15" cy="10" r="1" />
+  <!-- 盲盒嘴巴 -->
+  <path d="M10 18 Q12 20 14 18" />
+</svg> 
