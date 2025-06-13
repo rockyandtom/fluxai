@@ -16,11 +16,11 @@ const Dashboard: React.FC = () => {
   };
 
   return (
-    <div className="container mx-auto px-2 sm:px-4 py-8 pt-24 w-full max-w-5xl">
-      <div className="max-w-4xl mx-auto w-full">
-        <div className="bg-white shadow rounded-lg p-4 sm:p-6 w-full">
-          <div className="flex flex-col md:flex-row items-center justify-between mb-8 gap-4">
-            <h1 className="text-2xl font-bold text-gray-900 text-center md:text-left">工作台</h1>
+    <div className="container mx-auto px-4 py-8 pt-24">
+      <div className="max-w-4xl mx-auto">
+        <div className="bg-white shadow rounded-lg p-6">
+          <div className="flex items-center justify-between mb-8">
+            <h1 className="text-2xl font-bold text-gray-900">工作台</h1>
             <button
               onClick={handleSignOut}
               className="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
