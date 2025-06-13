@@ -105,15 +105,15 @@ const Register: React.FC = () => {
   });
 
   return (
-    <div className="min-h-screen bg-gray-100 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
-      <div className="sm:mx-auto sm:w-full sm:max-w-md">
+    <div className="min-h-screen bg-gray-100 flex flex-col justify-center py-12 px-2 sm:px-6 lg:px-8 w-full">
+      <div className="sm:mx-auto sm:w-full sm:max-w-md w-full">
         <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
           创建新账号
         </h2>
       </div>
 
-      <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-        <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
+      <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md w-full">
+        <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10 w-full">
           {errors.submit && (
             <div className="mb-4 p-4 text-sm text-red-700 bg-red-100 rounded-lg">
               {errors.submit}

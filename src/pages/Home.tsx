@@ -168,21 +168,21 @@ const Home: React.FC = () => {
         <Navbar />
 
         {/* 主要内容 */}
-        <main className="pt-24">
+        <main className="pt-24 w-full max-w-7xl mx-auto px-2 sm:px-4 lg:px-8">
           {/* Hero Section */}
-          <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+          <section className="w-full max-w-3xl mx-auto px-2 sm:px-4 lg:px-8 py-10 md:py-20">
             <div className="text-center">
-              <h1 className="text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-600 mb-8">
+              <h1 className="text-4xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-600 mb-8">
                 {t('FLUX AI: Innovators in the field of AI image generation')}
               </h1>
-              <p className="text-xl text-gray-600 mb-12 max-w-3xl mx-auto">
+              <p className="text-lg md:text-xl text-gray-600 mb-8 md:mb-12 max-w-2xl mx-auto">
                 {t('使用最先进的AI技术，将您的创意转化为令人惊叹的艺术作品。无需专业技能，即刻开始创作！')}
               </p>
-              <div className="flex justify-center space-x-4">
-                <Link to="/create" className="px-8 py-4 rounded-full bg-gradient-to-r from-purple-600 to-pink-600 text-white text-lg font-semibold hover:opacity-90">
+              <div className="flex flex-col md:flex-row justify-center items-center gap-4">
+                <Link to="/create" className="px-8 py-4 rounded-full bg-gradient-to-r from-purple-600 to-pink-600 text-white text-lg font-semibold hover:opacity-90 w-full md:w-auto text-center">
                   {t('开始创作')}
                 </Link>
-                <Link to="/tutorials" className="px-8 py-4 rounded-full border-2 border-purple-600 text-purple-600 text-lg font-semibold hover:bg-purple-50">
+                <Link to="/tutorials" className="px-8 py-4 rounded-full border-2 border-purple-600 text-purple-600 text-lg font-semibold hover:bg-purple-50 w-full md:w-auto text-center">
                   {t('查看教程')}
                 </Link>
               </div>
@@ -190,9 +190,9 @@ const Home: React.FC = () => {
           </section>
 
           {/* 功能展示区 */}
-          <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-            <h2 className="text-3xl font-bold text-center mb-12">{t('Free AI Art with Flux AI: Generate Stunning Images Instantly')}</h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <section className="w-full max-w-7xl mx-auto px-2 sm:px-4 lg:px-8 py-10 md:py-20">
+            <h2 className="text-2xl md:text-3xl font-bold text-center mb-8 md:mb-12">{t('Free AI Art with Flux AI: Generate Stunning Images Instantly')}</h2>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
               <div className="bg-white rounded-2xl p-6 shadow-lg">
                 <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mb-4">
                   <svg className="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">

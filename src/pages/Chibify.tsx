@@ -116,10 +116,10 @@ const Chibify: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen pt-32 pb-16 bg-gradient-to-br from-pink-50 via-purple-50 to-blue-50 flex flex-col items-center">
-      <div className="bg-white rounded-3xl shadow-2xl p-8 w-full max-w-lg mx-auto">
-        <h2 className="text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 mb-6 text-center">Chibify 体验</h2>
-        <form onSubmit={handleSubmit} className="flex flex-col items-center space-y-6">
+    <div className="min-h-screen pt-24 pb-10 bg-gradient-to-br from-pink-50 via-purple-50 to-blue-50 flex flex-col items-center w-full px-2 sm:px-4 lg:px-8">
+      <div className="bg-white rounded-3xl shadow-2xl p-6 sm:p-8 w-full max-w-lg mx-auto">
+        <h2 className="text-2xl md:text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 mb-6 text-center">Chibify 体验</h2>
+        <form onSubmit={handleSubmit} className="flex flex-col items-center space-y-6 w-full">
           <input
             type="file"
             accept="image/*"
@@ -139,7 +139,7 @@ const Chibify: React.FC = () => {
         {result && (
           <div className="mt-8 text-center">
             <h3 className="text-xl font-bold mb-4">生成结果</h3>
-            <img src={result} alt="Chibify 结果" className="mx-auto rounded-2xl shadow-lg max-h-80" />
+            <img src={result} alt="Chibify 结果" className="mx-auto rounded-2xl shadow-lg max-h-80 w-full object-contain" />
             <a href={result} download className="block mt-4 text-blue-600 hover:underline">下载图片</a>
           </div>
         )}
