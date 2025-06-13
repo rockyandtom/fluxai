@@ -40,9 +40,15 @@ const Navbar: React.FC = () => {
             </Link>
           </div>
           {/* PC端菜单 */}
-          <div className="hidden md:flex items-center space-x-8">
+          <div className="hidden md:flex items-center flex-nowrap space-x-4 flex-1 min-w-0 overflow-x-auto">
             {menuItems.map(item => (
-              <Link key={item.to} to={item.to} className="text-gray-700 hover:text-purple-600">{t(item.label)}</Link>
+              <Link
+                key={item.to}
+                to={item.to}
+                className="text-gray-700 hover:text-purple-600 whitespace-nowrap"
+              >
+                {t(item.label)}
+              </Link>
             ))}
           </div>
           {/* PC端右侧 */}
