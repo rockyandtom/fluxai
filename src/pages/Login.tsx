@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useRouter } from 'next/router';
 import { useAuth } from '../contexts/AuthContext';
 import { useTranslation } from 'react-i18next';
 
 const MAX_LOGIN_ATTEMPTS = 5;
 
 const Login: React.FC = () => {
-  const navigate = useNavigate();
+  const router = useRouter();
   const { signInWithGoogle, signInWithEmail, loginAttempts } = useAuth();
   const [formData, setFormData] = useState({
     email: '',
@@ -48,7 +48,7 @@ const Login: React.FC = () => {
       try {
         await signInWithEmail(formData.email, formData.password);
         console.log('登录成功，准备跳转到首页');
-        navigate('/');
+        router.push('/');
       } catch (error: any) {
         console.error('登录错误:', error);
         let errorMessage = '登录失败，请检查账号密码';
@@ -78,7 +78,7 @@ const Login: React.FC = () => {
     try {
       await signInWithGoogle();
       console.log('谷歌登录成功，准备跳转到首页');
-      navigate('/');
+      router.push('/');
     } catch (error) {
       console.error('谷歌登录错误:', error);
       setErrors({ submit: `谷歌登录失败: ${error instanceof Error ? error.message : '未知错误'}` });

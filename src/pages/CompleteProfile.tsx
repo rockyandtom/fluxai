@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useRouter } from 'next/router';
 import { useTranslation } from 'react-i18next';
 
 const CompleteProfile: React.FC = () => {
-  const navigate = useNavigate();
+  const router = useRouter();
   const { t } = useTranslation();
   const [formData, setFormData] = useState({
     username: '',
@@ -49,7 +49,7 @@ const CompleteProfile: React.FC = () => {
       // TODO: 实现信息完善逻辑
       console.log('信息完善表单提交:', formData);
       // 完成后跳转到首页
-      navigate('/');
+      router.push('/');
     }
   };
 

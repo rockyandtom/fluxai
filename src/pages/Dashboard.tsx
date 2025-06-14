@@ -1,15 +1,15 @@
 import React from 'react';
 import { useAuth } from '../contexts/AuthContext';
-import { useNavigate } from 'react-router-dom';
+import { useRouter } from 'next/router';
 
 const Dashboard: React.FC = () => {
   const { user, signOut } = useAuth();
-  const navigate = useNavigate();
+  const router = useRouter();
 
   const handleSignOut = async () => {
     try {
       await signOut();
-      navigate('/'); // 登出后跳转到首页
+      router.push('/'); // 登出后跳转到首页
     } catch (error) {
       console.error('登出错误:', error);
     }

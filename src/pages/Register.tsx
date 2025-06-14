@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useRouter } from 'next/router';
 import { useAuth } from '../contexts/AuthContext';
 
 const Register: React.FC = () => {
-  const navigate = useNavigate();
+  const router = useRouter();
   const { signInWithGoogle } = useAuth();
   const [formData, setFormData] = useState({
     email: '',
@@ -66,7 +66,7 @@ const Register: React.FC = () => {
         // TODO: 实现邮箱注册逻辑
         console.log('注册表单提交:', formData);
         // 注册成功后跳转到信息完善页面
-        navigate('/complete-profile');
+        router.push('/complete-profile');
       } catch (error) {
         console.error('注册错误:', error);
         setErrors({ submit: '注册失败，请稍后重试' });
@@ -87,7 +87,7 @@ const Register: React.FC = () => {
       await signInWithGoogle();
       console.log('谷歌登录成功'); // 调试日志
       // 谷歌登录成功后跳转到信息完善页面
-      navigate('/complete-profile');
+      router.push('/complete-profile');
     } catch (error) {
       console.error('谷歌登录错误:', error);
       setErrors({ submit: `谷歌登录失败: ${error instanceof Error ? error.message : '未知错误'}` });
