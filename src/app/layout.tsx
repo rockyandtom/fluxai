@@ -5,6 +5,7 @@ import { Toaster } from 'react-hot-toast';
 import ClientOnlyWrapper from "@/components/ClientOnlyWrapper";
 import Link from 'next/link';
 import Script from 'next/script';
+import { AuthProvider } from "../contexts/AuthContext";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -44,9 +45,11 @@ export default function RootLayout({
           </header>
           
           <main>
-            <ClientOnlyWrapper>
-              {children}
-            </ClientOnlyWrapper>
+            <AuthProvider>
+              <ClientOnlyWrapper>
+                {children}
+              </ClientOnlyWrapper>
+            </AuthProvider>
           </main>
         </div>
         
