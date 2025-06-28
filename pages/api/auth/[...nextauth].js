@@ -1,12 +1,12 @@
 import 'global-agent/bootstrap';
 import NextAuth from 'next-auth';
 import GoogleProvider from 'next-auth/providers/google';
-import { PrismaAdapter } from '@next-auth/prisma-adapter';
-import { PrismaClient } from '@prisma/client';
+// import { PrismaAdapter } from '@next-auth/prisma-adapter';
+// import { PrismaClient } from '@prisma/client';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import bcrypt from 'bcryptjs';
 
-const prisma = new PrismaClient();
+// const prisma = new PrismaClient();
 
 // 获取当前环境的基础URL
 const getBaseUrl = () => {
@@ -20,7 +20,7 @@ const getBaseUrl = () => {
 };
 
 const authOptions = {
-  adapter: PrismaAdapter(prisma),
+  // adapter: PrismaAdapter(prisma), // 临时禁用数据库适配器
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID,
@@ -36,6 +36,7 @@ const authOptions = {
         timeout: 10000, // 将超时时间增加到10秒
       }
     }),
+    /* 临时禁用密码登录
     CredentialsProvider({
       name: 'Credentials',
       credentials: {
@@ -84,6 +85,7 @@ const authOptions = {
         }
       }
     })
+    */
   ],
   session: {
     strategy: 'jwt',
