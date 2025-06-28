@@ -1,8 +1,8 @@
 /* @preserve 
- * NextAuth 数据库版本配置备份
- * 用于后期数据库迁移时恢复完整功能
- * 创建时间: 2025-06-28
- * 备份原因: 临时禁用数据库功能以支持无服务器环境
+ * NextAuth 动态环境配置
+ * 根据 AUTH_ENVIRONMENT 环境变量自动选择配置模式
+ * 修改时间: 2025-01-XX
+ * 修改原因: 解决生产环境登录跳转问题
  */
 
 import 'global-agent/bootstrap';
@@ -26,104 +26,171 @@ const getBaseUrl = () => {
   return 'http://localhost:3000';
 };
 
-const authOptions = {
-  adapter: PrismaAdapter(prisma), // 数据库适配器
-  providers: [
-    GoogleProvider({
-      clientId: process.env.GOOGLE_CLIENT_ID,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      authorization: {
-        params: {
-          prompt: "select_account",
-          access_type: "offline",
-          response_type: "code"
-        }
-      },
-      httpOptions: {
-        timeout: 10000,
-      }
-    }),
-    CredentialsProvider({
-      name: 'Credentials',
-      credentials: {
-        email: { label: "Email", type: "email" },
-        password: { label: "Password", type: "password" }
-      },
-      async authorize(credentials) {
-        try {
-          if (!credentials?.email || !credentials?.password) {
-            console.log('缺少邮箱或密码');
-            return null;
-          }
-
-          const user = await prisma.user.findUnique({
-            where: {
-              email: credentials.email
-            }
-          });
-
-          if (!user) {
-            console.log('未找到用户:', credentials.email);
-            return null;
-          }
-
-          if (!user.password) {
-            console.log('用户无密码字段:', user);
-            return null;
-          }
-
-          const isValid = await bcrypt.compare(credentials.password, user.password);
-
-          if (!isValid) {
-            console.log('密码校验失败:', credentials.email);
-            return null;
-          }
-
-          console.log('登录成功:', user.email);
-          return {
-            id: user.id,
-            email: user.email,
-            name: user.name,
-          };
-        } catch (err) {
-          console.error('authorize 发生异常:', err);
-          throw err;
-        }
-      }
-    })
-  ],
-  session: {
-    strategy: 'jwt',
-    maxAge: 30 * 24 * 60 * 60, // 30 days
-  },
-  pages: {
-    signIn: '/login',
-    signOut: '/',
-    error: '/login',
-  },
-  callbacks: {
-    async jwt({ token, user }) {
-      // 首次登录时 (例如通过Google登录), user 对象会被传入
-      // 我们将数据库中的用户ID和name保存到token中
-      if (user) {
-        token.id = user.id;
-        token.name = user.name;
-      }
-      return token;
-    },
-    async session({ session, token }) {
-      // 每当访问session时 (例如useSession()), 这个回调会执行
-      // 我们将token中保存的用户ID和name, 同步到session.user对象
-      if (token && session.user) {
-        session.user.id = token.id;
-        session.user.name = token.name;
-      }
-      return session;
-    },
-  },
-  secret: process.env.NEXTAUTH_SECRET,
-  debug: process.env.NODE_ENV === 'development',
+// 环境类型枚举
+const AUTH_ENVIRONMENTS = {
+  DEVELOPMENT: 'development',
+  PRODUCTION_SQLITE: 'production_sqlite',
+  PRODUCTION_POSTGRESQL: 'production_postgresql',
 };
+
+// 获取当前环境
+const getCurrentEnvironment = () => {
+  return process.env.AUTH_ENVIRONMENT || AUTH_ENVIRONMENTS.PRODUCTION_SQLITE;
+};
+
+// 动态构建认证配置
+const buildAuthOptions = () => {
+  const environment = getCurrentEnvironment();
+  console.log(`[NextAuth] 当前环境: ${environment}`);
+  
+  // 基础配置
+  const baseConfig = {
+    providers: [
+      GoogleProvider({
+        clientId: process.env.GOOGLE_CLIENT_ID,
+        clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+        authorization: {
+          params: {
+            prompt: "select_account",
+            access_type: "offline",
+            response_type: "code"
+          }
+        },
+        httpOptions: {
+          timeout: 10000,
+        }
+      })
+    ],
+    pages: {
+      signIn: '/login',
+      signOut: '/',
+      error: '/login',
+    },
+    secret: process.env.NEXTAUTH_SECRET,
+    debug: process.env.NODE_ENV === 'development',
+  };
+
+  // 根据环境配置不同的认证策略
+  switch (environment) {
+    case AUTH_ENVIRONMENTS.DEVELOPMENT:
+    case AUTH_ENVIRONMENTS.PRODUCTION_POSTGRESQL:
+      // 完整数据库模式
+      console.log('[NextAuth] 使用数据库模式');
+      return {
+        ...baseConfig,
+        adapter: PrismaAdapter(prisma),
+        providers: [
+          ...baseConfig.providers,
+          CredentialsProvider({
+            name: 'Credentials',
+            credentials: {
+              email: { label: "Email", type: "email" },
+              password: { label: "Password", type: "password" }
+            },
+            async authorize(credentials) {
+              try {
+                if (!credentials?.email || !credentials?.password) {
+                  console.log('缺少邮箱或密码');
+                  return null;
+                }
+
+                const user = await prisma.user.findUnique({
+                  where: { email: credentials.email }
+                });
+
+                if (!user || !user.password) {
+                  console.log('未找到用户或无密码字段:', credentials.email);
+                  return null;
+                }
+
+                const isValid = await bcrypt.compare(credentials.password, user.password);
+                if (!isValid) {
+                  console.log('密码校验失败:', credentials.email);
+                  return null;
+                }
+
+                console.log('登录成功:', user.email);
+                return {
+                  id: user.id,
+                  email: user.email,
+                  name: user.name,
+                };
+              } catch (err) {
+                console.error('authorize 发生异常:', err);
+                return null;
+              }
+            }
+          })
+        ],
+        session: {
+          strategy: 'jwt',
+          maxAge: 30 * 24 * 60 * 60, // 30 days
+        },
+        callbacks: {
+          async jwt({ token, user }) {
+            if (user) {
+              token.id = user.id;
+              token.name = user.name;
+            }
+            return token;
+          },
+          async session({ session, token }) {
+            if (token && session.user) {
+              session.user.id = token.id;
+              session.user.name = token.name;
+            }
+            return session;
+          },
+        },
+      };
+
+    case AUTH_ENVIRONMENTS.PRODUCTION_SQLITE:
+    default:
+      // 简化 JWT 模式（仅 Google OAuth）
+      console.log('[NextAuth] 使用简化 JWT 模式');
+      return {
+        ...baseConfig,
+        session: {
+          strategy: 'jwt',
+          maxAge: 30 * 24 * 60 * 60, // 30 days
+        },
+        callbacks: {
+          async jwt({ token, user, account, profile }) {
+            // Google 登录成功时处理用户信息
+            if (user && account?.provider === 'google') {
+              console.log('[NextAuth] Google 登录成功:', user.email);
+              token.id = user.id;
+              token.name = user.name;
+              token.email = user.email;
+              token.image = user.image;
+            }
+            return token;
+          },
+          async session({ session, token }) {
+            // 将 token 信息同步到 session
+            if (token && session.user) {
+              session.user.id = token.id;
+              session.user.name = token.name;
+              session.user.email = token.email;
+              session.user.image = token.image;
+            }
+            console.log('[NextAuth] Session 创建成功:', session.user?.email);
+            return session;
+          },
+          async signIn({ user, account, profile }) {
+            // Google 登录验证
+            if (account?.provider === 'google') {
+              console.log('[NextAuth] Google 登录验证通过:', user.email);
+              return true;
+            }
+            return false;
+          },
+        },
+      };
+  }
+};
+
+const authOptions = buildAuthOptions();
 
 export default NextAuth(authOptions);
 export { authOptions }; 
