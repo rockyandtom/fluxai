@@ -1,0 +1,325 @@
+{
+  "home": {
+    "seo": {
+      "title": "AI 创作工具平台 | Flux AI",
+      "description": "Flux AI 是一个领先的 AI 创作工具平台，提供强大的文生图、文生视频和数字人技术。无论您是设计师、营销人员还是内容创作者，都能在这里找到激发灵感的工具，轻松创作出专业级视觉内容。"
+    },
+    "hero": {
+      "title": "释放您的创造力，用AI驱动未来",
+      "subtitle": "Flux AI 是一款专业的AI特效创作平台，提供文生图、文生视频、数字人等多种AI创作工具，激发您的无限创意。",
+      "badge": "专业AI创作平台 - 激发无限创意",
+      "features": {
+        "textToImage": "文生图",
+        "textToVideo": "文生视频", 
+        "digitalHuman": "数字人",
+        "instantGeneration": "秒级生成"
+      }
+    },
+    "getStarted": "开始使用",
+    "watchTutorial": "观看教程",
+    "why": {
+      "title": "为什么选择Flux AI",
+      "subtitle": "在人工智能图像生成这个日新月异的领域，做出正确的选择可能令人不知所措。Flux AI 凭借其独特的强大功能、简洁操作和时尚风格脱颖而出，专为将您的图片转变为引人入胜、适合社交媒体的艺术作品而设计。如果您想知道为何 Flux AI 是满足您创作需求的更优选择，以下是我们如何解答您的关键问题",
+      "q1": {
+        "question": "Flux AI 如何实现专业级效果并保持灵活性？——其核心动力源自 ComfyUI。",
+        "answer": "Flux AI 的坚实基础构建于先进的 ComfyUI 框架之上。这不仅仅是一个技术细节；这是您通往复杂图像生成的大门，它能提供以往只有专家才能实现的卓越控制力和图像质量。我们驾驭了 ComfyUI 的强大功能，将其复杂性简化为直观易用的界面。因此，如果您在问：\"我能轻松获得高质量可定制的AI艺术作品吗？\"——由 ComfyUI 驱动的 Flux AI 就是您的答案。"
+      },
+      "q2": {
+        "question": "我如何才能无需复杂提示词就能创作出独特、流行的社交媒体风格？——通过独家的 Flux LoRA 模型。",
+        "answer": "您是否在努力复制那些在社交媒体上随处可见的病毒式美学风格？Flux AI 通过其专门的 Flux LoRA 模型直接解决了这个问题。这些模型经过精心打造，只需单击一下，即可呈现特定且流行的艺术风格——从赛博朋克到复古胶片，从动漫到超现实主义。因此，如果您的问题是：\"我如何才能让我的图片在 Instagram、TikTok 或 X (Twitter) 上毫不费力地脱颖而出？\"——我们的 Flux LoRA 模板正是为此而设计的。"
+      },
+      "q3": {
+        "question": "是什么确保 Flux AI 在图像质量和速度方面处于前沿？——体验先进的 Flux 1.1 Pro。",
+        "answer": "为确保您始终以最佳状态进行创作，Flux AI 整合了 Flux 1.1 Pro 模型。这意味着您将受益于我们在图像清晰度、细节保留、风格多样性和处理速度方面的最新进展。如果您在想：\"我的图像会看起来清晰、专业并且生成迅速吗？\"——Flux 1.1 Pro 是我们致力于提供顶级、快速且令人惊叹的视觉效果的承诺，让专业的AI艺术创作触手可及。"
+      }
+    },
+    "compare": {
+      "title": "Flux AI与竞品对比",
+      "subtitle": "了解 Flux AI 相比其他 AI 工具的独特优势",
+      "item1": {
+        "question": "Flux AI 对比 GPT-4o：\"我需要专门的图像风格化，而不仅仅是通用AI。Flux AI 在视觉效果上更好吗？\"",
+        "answer": "是的，绝对如此。虽然 GPT-4o 展示了令人印象深刻的多模态能力，但其图像生成更为通用。如果您的主要目标是将现有图像转换为具有特定、高影响力艺术风格的作品，用于社交媒体或创意项目，那么 Flux AI 是您的专业工具。我们提供精心策划的模板和针对视觉艺术优化的工作流程，为图像转换提供了 GPT-4o 的宽泛方法所不侧重的风格控制和易用性。基于 ComfyUI Flux 模型构建的 Flux AI，专为需要专用图像造型的艺术家和创作者而设计。"
+      },
+      "item2": {
+        "question": "Flux AI 对比 Midjourney：\"Midjourney 功能强大但操作复杂。Flux AI 是获得流行风格的更简单方法吗？\"",
+        "answer": "完全正确。**Midjourney** 以其通过详细文本提示生成的艺术作品而闻名，这通常需要陡峭的学习曲线。Flux AI 回答了这个问题：\"我如何在不成为提示词工程师的情况下，获得令人惊叹的流行图像风格？\"我们提供了一个基于 Flux 模型的模板驱动系统。只需上传您的图片，选择一种流行风格，然后生成。如果您需要为社交媒体进行快速、有影响力的转换，并且重视易用性和高质量结果，那么这是理想的选择。"
+      },
+      "item3": {
+        "question": "Flux AI 对比 Meta AI：\"Meta 的 AI 很方便。为何要用 Flux AI 进行图像编辑？\"",
+        "answer": "便利性固然重要，但独特性也是如此。虽然 Meta AI 在其平台内提供了集成的AI功能，但这些通常是基础滤镜或常规增强。如果您在问：\"我能否获得超越标准社交媒体滤镜的、真正独特且富有艺术感的图像转换？\"——Flux AI 就是答案。作为一个专用平台，我们提供由专门的 Flux LoRA 模型和 ComfyUI 后端支持的、范围更广、更复杂的艺术风格，让您的图像真正脱颖而出。"
+      },
+      "item4": {
+        "question": "Flux AI 对比 Grok AI：\"Grok AI 提供信息。它也能像 Flux AI 一样创作艺术图片吗？\"",
+        "answer": "这些是用于不同任务的根本不同的工具。**Grok AI** 专为实时信息检索和对话式洞察而设计，它不专注于创意图像生成。因此，如果您的困惑是：\"我应该使用哪个工具将我的照片转换成艺术品？\"——Flux AI 毫无疑问是您的选择。我们专为视觉创作而生，利用 ComfyUI 上的 Flux 模型将您的图像变成独特的艺术作品。"
+      },
+      "item5": {
+        "question": "Flux AI 对比 Freepik AI：\"Freepik AI 有AI生成的图片素材。对于*我自己的*图片，Flux AI 有何不同？\"",
+        "answer": "Freepik AI 是生成图片素材或使用设计资产的宝贵资源。但是，如果您在问：\"我如何才能将独特的艺术风格应用于*我自己已有的照片*或轻松创建个性化视觉内容？\"——Flux AI 提供了明显的优势。我们的核心优势在于转换*您自己的*图像。上传您的照片，我们基于 ComfyUI 强大功能的 Flux AI 模板会将其转换为各种流行风格，为您的社交媒体内容提供超越通用素材图片的个性化水平。"
+      },
+      "item6": {
+        "question": "Flux AI 对比 Gemini AI：\"Gemini 是谷歌的强大AI。为何选择 Flux AI 进行图像风格化？\"",
+        "answer": "谷歌的 Gemini AI 是一款强大的多模态AI，能够处理多种任务。然而，当您的特定需求是：\"我如何才能轻松地将独特且流行的艺术风格应用于我的图像以获得最大的视觉冲击力？\"——Flux AI 提供了一个更专注且用户友好的解决方案。"
+      }
+    },
+    "solutions": {
+      "title": "解决方案",
+      "description": "以 ComfyUI 框架、Flux LoRA 与 Flux 1.1 Pro 模型为核心，整合图像、视频、数字人创作等多元特效功能",
+      "item1": "以 ComfyUI 框架、Flux LoRA 与 Flux 1.1 Pro 模型为核心，整合图像、视频、数字人创作等多元特效功能",
+      "item2": "支持网页端、移动端跨平台使用，云端存储与快速渲染",
+      "item3": "智能数字人生成与定制，支持多种应用场景，高度还原人物特征与表情",
+      "subtitle": "典型应用场景：",
+      "scenario1": "图像特效创作（社交媒体、广告设计）",
+      "scenario2": "视频特效制作（短视频、影视素材）",
+      "scenario3": "AI 数字人（教育、直播、电商）"
+    },
+    "showcase_new": {
+      "title": "案例展示",
+      "subtitle": "探索我们的核心功能如何为您的创意项目带来无限可能",
+      "image": {
+        "title": "图像特效创作案例",
+        "case1": "个人创意写真：将自拍照精心转化为复古胶片风格，瞬间为照片增添独特韵味，轻松在社交媒体收获海量点赞！",
+        "case2": "商业广告设计：借助文生图技术精准生成海报，强大的创意与视觉冲击，让广告曝光量直接提升 30%！"
+      },
+      "video": {
+        "title": "视频特效制作案例",
+        "case1": "短视频创意玩法：把风景视频一键转化为水墨风格，诗意满满，轻松斩获百万播放量！",
+        "case2": "影视素材高效创作：从概念图出发，通过图生视频技术，大幅节省建模时间！"
+      },
+      "digital_human": {
+        "title": "AI 数字人应用案例",
+        "case1": "教育新体验：启用数字人教师录课，教学满意度直线飙升至 90%+！",
+        "case2": "电商直播新利器：数字人主播登场，点击率猛增 25%，转化率疯涨 15%！"
+      }
+      
+    },
+    "artStyles": {
+      "title": "最佳AI艺术风格用于社交媒体",
+      "subtitle": "探索多种流行的AI艺术风格，让您的社交媒体内容脱颖而出"
+    },
+    "faq_new": {
+      "title": "常见问题",
+      "subtitle": "解答您关于 Flux AI 的所有疑问",
+      "q1": {
+        "question": "问题 1：什么是 Flux AI？它如何生成独特的图像？",
+        "answer": "回答： Flux AI 是一家创新的 AI 图像生成平台，致力于让用户轻松创作出令人惊叹的独特视觉作品。我们采用先进的 Flux 模型，其基于强大的 ComfyUI 框架构建。与依赖复杂文本提示的生成工具不同，Flux AI 擅长通过精心策划的模板（尤其是社交媒体上流行的模板）转换用户上传的图像或应用多样化艺术风格，这种方式让高质量的 AI 艺术创作变得人人可及。"
+      },
+      "q2": {
+        "question": "问题 2：Flux AI 的模板如何实现轻松生成不同风格？",
+        "answer": "回答： Flux AI 的模板由专门的 AI 模型（通常包含我们定制的 Flux LoRA 扩展）驱动，这些模型针对 \"动漫\"\"赛博朋克\"\"复古照片\" 等特定美学风格进行了精细调优。当您选择一个模板并提供输入（如上传图像或简单的文字描述）时，Flux AI 会智能地将该模板的风格特征应用到您的输入中，生成所选风格的新图像，让复杂的视觉效果实现起来简单又快速。"
+      },
+      "q3": {
+        "question": "问题 3：Flux AI 是完全免费的 AI 图像生成工具吗？社交媒体模板呢？",
+        "answer": "回答： Flux AI 提供多种体验方式：\\n\\n• 可能包含免费试用期或一定数量的免费图像生成次数，让您可以试用我们的热门社交媒体模板。\\n• 如需无限制访问、更高分辨率的输出、Flux 1.1 Pro 增强等高级功能以及更广泛的模板使用权限，我们通常提供付费订阅计划。请访问我们的 \"价格\" 页面，了解 Flux AI 免费和付费服务的最新信息。"
+      },
+      "q4": {
+        "question": "问题 4：我可以上传自己的照片或图像用 Flux AI 进行转换吗？",
+        "answer": "回答： 当然可以！转换个人图像是 Flux AI 的核心功能之一。您可以轻松上传照片、素描或任何现有数字图像，然后从我们丰富的风格模板中选择，让 Flux AI 以全新的艺术视角重新诠释您的原始图像。这种 \"图像到图像\" 的功能非常适合个性化创作。"
+      },
+      "q5": {
+        "question": "问题 5：Flux AI 能生成哪些图像风格？它们适合社交媒体吗？",
+        "answer": "回答： Flux AI 能生成多种艺术风格，尤其专注于 Instagram、TikTok 和 X（Twitter）等社交媒体平台的流行美学。从鲜艳的插画、逼真的渲染到抽象艺术和特定主题风格（如 \"幻想\"\"科幻\"\"卡通\"），我们的模板旨在帮助您的帖子脱颖而出。我们会持续更新风格库，让您用 Flux AI 创作的作品始终新鲜有趣。"
+      },
+      "q6": {
+        "question": "问题 6：我是 AI 工具新手，Flux AI 容易使用吗？",
+        "answer": "回答： 是的，Flux AI 设计得非常用户友好，即使您完全没有 AI 图像生成经验也能轻松上手。我们的界面直观，操作流程通常只需上传图像（或描述想法）、选择风格模板并点击 \"生成\"。我们致力于消除技术障碍，让任何人都能在几分钟内开始用 Flux AI 创作出令人惊叹的艺术作品。"
+      },
+      "q7": {
+        "question": "问题 7：如果 Flux AI 生成的图像看起来不对或不符合预期，该怎么办？",
+        "answer": "回答： AI 图像生成有时会产生意想不到的结果。如果 Flux AI 生成的图像未达预期：\\n\\n• 尝试重新生成：通常，使用相同设置再试一次可能会产生不同的、可能更好的效果。\\n• 调整输入：如果上传了图像，请确保图像清晰且光线充足；如果使用文字描述，尝试稍微重新措辞。\\n• 尝试不同模板：相同的输入使用不同的 Flux AI 风格模板可能会产生截然不同的效果。\\n• 查看高级选项：某些模板或功能可能提供细微调整选项。\\n如果问题持续存在，请查阅我们的详细指南或联系 Flux AI 支持团队。"
+      },
+      "q8": {
+        "question": "问题 8：为什么即使使用完全相同的输入和模板，Flux AI 有时也会生成略有不同的图像？",
+        "answer": "回答： 这是许多 AI 图像生成模型（包括驱动 Flux AI 的 Flux 模型）的固有特性。模型中设计了可控的随机性（通常称为 \"随机性\"），以激发创造力和提供多样性。这意味着即使输入相同，也可能产生细微不同的输出 —— 可以将其视为 Flux AI 为您提供的多种创意诠释！"
+      },
+      "q9": {
+        "question": "问题 9：我可以将用 Flux AI 创作的图像用于商业项目吗？版权如何处理？",
+        "answer": "回答： Flux AI 的服务条款将对此提供最具体的指导。通常，您创作的图像可用于个人和商业项目。但需要注意的是，AI 生成内容的法律框架和版权问题仍在发展中。您通常有责任确保使用行为不侵犯现有第三方权利（例如，若您的图像与受版权保护的角色或艺术品高度相似）。尽管 Flux AI 为创作提供支持，但我们通常不会以妨碍您使用的方式主张对生成图像的版权，但请始终参考我们的官方《使用条款》以获取准确细节。"
+      },
+      "q10": {
+        "question": "问题 10：Flux AI 如何确保其 AI 图像生成器的质量和安全性？",
+        "answer": "回答： 质量是 Flux AI 的首要任务。我们以先进的 Flux 1.1 Pro 模型和强大的 ComfyUI 架构为基础，致力于实现高分辨率、细节丰富且美观的效果。在安全性方面，Flux AI 集成了内容过滤和审核系统，以防止生成有害、不道德或侵权的内容，符合我们的可接受使用政策。我们旨在提供一个富有创意且负责任的 AI 图像生成环境。"
+      },
+      "q11": {
+        "question": "问题 11：有时 Flux AI 生成图像的速度很慢，该怎么办？",
+        "answer": "回答： Flux AI 的图像生成时间可能因服务器负载、所选风格模板的复杂度和输出分辨率而异。如果遇到速度慢的情况：\\n\\n• 请先检查您的网络连接。\\n• 尽可能在非高峰时段再次尝试。\\n• 如果不同时间和模板均持续出现问题，可能是平台临时故障。您可以查看我们的状态页面（如有）或联系 Flux AI 支持。我们的付费计划有时提供优先处理权限。"
+      },
+      "q12": {
+        "question": "问题 12：Flux AI 是否提供 API 供开发者集成其图像生成功能？",
+        "answer": "回答： 有关 Flux AI 图像生成功能的开发者访问权限或 API 可用性的信息，请参考 Flux AI 网站上的专用 \"开发者\" 或 \"API\" 部分，或联系我们的业务开发团队。我们始终在探索扩展 Flux AI 技术应用范围的方式。"
+      }
+    }
+  },
+  "common": {
+    "loading": "加载中..."
+  },
+  "nav": {
+    "home": "首页",
+    "create": "创作",
+    "tutorial": "教程",
+    "showcase": "作品展示",
+    "contact": "联系我们",
+    "whyChooseUs": "为何选择我们",
+    "pricing": "价格方案",
+    "faq": "常见问题",
+    "learn": "学习中心",
+    "login": "登录",
+    "register": "注册",
+    "logout": "退出登录",
+    "workspace": "创作中心",
+    "start": "开始创作",
+    "lang": "语言",
+    "lang_zh": "中文",
+    "lang_en": "English",
+    "dashboard": "控制台",
+    "signOut": "退出登录",
+    "collapse": "收起侧栏",
+    "projects": "我的作品",
+    "userMenu": "用户菜单"
+  },
+  "auth": {
+    "login": {
+      "title": "登录",
+      "subtitle": "欢迎回来",
+      "email": "邮箱",
+      "emailPlaceholder": "请输入邮箱",
+      "password": "密码",
+      "passwordPlaceholder": "请输入密码",
+      "signIn": "登录",
+      "signingIn": "登录中...",
+      "googleSignIn": "使用谷歌账号登录",
+      "googleSignInLoading": "谷歌登录中...",
+      "or": "或",
+      "success": "登录成功",
+      "error": "登录失败",
+      "serverError": "服务器错误，请稍后重试",
+      "googleError": "谷歌登录失败，请重试",
+      "credentialsError": "邮箱或密码错误，请检查后重试",
+      "authFailed": "认证失败，请检查您的账户状态或联系支持"
+    },
+    "register": {
+      "title": "注册",
+      "subtitle": "创建新账号",
+      "success": "注册成功",
+      "error": "注册失败"
+    },
+    "common": {
+      "noAccount": "还没有账号？",
+      "hasAccount": "已有账号？",
+      "register": "立即注册",
+      "login": "立即登录"
+    }
+  },
+  "create": {
+    "title": "创作中心",
+    "promptPlaceholder": "用任何语言给我一个主题、你的观点和说明",
+    "aiTwins": "上传文件",
+    "generateVideo": "生成我的作品",
+    "myWorks": "我的作品",
+    "templates": "模板",
+    "assistant": "助手",
+    "searchPlaceholder": "搜索作品、模板或素材...",
+    "startMessage": "开始您的创作之旅",
+    "recentWorks": "最近作品",
+    "allApps": "全部应用",
+    "popularTemplates": "热门模板",
+    "createNew": "新建作品",
+    "uploadImage": "上传图片",
+    "generateImage": "生成图片",
+    "editImage": "编辑图片",
+    "noWorks": "暂无作品",
+    "noWorksDesc": "开始创作您的第一个作品吧",
+    "comingSoon": "即将推出",
+    "uploadImageDesc": "上传您的图片进行AI处理",
+    "generateImageDesc": "使用AI生成独特的图片",
+    "editImageDesc": "使用AI编辑和优化图片",
+    "generateSuccessTitle": "生成成功",
+    "generateSuccessDesc": "您的新作品已添加到\"最近作品\"中！",
+    "viewAll": "查看全部"
+  },
+  "projects": {
+    "title": "我的作品",
+    "empty": "您还没有保存任何作品。在创作中心生成的作品将会出现在这里。",
+    "download": "下载",
+    "downloading": "下载中",
+    "delete_success": "删除成功",
+    "delete_failed": "删除失败",
+    "download_failed_title": "下载失败",
+    "download_failed_description": "无法获取文件，请稍后重试。"
+  },
+  "task": {
+    "status": {
+      "queued": "排队中",
+      "running": "执行中",
+      "completed": "已完成",
+      "failed": "失败"
+    },
+    "list": "任务列表",
+    "empty": "暂无任务",
+    "estimate": "预计时间：1-2分钟...",
+    "retry": "重新生成",
+    "cancel": "取消",
+    "runtime": "运行时间",
+    "expiresIn": "{{days}}天后过期",
+    "expired": "已过期",
+    "error": {
+      "fetchResultFailed": "获取结果失败",
+      "executionFailed": "任务执行失败"
+    },
+    "generating": "生成中"
+  },
+  "apps": {
+    "animeStyleTransfer": "动漫风格转换",
+    "aiDoll": "AI娃娃生成",
+    "polaroidAI": "拍立得AI",
+    "ghibliAI": "吉卜力AI",
+    "labubu": "变身拉布布",
+    "photoCutter": "照片裁剪",
+    "breastJiggling": "胸部晃动",
+    "aiMermaidFilter": "AI美人鱼滤镜",
+    "punchFace": "打脸特效"
+  },
+  "sidebar": {
+    "collapse": "收起",
+    "expand": "展开侧栏",
+    "create": "创作",
+    "home": "首页",
+    "projects": "我的项目",
+    "templates": "模板",
+    "settings": "设置"
+  },
+  "creationCenter": {
+    "title": "创作中心",
+    "subtitle": "选择下方应用开始创作",
+    "promptPlaceholder": "在此输入您的提示词...",
+    "generateButton": "生成我的作品",
+    "uploadButton": "上传文件",
+    "previewPlaceholder": "选择应用并上传文件后将在此显示预览",
+    "previewPlaceholder_noApp": "请先从右侧选择一个应用"
+  },
+  "homepage": {
+    "featuresTitle": "为什么选择Flux AI？",
+    "feature1_title": "Flux AI如何在保持灵活性的同时实现专业级效果？",
+    "feature1_desc": "其核心动力来自ComfyUI。我们驾驭ComfyUI的强大功能，将其复杂性简化为直观界面，让您轻松获得专家级的图像质量和控制力。",
+    "feature2_title": "如何在不使用复杂提示词的情况下创造独特的社交媒体风格？",
+    "feature2_desc": "通过独家Flux LORA模型。从赛博朋克到复古胶片，从动漫到超现实主义，只需一键即可实现特定的艺术风格。",
+    "feature3_title": "什么确保Flux AI在图像质量和速度方面保持领先？",
+    "feature3_desc": "体验先进的Flux 1.1 Pro。为确保您始终以最佳状态创作，Flux AI集成了Flux 1.1 Pro模型，这意味着您将受益于图像清晰度、细节保留、风格多样性和处理速度方面的最新进展。"
+  },
+  "artStyles": {
+    "title": "最佳AI艺术风格用于社交媒体"
+  },
+  "toast": {
+    "loginRequired": "需要登录",
+    "loginToSave": "登录后您的作品将自动保存",
+    "selectApp": "请先选择一个应用",
+    "login_success": "登录成功！",
+    "featureInDevelopment": "功能正在开发中",
+    "featureInDevelopmentDesc": "该功能正在开发中，敬请期待！"
+  },
+  "footer": {
+    "copyright": "© 2024 Flux AI. All rights reserved.",
+    "about": "关于我们",
+    "contact": "联系我们",
+    "privacy": "隐私政策"
+  }
+} 

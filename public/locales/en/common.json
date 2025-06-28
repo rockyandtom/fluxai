@@ -1,0 +1,457 @@
+{
+  "home": {
+    "seo": {
+      "title": "AI Creation Tools Platform | Flux AI",
+      "description": "Flux AI is a leading AI creation tools platform providing powerful text-to-image, text-to-video, and digital human technologies. Whether you're a designer, marketer, or content creator, find inspiring tools here to easily create professional-grade visual content."
+    },
+    "hero": {
+        "title": "Unleash Your Creativity, Powered by AI",
+        "subtitle": "Flux AI is a professional AI effects creation platform offering text-to-image, text-to-video, digital humans and various AI creation tools to inspire your unlimited creativity.",
+        "badge": "Professional AI Creation Platform - Unleash Unlimited Creativity",
+        "features": {
+          "textToImage": "Text to Image",
+          "textToVideo": "Text to Video",
+          "digitalHuman": "Digital Human",
+          "instantGeneration": "Instant Generation"
+        }
+    },
+    "getStarted": "Get Started",
+    "watchTutorial": "Watch Tutorial",
+    "features": {
+      "title": "Core Features",
+      "feature1": {
+        "title": "AI Image Generation",
+        "description": "Transform your ideas into beautiful images using advanced AI models"
+      },
+      "feature2": {
+        "title": "AI Video Creation",
+        "description": "Create professional-grade video content with ease"
+      },
+      "feature3": {
+        "title": "Digital Avatar Generation",
+        "description": "Create personalized digital avatars that bring your brand to life"
+      }
+    },
+    "why": {
+      "title": "Why Choose Flux AI?",
+      "subtitle": "In the ever-evolving field of AI image generation, making the right choice can be overwhelming. Flux AI stands out with its unique combination of power, simplicity, and style, designed to transform your pictures into compelling, social-media-ready art. If you're wondering why Flux AI is the superior choice for your creative needs, here's how we answer your key questions.",
+      "q1": {
+        "question": "\"How does Flux AI achieve professional-grade results while maintaining flexibility?\" — Its core is powered by ComfyUI.",
+        "answer": "Flux AI's solid foundation is built upon the advanced ComfyUI framework. This isn't just a technical detail; it's your gateway to sophisticated image generation, offering a level of control and quality previously accessible only to experts. We've harnessed the power of ComfyUI, simplifying its complexity into an intuitive interface. So, if you're asking, \"Can I easily get high-quality, customizable AI artwork?\" — Flux AI, powered by ComfyUI, is your answer."
+      },
+      "q2": {
+        "question": "\"How can I create unique, trending social media styles without complex prompts?\" — Through exclusive Flux LoRA models.",
+        "answer": "Are you struggling to replicate the viral aesthetic styles you see all over social media? Flux AI directly addresses this with its specialized Flux LoRA models. These models are meticulously crafted to deliver specific, popular art styles—from cyberpunk to retro film, from anime to surrealism—with a single click. So, if your question is, \"How can I make my pictures stand out on Instagram, TikTok, or X (Twitter) effortlessly?\" — our Flux LoRA templates are designed precisely for that."
+      },
+      "q3": {
+        "question": "\"What ensures Flux AI stays at the forefront of image quality and speed?\" — Experience the advanced Flux 1.1 Pro.",
+        "answer": "To ensure you're always creating with the best, Flux AI integrates the Flux 1.1 Pro model. This means you benefit from our latest advancements in image clarity, detail retention, style diversity, and processing speed. If you're wondering, \"Will my images look sharp, professional, and be generated quickly?\" — Flux 1.1 Pro is our commitment to delivering top-tier, fast, and stunning visual results, making professional AI art accessible to all."
+      }
+    },
+    "compare": {
+      "title": "Flux AI vs. Competitors",
+      "subtitle": "Discover Flux AI's unique advantages compared to other AI tools",
+      "item1": {
+        "question": "Flux AI vs. GPT-4o: \"I need specialized image stylization, not just a general AI. Is Flux AI better for visuals?\"",
+        "answer": "Yes, absolutely. While GPT-4o demonstrates impressive multimodal capabilities, its image generation is more general-purpose. If your primary goal is to transform existing images into specific, high-impact artistic styles for social media or creative projects, Flux AI is your specialized tool. We offer curated templates and a workflow optimized for visual arts, providing a level of stylistic control and ease-of-use that GPT-4o's broad approach doesn't focus on. Built on the ComfyUI Flux model, Flux AI is designed for artists and creators who need dedicated image styling."
+      },
+      "item2": {
+        "question": "Flux AI vs. Midjourney: \"Midjourney is powerful but complex. Is Flux AI an easier way to get popular styles?\"",
+        "answer": "Exactly. **Midjourney** is renowned for the art it generates from detailed text prompts, which often requires a steep learning curve. Flux AI answers the question: \"How can I get stunning, popular image styles without becoming a prompt engineer?\" We provide a template-driven system based on Flux models. Just upload your image, select a trending style, and generate. It's the ideal choice if you need fast, impactful transformations for social media and value ease-of-use alongside high-quality results."
+      },
+      "item3": {
+        "question": "Flux AI vs. Meta AI: \"Meta's AI is convenient. Why use Flux AI for image editing?\"",
+        "answer": "Convenience is important, but so is uniqueness. While Meta AI offers integrated AI features within its platforms, these are often basic filters or general enhancements. If you're asking, \"Can I get truly unique and artistic image transformations that go beyond standard social media filters?\" — Flux AI is the answer. As a dedicated platform, we offer a much broader and more sophisticated range of artistic styles, powered by specialized Flux LoRA models and a ComfyUI backend, to make your images truly stand out."
+      },
+      "item4": {
+        "question": "Flux AI vs. Grok AI: \"Grok AI provides information. Can it create artistic images like Flux AI?\"",
+        "answer": "These are fundamentally different tools for different tasks. **Grok AI** is designed for real-time information retrieval and conversational insights; it does not focus on creative image generation. So, if your confusion is, \"Which tool should I use to turn my photos into art?\" — Flux AI is unequivocally your choice. We are built for visual creation, leveraging Flux models on ComfyUI to transform your images into unique pieces of art."
+      },
+      "item5": {
+        "question": "Flux AI vs. Freepik AI: \"Freepik has AI-generated stock images. How is Flux AI different for *my own* pictures?\"",
+        "answer": "Freepik AI is a valuable resource for generating stock imagery or working with design assets. However, if you're asking, \"How can I apply unique art styles to *my own existing photos* or create personalized visuals easily?\" — Flux AI offers a distinct advantage. Our core strength lies in transforming *your* images. Upload your photo, and our Flux AI templates, powered by ComfyUI, will convert it into a variety of popular styles, providing a level of personalization for your social media content that goes beyond generic stock photos."
+      },
+      "item6": {
+        "question": "Flux AI vs. Gemini AI: \"Gemini is Google's powerful AI. Why choose Flux AI for image stylization?\"",
+        "answer": "Google's Gemini AI is a formidable multimodal AI capable of handling many tasks. However, when your specific need is, \"How can I easily apply unique and trending artistic styles to my images for maximum visual impact?\" — Flux AI offers a more focused and user-friendly solution."
+      }
+    },
+    "solutions": {
+      "title": "Solutions",
+      "description": "Centered around the ComfyUI framework, Flux LoRA, and Flux 1.1 Pro models, integrating diverse special effects for images, videos, and digital human creation.",
+      "item1": "Centered around the ComfyUI framework, Flux LoRA, and Flux 1.1 Pro models, integrating diverse special effects for images, videos, and digital human creation.",
+      "item2": "Supports cross-platform use on web and mobile, with cloud storage and fast rendering.",
+      "item3": "Intelligent digital human generation and customization, supporting various application scenarios with highly realistic character features and expressions.",
+      "subtitle": "Typical Application Scenarios:",
+      "scenario1": "Image Special Effects Creation (social media, ad design)",
+      "scenario2": "Video Special Effects Production (short videos, film assets)",
+      "scenario3": "AI Digital Humans (education, live streaming, e-commerce)"
+    },
+    "showcase_new": {
+      "title": "Case Studies", 
+      "subtitle": "Explore how our core features bring unlimited possibilities to your creative projects",
+      "image": {
+        "title": "Image Special Effects Creation Cases",
+        "case1": "Personal Creative Photoshoot: Selfie → Retro Film Style → Social Media Likes",
+        "case2": "Commercial Ad Design: Text-to-Image for poster → 30% increase in ad exposure"
+      },
+      "video": {
+        "title": "Video Special Effects Production Cases",
+        "case1": "Creative Short Video Content: Landscape video → Ink Wash Style → Millions of views",
+        "case2": "Film Asset Creation: Concept art → Image-to-Video → Saves modeling time"
+      },
+      "digital_human": {
+        "title": "AI Digital Human Application Cases",
+        "case1": "Education Sector: Digital teacher recording lessons → Satisfaction up to 90%+",
+        "case2": "E-commerce Live Streaming: Digital anchor → CTR up 25%, conversion rate up 15%"
+      }
+    },
+    "artStyles": {
+      "title": "Top AI Art Styles for Social Media",
+      "subtitle": "Explore trending AI art styles to make your social media content stand out"
+    },
+    "faq_new": {
+      "title": "Frequently Asked Questions",
+      "subtitle": "Get answers to all your questions about Flux AI",
+      "q1": { "question": "Question 1: What is Flux AI? How does it generate unique images?", "answer": "Answer: Flux AI is an innovative AI image generation platform dedicated to enabling users to easily create stunning and unique visual works. We use an advanced Flux model built on the powerful ComfyUI framework. Unlike generation tools that rely on complex text prompts, Flux AI excels at transforming user-uploaded images or applying diverse artistic styles through well-curated templates (especially those popular on social media), making high-quality AI art creation accessible to everyone." },
+      "q2": { "question": "Question 2: How do Flux AI's templates make it easy to generate different styles?", "answer": "Answer: Flux AI's templates are driven by specialized AI models (often including our custom Flux LoRA extensions) that are fine-tuned for specific aesthetic styles like 'anime,' 'cyberpunk,' or 'retro photo.' When you select a template and provide an input (like an uploaded image or a simple text description), Flux AI intelligently applies the stylistic features of that template to your input, generating a new image in the chosen style, making complex visual effects simple and fast to achieve." },
+      "q3": { "question": "Question 3: Is Flux AI a completely free AI image generation tool? What about the social media templates?", "answer": "Answer: Flux AI offers several ways to experience our platform:\n\n•\tIt may include a free trial period or a certain number of free image generations, allowing you to try our popular social media templates.\n•\tFor unlimited access, higher-resolution outputs, Flux 1.1 Pro enhancements, and a broader range of template permissions, we typically offer paid subscription plans. Please visit our 'Pricing' page for the latest information on Flux AI's free and paid services." },
+      "q4": { "question": "Question 4: Can I upload my own photos or images to be transformed by Flux AI?", "answer": "Answer: Absolutely! Transforming personal images is one of Flux AI's core features. You can easily upload photos, sketches, or any existing digital image, and then choose from our rich library of style templates to have Flux AI reinterpret your original image from a new artistic perspective. This 'image-to-image' functionality is perfect for personalized creation." },
+      "q5": { "question": "Question 5: What image styles can Flux AI generate? Are they suitable for social media?", "answer": "Answer: Flux AI can generate a wide variety of artistic styles, with a special focus on popular aesthetics for social media platforms like Instagram, TikTok, and X (Twitter). From vibrant illustrations and realistic renders to abstract art and specific thematic styles (like 'fantasy,' 'sci-fi,' 'cartoon'), our templates are designed to help your posts stand out. We continuously update our style library to keep your creations with Flux AI fresh and interesting." },
+      "q6": { "question": "Question 6: I'm new to AI tools. Is Flux AI easy to use?", "answer": "Answer: Yes, Flux AI is designed to be very user-friendly, even if you have no prior experience with AI image generation. Our interface is intuitive, and the workflow typically just involves uploading an image (or describing an idea), selecting a style template, and clicking 'Generate.' We are committed to removing technical barriers, allowing anyone to start creating stunning art with Flux AI in minutes." },
+      "q7": { "question": "Question 7: What should I do if the image generated by Flux AI doesn't look right or isn't what I expected?", "answer": "Answer: AI image generation can sometimes produce unexpected results. If an image generated by Flux AI doesn't meet your expectations:\n\n•\tTry regenerating: Often, trying again with the same settings can produce a different, potentially better, result.\n•\tAdjust your input: If you uploaded an image, ensure it's clear and well-lit; if using a text description, try rephrasing it slightly.\n•\tTry a different template: The same input can yield vastly different effects with different Flux AI style templates.\n•\tCheck advanced options: Some templates or features may offer options for fine-tuning.\nIf problems persist, consult our detailed guides or contact the Flux AI support team." },
+      "q8": { "question": "Question 8: Why does Flux AI sometimes generate slightly different images even with the exact same input and template?", "answer": "Answer: This is an inherent characteristic of many AI image generation models, including the Flux models that power Flux AI. A controlled amount of randomness (often called 'stochasticity') is designed into the models to inspire creativity and provide variety. This means that even with the same input, slightly different outputs can be produced — you can think of it as Flux AI offering you multiple creative interpretations!" },
+      "q9": { "question": "Question 9: Can I use the images I create with Flux AI for commercial projects? How is copyright handled?", "answer": "Answer: Flux AI's Terms of Service will provide the most specific guidance on this. Generally, the images you create can be used for both personal and commercial projects. However, it's important to note that the legal framework and copyright issues surrounding AI-generated content are still evolving. You are typically responsible for ensuring your use does not infringe on existing third-party rights (e.g., if your image is highly similar to a copyrighted character or artwork). While Flux AI supports your creation, we generally do not claim copyright on the generated images in a way that would prevent your use, but always refer to our official 'Terms of Use' for precise details." },
+      "q10": { "question": "Question 10: How does Flux AI ensure the quality and safety of its AI image generator?", "answer": "Answer: Quality is a top priority at Flux AI. We build on the advanced Flux 1.1 Pro model and the powerful ComfyUI architecture to achieve high-resolution, detailed, and aesthetically pleasing results. In terms of safety, Flux AI integrates content filtering and moderation systems to prevent the generation of harmful, unethical, or infringing content, in line with our acceptable use policy. We aim to provide a creative and responsible AI image generation environment." },
+      "q11": { "question": "Question 11: Sometimes Flux AI is slow to generate images. What should I do?", "answer": "Answer: Flux AI's image generation time can vary depending on server load, the complexity of the chosen style template, and the output resolution. If you experience slowness:\n\n•\tFirst, check your internet connection.\n•\tTry again during off-peak hours if possible.\n•\tIf the issue persists across different times and templates, it might be a temporary platform issue. You can check our status page (if available) or contact Flux AI support. Our paid plans sometimes offer priority processing." },
+      "q12": { "question": "Question 12: Does Flux AI offer an API for developers to integrate its image generation capabilities?", "answer": "Answer: For information on developer access or API availability for Flux AI's image generation features, please refer to the dedicated 'Developers' or 'API' section on the Flux AI website, or contact our business development team. We are always exploring ways to expand the application of Flux AI technology." }
+    }
+  },
+  "common": {
+    "loading": "Loading..."
+  },
+  "nav": {
+    "home": "Home",
+    "solutions": "Solutions",
+    "cases": "Cases",
+    "create": "Create",
+    "tutorial": "Tutorial",
+    "showcase": "Showcase",
+    "whyChooseUs": "Why Choose Us",
+    "contact": "Contact",
+    "pricing": "Pricing",
+    "faq": "FAQ",
+    "learn": "Learning Center",
+    "login": "Login",
+    "register": "Register",
+    "logout": "Logout",
+    "workspace": "Workspace",
+    "start": "Start Creating",
+    "lang": "Language",
+    "lang_zh": "中文",
+    "lang_en": "English",
+    "dashboard": "Dashboard",
+    "signOut": "Sign Out",
+    "collapse": "Collapse Sidebar",
+    "projects": "My Projects",
+    "userMenu": "User Menu"
+  },
+  "auth": {
+    "login": {
+      "title": "Login",
+      "subtitle": "Welcome back",
+      "email": "Email",
+      "emailPlaceholder": "Enter your email",
+      "password": "Password",
+      "passwordPlaceholder": "Enter your password",
+      "submit": "Login",
+      "submitting": "Logging in...",
+      "googleSignIn": "Login with Google",
+      "googleSignInLoading": "Logging in with Google...",
+      "noAccount": "Don't have an account?",
+      "register": "Register Now",
+      "or": "or",
+      "success": "Login successful",
+      "error": "Login failed",
+      "serverError": "Server error, please try again later",
+      "googleError": "Google login failed, please try again",
+      "credentialsError": "Incorrect email or password, please check and try again",
+      "authFailed": "Authentication failed, please check your account status or contact support"
+    },
+    "register": {
+      "title": "Register",
+      "subtitle": "Create a new account",
+      "email": "Email",
+      "emailPlaceholder": "Enter your email",
+      "password": "Password",
+      "passwordPlaceholder": "Enter your password",
+      "submit": "Register",
+      "submitting": "Registering...",
+      "googleSignUp": "Register with Google",
+      "googleSignUpLoading": "Registering with Google...",
+      "hasAccount": "Already have an account?",
+      "login": "Login Now",
+      "or": "or",
+      "error": "Registration Failed",
+      "loginError": "Registration successful but login failed, please try again",
+      "serverError": "Server error, please try again later",
+      "googleError": "Google registration failed, please try again"
+    }
+  },
+  "hero": {
+    "title": "Flux AI - Your Intelligent Creative Partner",
+    "subtitle": "Empower your creation with AI, create unique visual experiences",
+    "start": "Start Creating"
+  },
+  "features": {
+    "title": "Featured Services",
+    "subtitle": "One-stop AI Creation Solution",
+    "image": {
+      "title": "AI Image Effects",
+      "desc": "Generate professional image effects with one click"
+    },
+    "video": {
+      "title": "AI Video Generation",
+      "desc": "Intelligent video creation and editing"
+    },
+    "digital": {
+      "title": "AI Digital Human",
+      "desc": "Create your exclusive digital avatar"
+    }
+  },
+  "why": {
+    "title": "Why Choose Flux AI?",
+    "desc": "In the rapidly evolving field of AI image generation, making the right choice can be overwhelming. Flux AI stands out with its unique powerful features, simple operation, and stylish design, specifically designed to transform your images into engaging, social media-ready artworks. If you're wondering why Flux AI is the better choice for your creative needs, here's how we answer your key questions",
+    "question1": "How does Flux AI achieve professional-level effects while maintaining flexibility?",
+    "answer1": "Its core power comes from ComfyUI. Flux AI's solid foundation is built on the advanced ComfyUI framework. This isn't just a technical detail; it's your gateway to complex image generation that provides the exceptional control and image quality that only experts could achieve before. We harness ComfyUI's powerful capabilities and simplify its complexity into an intuitive interface.",
+    "question2": "How can I create unique, popular social media styles without complex prompts?",
+    "answer2": "Through exclusive Flux LoRA models. Are you struggling to replicate those viral aesthetic styles that are everywhere on social media? Flux AI directly addresses this problem through its specialized Flux LoRA models. These models are carefully crafted to present specific and popular artistic styles with just one click — from cyberpunk to vintage film, from anime to surrealism.",
+    "question3": "What ensures Flux AI stays at the forefront in image quality and speed?",
+    "answer3": "Experience advanced Flux 1.1 Pro. To ensure you're always creating at your best, Flux AI integrates the Flux 1.1 Pro model. This means you'll benefit from our latest advances in image clarity, detail preservation, style diversity, and processing speed."
+  },
+  "compare": {
+    "title": "Flux AI vs Competitors",
+    "item1": {
+      "question": "Flux AI vs GPT-4o: Need specialized image stylization, not just general AI. Is Flux AI better for visual effects?",
+      "answer": "Yes, absolutely. While GPT-4o demonstrates impressive multimodal capabilities, its image generation is more general-purpose. If your main goal is to transform existing images into works with specific, high-impact artistic styles for social media or creative projects, then Flux AI is your specialized tool."
+    },
+    "item2": {
+      "question": "Flux AI vs Midjourney: Midjourney is powerful but complex. Is Flux AI an easier way to get popular styles?",
+      "answer": "Absolutely correct. Midjourney is known for its artistic works generated through detailed text prompts, which often require a steep learning curve. Flux AI provides a template-driven system based on Flux models. Simply upload your image, choose a popular style, and generate."
+    },
+    "item3": {
+      "question": "Flux AI vs Meta AI: Meta's AI is convenient. Why use Flux AI for image editing?",
+      "answer": "Convenience is important, but uniqueness is too. While Meta AI provides integrated AI features within its platform, these are usually basic filters or routine enhancements. Flux AI offers a wider range and more complex artistic styles supported by specialized Flux LoRA models."
+    },
+    "item4": {
+      "question": "Flux AI vs Grok AI: Grok AI provides information. Can it create artistic images like Flux AI?",
+      "answer": "These are fundamentally different tools for different tasks. Grok AI is designed for real-time information retrieval and conversational insights, not focused on creative image generation. Flux AI is born for visual creation."
+    },
+    "item5": {
+      "question": "Flux AI vs Freepik AI: Freepik has AI-generated image assets. For my own images, how is Flux AI different?",
+      "answer": "Freepik AI is a valuable resource for generating image assets. But if you want to apply unique artistic styles to your own existing photos or easily create personalized visual content, Flux AI offers clear advantages."
+    },
+    "item6": {
+      "question": "Flux AI vs Gemini AI: Gemini is Google's powerful AI. Why choose Flux AI for image stylization?",
+      "answer": "Google's Gemini AI is a powerful multimodal AI capable of handling multiple tasks. However, when you need to easily apply unique and popular artistic styles to your images for maximum visual impact, Flux AI provides a more focused and user-friendly solution."
+    }
+  },
+  "solutions": {
+    "title": "Solutions",
+    "desc": "With ComfyUI framework, Flux LoRA and Flux 1.1 Pro models as the core, integrating diverse effects functions including image, video, and digital avatar creation. Supports cross-platform use on web and mobile, with cloud storage and fast rendering.",
+    "item1": {
+      "title": "Image Effects Creation",
+      "desc": "Professional image generation and effects processing for social media and advertising design"
+    },
+    "item2": {
+      "title": "Video Effects Production",
+      "desc": "Creative content creation and style conversion for short videos and film materials"
+    },
+    "item3": {
+      "title": "AI Digital Avatar Applications",
+      "desc": "Digital avatar customization and applications for education, live streaming, and e-commerce"
+    }
+  },
+  "cases": {
+    "title": "Case Studies",
+    "imageTitle": "Image Effects Creation Cases",
+    "videoTitle": "Video Effects Production Cases",
+    "digitalTitle": "AI Digital Avatar Application Cases",
+    "item1": {
+      "title": "Personal Creative Portraits",
+      "desc": "Selfie → Vintage film style → Social media likes"
+    },
+    "item2": {
+      "title": "Commercial Advertising Design",
+      "desc": "Text-to-image poster generation → 30% increase in ad exposure"
+    },
+    "item3": {
+      "title": "Short Video Creative Content",
+      "desc": "Landscape video → Ink painting style → Millions of views"
+    },
+    "item4": {
+      "title": "Film Material Creation",
+      "desc": "Concept art → Image-to-video → Save modeling time"
+    },
+    "item5": {
+      "title": "Education Field Application",
+      "desc": "Digital avatar teacher course recording → Satisfaction rate increased to 90%+"
+    },
+    "item6": {
+      "title": "E-commerce Live Streaming",
+      "desc": "Digital avatar host → 25% increase in click rate, 15% improvement in conversion rate"
+    }
+  },
+  "social": {
+    "title": "Best AI Art Styles for Social Media"
+  },
+  "membership": {
+    "title": "Membership Benefits",
+    "version": "Version",
+    "rights": "Benefits",
+    "basic": "Basic",
+    "basicRights": "Basic AI creation features, standard model library, community support",
+    "professional": "Professional",
+    "professionalRights": "Advanced AI creation features, complete model library, priority technical support, exclusive training resources",
+    "enterprise": "Enterprise",
+    "enterpriseRights": "Customized solutions, exclusive model training, one-on-one technical support, API interface"
+  },
+  "faq": {
+    "title": "FAQ",
+    "question1": "What is Flux AI? How does it generate unique images?",
+    "answer1": "Flux AI is an innovative AI image generation platform dedicated to helping users easily create stunning unique visual works. We use advanced Flux models built on the powerful ComfyUI framework. Unlike generation tools that rely on complex text prompts, Flux AI excels at converting user-uploaded images or applying diverse artistic styles through carefully curated templates.",
+    "question2": "How do Flux AI templates achieve easy generation of different styles?",
+    "answer2": "Flux AI templates are driven by specialized AI models, usually including our custom Flux LoRA extensions, which are finely tuned for specific aesthetic styles like 'anime,' 'cyberpunk,' 'vintage photos,' etc. When you select a template and provide input, Flux AI intelligently applies that template's style characteristics to your input.",
+    "question3": "Is Flux AI a completely free AI image generation tool? What about social media templates?",
+    "answer3": "Flux AI offers multiple ways to experience: May include free trial periods or a certain number of free image generations. For unlimited access, higher resolution output, and advanced features, we typically offer paid subscription plans. Please visit our 'Pricing' page for the latest information.",
+    "question4": "Can I upload my own photos or images for conversion with Flux AI?",
+    "answer4": "Absolutely! Converting personal images is one of Flux AI's core features. You can easily upload photos, sketches, or any existing digital images, then choose from our rich style templates to let Flux AI reinterpret your original image with a new artistic perspective. This 'image-to-image' functionality is perfect for personalized creation.",
+    "question5": "What image styles can Flux AI generate? Are they suitable for social media?",
+    "answer5": "Flux AI can generate various artistic styles, especially focusing on popular aesthetics for social media platforms like Instagram, TikTok, and X (Twitter). From vibrant illustrations and realistic renders to abstract art and specific thematic styles (such as 'fantasy,' 'sci-fi,' 'cartoon'), our templates are designed to help your posts stand out.",
+    "question6": "I'm new to AI tools. Is Flux AI easy to use?",
+    "answer6": "Yes, Flux AI is designed to be very user-friendly, and you can easily get started even if you have no experience with AI image generation. Our interface is intuitive, and the operation process usually only requires uploading an image (or describing an idea), selecting a style template, and clicking 'Generate.'",
+    "question7": "What should I do if the images generated by Flux AI don't look right or meet expectations?",
+    "answer7": "AI image generation sometimes produces unexpected results. If Flux AI generated images don't meet expectations: Try regenerating: Usually, trying again with the same settings may produce different, possibly better results. Adjust input: If you uploaded an image, make sure it's clear and well-lit; if using text description, try slightly rewording it.",
+    "question8": "Why does Flux AI sometimes generate slightly different images even with exactly the same input and template?",
+    "answer8": "This is an inherent characteristic of many AI image generation models, including the Flux model that powers Flux AI. The model is designed with controllable randomness (often called 'randomness') to inspire creativity and provide diversity. This means that even with the same input, slightly different outputs may be produced.",
+    "question9": "Can I use images created with Flux AI for commercial projects? How is copyright handled?",
+    "answer9": "Flux AI's terms of service will provide the most specific guidance on this. Generally, images you create can be used for both personal and commercial projects. However, it's important to note that the legal framework and copyright issues for AI-generated content are still evolving.",
+    "question10": "How does Flux AI ensure the quality and safety of its AI image generator?",
+    "answer10": "Quality is Flux AI's top priority. We are based on the advanced Flux 1.1 Pro model and powerful ComfyUI architecture, committed to achieving high-resolution, detail-rich, and beautiful effects. In terms of safety, Flux AI integrates content filtering and review systems to prevent the generation of harmful, unethical, or infringing content.",
+    "question11": "Sometimes Flux AI generates images slowly. What should I do?",
+    "answer11": "Flux AI's image generation time may vary due to server load, the complexity of the selected style template, and output resolution. If you encounter slow speeds: First check your network connection. Try again during off-peak hours if possible. If problems persist at different times and with different templates, it may be a temporary platform issue.",
+    "question12": "Does Flux AI provide APIs for developers to integrate its image generation functionality?",
+    "answer12": "For information about developer access to Flux AI's image generation functionality or API availability, please refer to the dedicated 'Developer' or 'API' section on the Flux AI website, or contact our business development team. We are always exploring ways to expand the application scope of Flux AI technology."
+  },
+  "footer": {
+    "copyright": "© 2024 Flux AI. All rights reserved.",
+    "about": "About Us",
+    "contact": "Contact Us",
+    "privacy": "Privacy Policy",
+    "terms": "Terms of Use"
+  },
+  "create": {
+    "title": "Creation Center",
+    "promptPlaceholder": "Give me a topic, your point of view and instructions in any language",
+    "aiTwins": "Upload File",
+    "generateVideo": "Generate My Work",
+    "myWorks": "My Works",
+    "templates": "Templates",
+    "assistant": "Assistant",
+    "searchPlaceholder": "Search works, templates, or assets...",
+    "startMessage": "Start your creation journey",
+    "recentWorks": "Recent Works",
+    "allApps": "All Apps",
+    "popularTemplates": "Popular Templates",
+    "createNew": "Create New Work",
+    "uploadImage": "Upload Image",
+    "editImage": "Edit Image",
+    "editImageDesc": "Edit and optimize images with AI",
+    "generateSuccessTitle": "Generation Successful",
+    "generateSuccessDesc": "Your new work has been added to 'Recent Works'!",
+    "viewAll": "View All"
+  },
+  "sidebar": {
+    "collapse": "Collapse",
+    "expand": "Expand Sidebar",
+    "create": "Create",
+    "home": "Home",
+    "projects": "My Projects",
+    "templates": "Templates",
+    "settings": "Settings"
+  },
+  "projects": {
+    "title": "My Projects",
+    "searchPlaceholder": "Search projects...",
+    "noProjects": "No Projects Yet",
+    "noProjectsDesc": "Start creating your first project",
+    "empty": "You haven't saved any projects yet. Creations from the Creation Center will appear here.",
+    "download": "Download",
+    "downloading": "Downloading...",
+    "delete_success": "Project deleted successfully",
+    "delete_failed": "Failed to delete project",
+    "download_failed_title": "Download Failed",
+    "download_failed_description": "Could not fetch the file. Please try again later."
+  },
+  "task": {
+    "status": {
+      "queued": "Queued",
+      "running": "Running",
+      "completed": "Completed",
+      "failed": "Failed"
+    },
+    "list": "Task List",
+    "empty": "No tasks yet",
+    "estimate": "Estimated time: 1-2 minutes...",
+    "retry": "Regenerate",
+    "cancel": "Cancel",
+    "runtime": "Runtime",
+    "expiresIn": "Expires in {{days}} days",
+    "expired": "Expired",
+    "error": {
+      "fetchResultFailed": "Failed to fetch result",
+      "executionFailed": "Task execution failed"
+    },
+    "generating": "Generating"
+  },
+  "apps": {
+    "animeStyleTransfer": "Anime Style Transfer",
+    "aiDoll": "AI Doll Generation",
+    "polaroidAI": "Polaroid AI",
+    "ghibliAI": "Ghibli AI",
+    "labubu": "Turn into Labubu",
+    "photoCutter": "Photo Cutter",
+    "breastJiggling": "Breast Jiggling",
+    "aiMermaidFilter": "AI Mermaid Filter",
+    "punchFace": "Punch Face"
+  },
+  "homepage": {
+    "featuresTitle": "Why Choose Flux AI?",
+    "feature1_title": "How does Flux AI achieve professional-level effects while maintaining flexibility?",
+    "feature1_desc": "Its core power comes from ComfyUI. We harness ComfyUI's powerful capabilities and simplify its complexity into an intuitive interface, giving you expert-level image quality and control with ease.",
+    "feature2_title": "How can I create unique, social media-ready styles without complex prompts?",
+    "feature2_desc": "Through exclusive Flux LORA models. From cyberpunk to vintage film, anime to surrealism, achieve specific and artistic styles with just one click.",
+    "feature3_title": "What ensures Flux AI stays at the forefront in image quality and speed?",
+    "feature3_desc": "Experience advanced Flux 1.1 Pro. To ensure you're always creating at your best, Flux AI integrates the Flux 1.1 Pro model, meaning you'll benefit from the latest advances in image clarity, detail preservation, style diversity, and processing speed."
+  },
+  "artStyles": {
+    "title": "Top AI Art Styles for Social Media"
+  },
+  "creationCenter": {
+    "title": "Creation Center",
+    "subtitle": "Select an app below to get started",
+    "promptPlaceholder": "Enter your prompt here...",
+    "generateButton": "Generate My Work",
+    "uploadButton": "Upload File",
+    "previewPlaceholder": "Preview will be shown here after selecting an app and uploading a file",
+    "previewPlaceholder_noApp": "Please select an app from the right first"
+  },
+  "toast": {
+    "loginRequired": "Login Required",
+    "loginToSave": "Log in to automatically save your creations",
+    "selectApp": "Please select an application first",
+    "login_success": "Login successful!",
+    "featureInDevelopment": "Feature Under Development",
+    "featureInDevelopmentDesc": "This feature is under development. Stay tuned!"
+  }
+} 
