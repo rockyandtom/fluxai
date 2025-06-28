@@ -12,6 +12,7 @@ import {
 } from '@chakra-ui/react';
 import { ChevronDownIcon } from '@chakra-ui/icons';
 import { IoLanguage } from 'react-icons/io5';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 export default function TestUI() {
   const bg = useColorModeValue('gray.50', 'gray.900');
@@ -256,4 +257,12 @@ export default function TestUI() {
       </VStack>
     </Box>
   );
-} 
+}
+
+export async function getStaticProps({ locale }) {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale, ['common'])),
+    },
+  };
+}

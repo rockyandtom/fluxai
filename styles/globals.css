@@ -419,4 +419,79 @@ div[class*="chakra-drawer__header"] {
 div[class*="chakra-drawer__body"] {
   background: #0a0a0a !important;
   color: #ffffff !important;
-} 
+}
+
+/* 任务执行中的动画效果 */
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(400%);
+  }
+}
+
+@keyframes slide {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(200%);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.5;
+    transform: scale(1.2);
+  }
+}
+
+/* 优化任务卡片的执行状态显示 */
+.task-running {
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.2) 0%, rgba(147, 197, 253, 0.1) 100%);
+  border: 2px solid rgba(59, 130, 246, 0.6);
+  box-shadow: 0 8px 32px rgba(59, 130, 246, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.task-running::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, rgba(59, 130, 246, 0.8) 0%, rgba(147, 197, 253, 0.8) 50%, rgba(59, 130, 246, 0.8) 100%);
+  animation: shimmer 2s infinite linear;
+}
+
+/* 美化按钮样式 */
+.task-button {
+  transition: all 0.2s ease-in-out;
+  font-weight: 500;
+  border-radius: 6px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.task-button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.task-cancel-button {
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+  color: white;
+  border: none;
+  box-shadow: 0 2px 8px rgba(239, 68, 68, 0.4);
+}
+
+.task-cancel-button:hover {
+  background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.6);
+}

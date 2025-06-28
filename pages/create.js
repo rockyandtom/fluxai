@@ -68,7 +68,9 @@ const TaskTimer = ({ startTime }) => {
       isDisabled
       cursor="default"
       _hover={{ bg: 'transparent' }}
-      leftIcon={<Spinner size="xs" />}
+      leftIcon={<Spinner size="xs" color="white" />}
+      color="white"
+      fontWeight="medium"
     >
       {t('task.generating', '生成中')} {minutes}:{seconds}
     </Button>
@@ -132,7 +134,7 @@ const TaskQueue = ({ tasks, isOpen, onToggle, onCancelTask, onRetryTask, onDelet
             failed: { text: t('task.status.failed', '已失败'), scheme: 'red' },
         };
         const { text, scheme } = statusMap[status] || { text: status, scheme: 'gray'};
-        return <Badge colorScheme={scheme}>{text} {status === 'running' && <Spinner size="xs" ml={1} />}</Badge>;
+        return <Badge colorScheme={scheme} fontWeight="medium">{text} {status === 'running' && <Spinner size="xs" ml={1} color="white" />}</Badge>;
     };
 
     const formatDuration = (seconds) => {
@@ -175,12 +177,21 @@ const TaskQueue = ({ tasks, isOpen, onToggle, onCancelTask, onRetryTask, onDelet
                                 <Text color="gray.300">{t('task.empty', '暂无任务')}</Text>
                             ) : (
                                 tasks.map((task) => (
-                                    <Box key={task.id} p={4} borderWidth={1} borderRadius="lg" bg="rgba(255, 255, 255, 0.05)" border="1px solid rgba(255, 255, 255, 0.1)" className="modern-card">
+                                    <Box 
+                                        key={task.id} 
+                                        p={4} 
+                                        borderWidth={2} 
+                                        borderRadius="xl" 
+                                        bg={task.status === 'running' ? "transparent" : "rgba(255, 255, 255, 0.08)"} 
+                                        border={task.status === 'running' ? "none" : "1px solid rgba(255, 255, 255, 0.2)"} 
+                                        className={task.status === 'running' ? "task-running" : "modern-card"} 
+                                        backdropFilter="blur(15px)"
+                                    >
                                         <Flex justify="space-between" align="center" mb={2}>
                                             <Text fontWeight="bold" noOfLines={1} color="white">{t(`apps.${task.appKey}`)}</Text>
                                             {getStatusBadge(task.status)}
                                         </Flex>
-                                        <Text fontSize="xs" color="gray.400" mb={2}>
+                                        <Text fontSize="xs" color={task.status === 'running' ? "gray.200" : "gray.300"} mb={2}>
                                             {new Date(task.createdAt).toLocaleString()}
                                         </Text>
 
@@ -191,30 +202,85 @@ const TaskQueue = ({ tasks, isOpen, onToggle, onCancelTask, onRetryTask, onDelet
                                                 ) : (
                                                     <Image src={task.resultImage} alt="Generated Result" borderRadius="md" cursor="pointer" onClick={() => onResultClick(task)} _hover={{ opacity: 0.8 }} />
                                                 )}
-                                                <Flex justify="space-between" align="center" mt={2} fontSize="xs" color="gray.400">
-                                                    <Text>{t('task.runtime', '运行时长')}: {formatDuration(task.taskCostTime)}</Text>
-                                                    <Text>{getExpiryInfo(task.createdAt)}</Text>
+                                                <Flex justify="space-between" align="center" mt={2} fontSize="xs">
+                                                    <Text color="gray.200" fontWeight="medium">{t('task.runtime', '运行时长')}: {formatDuration(task.taskCostTime)}</Text>
+                                                    <Text color="gray.200" fontWeight="medium">{getExpiryInfo(task.createdAt)}</Text>
                                                 </Flex>
                                             </>
                                         ) : (
-                                            task.status !== 'completed' && <Text fontSize="sm" color="gray.400">{t('task.estimate')}</Text>
+                                            task.status !== 'completed' && (
+                                                <Box 
+                                                    p={3}
+                                                    bg={task.status === 'running' ? "rgba(59, 130, 246, 0.2)" : "rgba(255, 255, 255, 0.1)"}
+                                                    borderRadius="md"
+                                                    border={task.status === 'running' ? "1px solid rgba(59, 130, 246, 0.4)" : "1px solid rgba(255, 255, 255, 0.2)"}
+                                                    position="relative"
+                                                    overflow="hidden"
+                                                >
+                                                    {task.status === 'running' && (
+                                                        <Box
+                                                            position="absolute"
+                                                            top="0"
+                                                            left="0"
+                                                            height="100%"
+                                                            bg="linear-gradient(90deg, transparent 0%, rgba(59, 130, 246, 0.3) 50%, transparent 100%)"
+                                                            width="50%"
+                                                            style={{ animation: 'slide 2s infinite linear' }}
+                                                        />
+                                                    )}
+                                                    <Flex align="center" justify="space-between" position="relative" zIndex="1">
+                                                        <Text fontSize="sm" color="white" fontWeight="medium">
+                                                            {t('task.estimate')}
+                                                        </Text>
+                                                        {task.status === 'running' && (
+                                                            <Box 
+                                                                w="6px" 
+                                                                h="6px" 
+                                                                bg="blue.400" 
+                                                                borderRadius="full"
+                                                                style={{ animation: 'pulse 1.5s infinite' }}
+                                                            />
+                                                        )}
+                                                    </Flex>
+                                                </Box>
+                                            )
                                         )}
                                         <HStack mt={3} justify="flex-end" spacing={2}>
                                             {task.status === 'running' && <TaskTimer startTime={task.startTime} />}
                                             {(task.status === 'completed' || task.status === 'failed') && (
-                                                <Button size="xs" colorScheme="blue" onClick={() => onRetryTask(task)}>{t('task.retry', '重新生成')}</Button>
+                                                <Button 
+                                                    size="xs" 
+                                                    onClick={() => onRetryTask(task)}
+                                                    className="task-button"
+                                                    bg="blue.500"
+                                                    color="white"
+                                                    _hover={{ bg: "blue.600" }}
+                                                    fontWeight="medium"
+                                                >
+                                                    {t('task.retry', '重新生成')}
+                                                </Button>
                                             )}
                                             {task.status === 'queued' && (
-                                                <Button size="xs" colorScheme="red" variant="outline" onClick={() => onCancelTask(task.id)}>
-                                                    {t('task.cancel')}
+                                                <Button 
+                                                    size="xs" 
+                                                    onClick={() => onCancelTask(task.id)}
+                                                    className="task-cancel-button task-button"
+                                                    color="white"
+                                                    fontWeight="medium"
+                                                >
+                                                    {t('task.cancel', '取消')}
                                                 </Button>
                                             )}
                                             <IconButton
                                                 size="xs"
                                                 icon={<FaTimes />}
                                                 aria-label="Delete task"
-                                                variant="ghost"
+                                                className="task-button"
+                                                bg="gray.600"
+                                                color="white"
+                                                _hover={{ bg: "gray.700" }}
                                                 onClick={() => onDeleteTask(task.id)}
+                                                borderRadius="md"
                                             />
                                         </HStack>
                                     </Box>
@@ -301,22 +367,47 @@ export default function Create() {
   const toast = useToast();
   const router = useRouter();
 
-  // 新增：统一的错误提示函数
+  // 遵循网站开发规范指南 - 统一的错误提示函数
   const showErrorToast = (message) => {
+    let title = '任务失败';
     let description = message;
-    if (message?.includes('显存不足')) {
-      description = '模型处理失败：显存不足。建议您降低输入文件的分辨率或缩短视频时长，然后重试。';
-    } else if (message?.includes('服务器繁忙')) {
-      description = '服务器当前负载较高，请您稍后重试。';
+    let status = 'error';
+    let duration = 9000;
+
+    // 区分不同类型的错误，提供合适的用户提示
+    if (message?.includes('后端执行失败:')) {
+      title = 'AI处理失败';
+      description = message.replace('后端执行失败:', '').trim();
+      if (description.includes('显存不足') || description.includes('memory')) {
+        description = 'AI模型处理失败：显存不足。建议您降低输入文件的分辨率或缩短视频时长，然后重试。';
+      } else if (description.includes('timeout') || description.includes('超时')) {
+        description = 'AI处理超时，可能是由于任务复杂度较高。建议您简化输入内容后重试。';
+      } else if (description.includes('格式') || description.includes('format')) {
+        description = '输入文件格式不支持或文件损坏，请检查文件格式后重试。';
+      }
+    } else if (message?.includes('后端错误:')) {
+      title = '服务错误';
+      description = message.replace('后端错误:', '').trim();
+      if (description.includes('任务不存在')) {
+        description = '任务已过期或不存在，请重新开始创作。';
+      }
+    } else if (message?.includes('上传失败')) {
+      title = '文件上传失败';
+      description = '文件上传遇到问题，请检查网络连接或文件大小后重试。';
+      status = 'warning';
+    } else if (message?.includes('任务启动失败')) {
+      title = '任务启动失败';
+      description = '任务启动遇到问题，请稍后重试。如果问题持续存在，请联系客服。';
+      status = 'warning';
     }
-    // 更多自定义错误可以在此添加
 
     toast({
-      title: '任务失败',
+      title,
       description,
-      status: 'error',
-      duration: 9000,
+      status,
+      duration,
       isClosable: true,
+      position: 'top',
     });
   };
 
@@ -500,15 +591,27 @@ export default function Create() {
     }
   };
 
-  const pollStatus = async (taskId, appKey, retries = 0, networkErrorRetries = 0) => {
-    // 每次轮询间隔5秒，最多轮询360次（30分钟）
-    const MAX_RETRIES = 360; 
+  const pollStatus = async (taskId, appKey, retries = 0, consecutiveNetworkErrors = 0) => {
+    // 遵循网站开发规范指南 - 错误处理机制
+    const MAX_RETRIES = 720; // 增加到60分钟（720次 * 5秒）
     const POLLING_INTERVAL = 5000;
-    const MAX_NETWORK_ERROR_RETRIES = 5; // 新增：网络错误最多重试5次
+    const MAX_CONSECUTIVE_NETWORK_ERRORS = 10; // 连续网络错误最多10次
+    const BACKOFF_MULTIPLIER = 1.5; // 退避策略乘数
 
+    // 超时处理：只有在达到最大轮询次数时才视为超时
     if (retries > MAX_RETRIES) {
-      setTasks(prev => prev.map(t => t.id === taskId ? { ...t, status: 'failed' } : t));
-      toast({ title: '任务超时', description: '长时间未获取到任务结果，请稍后在"我的项目"中查看。', status: 'error', duration: 8000, isClosable: true });
+      setTasks(prev => prev.map(t => t.id === taskId ? { 
+        ...t, 
+        status: 'failed', 
+        error: '任务执行超时，但可能仍在后台处理中，请稍后在"我的项目"页面查看结果' 
+      } : t));
+      toast({ 
+        title: '任务超时', 
+        description: '长时间未获取到任务结果，但任务可能仍在后台处理，请稍后在"我的项目"中查看。', 
+        status: 'warning', 
+        duration: 10000, 
+        isClosable: true 
+      });
       setActiveTaskCount(prev => prev - 1);
       return;
     }
@@ -520,34 +623,50 @@ export default function Create() {
         body: JSON.stringify({ taskId }),
       });
 
-      // 首先检查HTTP响应本身是否成功
+      // 检查HTTP响应状态
       if (!statusRes.ok) {
-        // 如果是5xx服务器错误，直接标记为失败
+        const errorData = await statusRes.json().catch(() => ({}));
+        
+        // 区分后端业务错误和网络错误
         if (statusRes.status >= 500) {
-           throw new Error(`服务器繁忙，请稍后再试`);
+          // 5xx错误：服务器错误，可能是临时的，继续重试
+          throw new Error('NETWORK_ERROR');
+        } else if (statusRes.status >= 400) {
+          // 4xx错误：客户端错误，检查是否是后端业务错误
+          if (errorData.error && errorData.error.includes('任务不存在') || errorData.error && errorData.error.includes('invalid')) {
+            // 这是真正的后端业务错误，不再重试
+            throw new Error(`后端错误: ${errorData.error || '请求失败'}`);
+          } else {
+            // 其他4xx错误，当作网络错误处理
+            throw new Error('NETWORK_ERROR');
+          }
         }
-        // 对于其他客户端错误（如4xx），也视为失败
-        const errorData = await statusRes.json();
-        throw new Error(errorData.error || `请求失败 (状态码: ${statusRes.status})`);
       }
 
       const statusData = await statusRes.json();
+      
+      // 检查响应数据结构
+      if (!statusData || typeof statusData !== 'object') {
+        throw new Error('NETWORK_ERROR');
+      }
         
       if (statusData.status?.toLowerCase() === 'completed' || statusData.status?.toLowerCase() === 'success') {
+        // 任务完成，获取结果
         const resultRes = await fetch('/api/runninghub/result', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ taskId }),
         });
+        
         if (resultRes.ok) {
           const resultData = await resultRes.json();
-          if (resultData.success) {
+          if (resultData.success && resultData.imageUrl) {
             setTasks(prev => prev.map(task => 
               task.id === taskId 
                 ? { ...task, status: 'completed', resultImage: resultData.imageUrl, taskCostTime: resultData.taskCostTime } 
                 : task
             ));
-            setActiveTaskCount(prev => prev - 1); // 任务结束，计数减一
+            setActiveTaskCount(prev => prev - 1);
             
             // 自动保存作品到数据库
             try {
@@ -555,7 +674,7 @@ export default function Create() {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                  appName: appKey, // 保存未经翻译的key
+                  appName: appKey,
                   imageUrl: resultData.imageUrl,
                 }),
               });
@@ -564,34 +683,74 @@ export default function Create() {
               }
             } catch (saveError) {
               console.error('Save project error:', saveError);
-              // 保存失败不影响主流程，只在控制台提示
             }
             return; // 成功获取结果，停止轮询
           }
         }
-        // 如果获取结果失败，也标记为失败
-        setTasks(prev => prev.map(task => task.id === taskId ? { ...task, status: 'failed', error: t('task.error.fetchResultFailed') } : task));
-        setActiveTaskCount(prev => prev - 1); // 任务结束，计数减一
+        // 获取结果失败，继续重试而不是立即失败
+        throw new Error('NETWORK_ERROR');
 
       } else if (statusData.status?.toLowerCase() === 'failed' || statusData.status?.toLowerCase() === 'error') {
-        const errorMessage = statusData.error || t('task.error.executionFailed');
+        // 这是后端明确返回的失败状态，是真正的业务错误
+        const errorMessage = statusData.error || statusData.message || t('task.error.executionFailed');
         setTasks(prev => prev.map(task => task.id === taskId ? { ...task, status: 'failed', error: errorMessage } : task));
-        setActiveTaskCount(prev => prev - 1); // 任务结束，计数减一
-        showErrorToast(errorMessage);
-      } else { // 任务仍在进行中
-        setTimeout(() => pollStatus(taskId, appKey, retries + 1, 0), POLLING_INTERVAL); // 网络正常，重置网络错误计数器
+        setActiveTaskCount(prev => prev - 1);
+        showErrorToast(`后端执行失败: ${errorMessage}`);
+        return; // 真正的失败，停止轮询
+        
+      } else if (statusData.status?.toLowerCase() === 'running' || statusData.status?.toLowerCase() === 'queued' || statusData.status?.toLowerCase() === 'pending') {
+        // 任务仍在进行中，继续轮询
+        setTimeout(() => pollStatus(taskId, appKey, retries + 1, 0), POLLING_INTERVAL);
+        return;
+        
+      } else {
+        // 未知状态，继续重试
+        throw new Error('NETWORK_ERROR');
       }
+      
     } catch (error) {
-      // 对"服务器繁忙"等瞬时网络错误进行重试
-      if (error.message.includes('服务器繁忙') && networkErrorRetries < MAX_NETWORK_ERROR_RETRIES) {
-        setTimeout(() => pollStatus(taskId, appKey, retries + 1, networkErrorRetries + 1), POLLING_INTERVAL);
+      // 错误处理：区分网络错误和真正的后端错误
+      if (error.message === 'NETWORK_ERROR') {
+        // 网络错误或临时性错误，继续重试
+        if (consecutiveNetworkErrors >= MAX_CONSECUTIVE_NETWORK_ERRORS) {
+          // 连续网络错误次数过多，提示用户但继续轮询
+          toast({
+            title: '网络不稳定',
+            description: '检测到网络连接不稳定，任务仍在后台执行，请稍等...',
+            status: 'warning',
+            duration: 5000,
+            isClosable: true
+          });
+          // 重置连续错误计数，继续轮询
+          setTimeout(() => pollStatus(taskId, appKey, retries + 1, 0), POLLING_INTERVAL * BACKOFF_MULTIPLIER);
+        } else {
+          // 继续重试
+          setTimeout(() => pollStatus(taskId, appKey, retries + 1, consecutiveNetworkErrors + 1), POLLING_INTERVAL);
+        }
+        return;
+      } 
+      
+      if (error.message.includes('后端错误:')) {
+        // 这是真正的后端业务错误，不再重试
+        setTasks(prev => prev.map(task => task.id === taskId ? { ...task, status: 'failed', error: error.message } : task));
+        setActiveTaskCount(prev => prev - 1);
+        showErrorToast(error.message);
         return;
       }
-
-      // 最终的错误处理
-      setTasks(prev => prev.map(task => task.id === taskId ? { ...task, status: 'failed', error: error.message } : task));
-      showErrorToast(error.message);
-      setActiveTaskCount(prev => prev - 1);
+      
+      // 其他类型的错误（如fetch失败、网络中断等），继续重试
+      if (consecutiveNetworkErrors >= MAX_CONSECUTIVE_NETWORK_ERRORS) {
+        toast({
+          title: '服务繁忙',
+          description: '服务器当前负载较高，任务仍在后台执行，请稍等...',
+          status: 'warning',
+          duration: 5000,
+          isClosable: true
+        });
+        setTimeout(() => pollStatus(taskId, appKey, retries + 1, 0), POLLING_INTERVAL * 2);
+      } else {
+        setTimeout(() => pollStatus(taskId, appKey, retries + 1, consecutiveNetworkErrors + 1), POLLING_INTERVAL);
+      }
     }
   };
 
