@@ -4,12 +4,13 @@
   "private": true,
   "scripts": {
     "dev": "cross-env DATABASE_URL=\"file:./prisma/dev.db\" next dev",
-    "build": "next build",
+    "build": "prisma generate && next build",
     "start": "next start",
     "lint": "next lint",
     "set-env": "node scripts/set-env.js",
     "prisma:migrate": "dotenv -f .env.local -- npx prisma migrate dev",
-    "db:migrate": "node scripts/migrate.js"
+    "db:migrate": "node scripts/migrate.js",
+    "postinstall": "prisma generate"
   },
   "prisma": {},
   "dependencies": {
