@@ -39,27 +39,6 @@ export default function Register() {
     }
   }, [status, session, router]);
 
-  // 如果正在加载会话状态，显示加载状态
-  if (status === 'loading') {
-    return (
-      <Box bg="#0a0a0a" minH="100vh">
-        <Navbar />
-        <Container maxW="lg" py={{ base: '12', md: '24' }} px={{ base: '0', sm: '8' }}>
-          <Stack spacing="8" textAlign="center">
-            <Text fontSize="2xl" fontWeight="bold" color="white">
-              {t('common.loading')}
-            </Text>
-          </Stack>
-        </Container>
-      </Box>
-    );
-  }
-
-  // 如果用户已经登录，不渲染注册表单
-  if (status === 'authenticated') {
-    return null;
-  }
-
   useEffect(() => {
     // 每次页面加载时，清空表单
     setEmail('');
@@ -138,7 +117,7 @@ export default function Register() {
     } catch (error) {
       toast({
         title: t('auth.register.error'),
-        description: t('auth.login.googleError'), // 使用登录的翻译键
+        description: t('auth.login.googleError'),
         status: 'error',
         duration: 3000,
         isClosable: true,
@@ -152,109 +131,124 @@ export default function Register() {
     <Box bg="#0a0a0a" minH="100vh">
       <Navbar />
       <Container maxW="lg" py={{ base: '12', md: '24' }} px={{ base: '0', sm: '8' }}>
-        <Stack spacing="8">
-          <Stack spacing="6" textAlign="center">
-            <Text fontSize="2xl" fontWeight="bold" color="white" className="hero-title">
-              {t('auth.register.title')}
-            </Text>
-            <Text color="gray.300">
-              {t('auth.register.subtitle')}
+        {status === 'loading' ? (
+          <Stack spacing="8" textAlign="center">
+            <Text fontSize="2xl" fontWeight="bold" color="white">
+              {t('common.loading')}
             </Text>
           </Stack>
-          <Box
-            py={{ base: '0', sm: '8' }}
-            px={{ base: '4', sm: '10' }}
-            bg="rgba(255, 255, 255, 0.05)"
-            backdropFilter="blur(10px)"
-            border="1px solid rgba(255, 255, 255, 0.1)"
-            boxShadow="xl"
-            borderRadius={{ base: 'none', sm: 'xl' }}
-            className="modern-card"
-          >
-            <form onSubmit={handleSubmit}>
-              <Stack spacing="6">
-                <VStack spacing="4">
-                  <Button
-                    w="full"
-                    variant="outline"
-                    leftIcon={<FcGoogle />}
-                    onClick={handleGoogleRegister}
-                    isLoading={isGoogleLoading}
-                    loadingText={t('auth.login.googleSignInLoading')} // 使用登录的翻译键
-                    borderColor="rgba(255, 255, 255, 0.2)"
-                    color="white"
-                    _hover={{ 
-                      bg: 'rgba(255, 255, 255, 0.1)', 
-                      borderColor: 'rgba(255, 255, 255, 0.3)',
-                      transform: 'translateY(-1px)'
-                    }}
-                    transition="all 0.2s"
-                  >
-                    {t('auth.login.googleSignIn')}
-                  </Button>
-                  <Text color="gray.400">{t('auth.login.or')}</Text>
-                </VStack>
-                <Stack spacing="5">
-                  <FormControl isInvalid={!!error}>
-                    <FormLabel htmlFor="email" color="white">{t('auth.login.email')}</FormLabel>
-                    <Input
-                      id="email"
-                      type="email"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      placeholder={t('auth.login.emailPlaceholder')}
-                      required
-                      bg="rgba(255, 255, 255, 0.1)"
-                      border="1px solid rgba(255, 255, 255, 0.2)"
-                      color="white"
-                      _placeholder={{ color: 'gray.400' }}
-                      _hover={{ borderColor: 'rgba(255, 255, 255, 0.3)' }}
-                      _focus={{ borderColor: 'blue.400', boxShadow: '0 0 0 1px blue.400' }}
-                    />
-                  </FormControl>
-                  <FormControl isInvalid={!!error}>
-                    <FormLabel htmlFor="password" color="white">{t('auth.login.password')}</FormLabel>
-                    <Input
-                      id="password"
-                      type="password"
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                      placeholder={t('auth.login.passwordPlaceholder')}
-                      required
-                      autoComplete="new-password"
-                      bg="rgba(255, 255, 255, 0.1)"
-                      border="1px solid rgba(255, 255, 255, 0.2)"
-                      color="white"
-                      _placeholder={{ color: 'gray.400' }}
-                      _hover={{ borderColor: 'rgba(255, 255, 255, 0.3)' }}
-                      _focus={{ borderColor: 'blue.400', boxShadow: '0 0 0 1px blue.400' }}
-                    />
-                    {error && <FormErrorMessage color="red.300">{error}</FormErrorMessage>}
-                  </FormControl>
-                </Stack>
-                <Stack spacing="4">
-                  <Button
-                    type="submit"
-                    colorScheme="blue"
-                    isLoading={isLoading}
-                    _hover={{ transform: 'translateY(-1px)', shadow: 'lg' }}
-                    transition="all 0.2s"
-                  >
-                    {t('auth.register.title')}
-                  </Button>
-                </Stack>
-              </Stack>
-            </form>
-          </Box>
-          <Stack pt={6}>
-            <Text align={'center'} color="gray.300">
-              {t('auth.common.hasAccount')}{' '}
-              <Link as={NextLink} href="/login" color={'blue.400'} _hover={{ color: 'blue.300' }}>
-                {t('auth.common.login')}
-              </Link>
+        ) : status === 'authenticated' ? (
+          <Stack spacing="8" textAlign="center">
+            <Text fontSize="2xl" fontWeight="bold" color="white">
+              正在跳转...
             </Text>
           </Stack>
-        </Stack>
+        ) : (
+          <Stack spacing="8">
+            <Stack spacing="6" textAlign="center">
+              <Text fontSize="2xl" fontWeight="bold" color="white" className="hero-title">
+                {t('auth.register.title')}
+              </Text>
+              <Text color="gray.300">
+                {t('auth.register.subtitle')}
+              </Text>
+            </Stack>
+            <Box
+              py={{ base: '0', sm: '8' }}
+              px={{ base: '4', sm: '10' }}
+              bg="rgba(255, 255, 255, 0.05)"
+              backdropFilter="blur(10px)"
+              border="1px solid rgba(255, 255, 255, 0.1)"
+              boxShadow="xl"
+              borderRadius={{ base: 'none', sm: 'xl' }}
+              className="modern-card"
+            >
+              <form onSubmit={handleSubmit}>
+                <Stack spacing="6">
+                  <VStack spacing="4">
+                    <Button
+                      w="full"
+                      variant="outline"
+                      leftIcon={<FcGoogle />}
+                      onClick={handleGoogleRegister}
+                      isLoading={isGoogleLoading}
+                      loadingText={t('auth.register.googleSignUpLoading')}
+                      borderColor="rgba(255, 255, 255, 0.2)"
+                      color="white"
+                      _hover={{ 
+                        bg: 'rgba(255, 255, 255, 0.1)', 
+                        borderColor: 'rgba(255, 255, 255, 0.3)',
+                        transform: 'translateY(-1px)'
+                      }}
+                      transition="all 0.2s"
+                    >
+                      {t('auth.register.googleSignUp')}
+                    </Button>
+                    <Text color="gray.400">{t('auth.register.or')}</Text>
+                  </VStack>
+                  <Stack spacing="5">
+                    <FormControl isInvalid={!!error}>
+                      <FormLabel htmlFor="email" color="white">{t('auth.register.email')}</FormLabel>
+                      <Input
+                        id="email"
+                        type="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        placeholder={t('auth.register.emailPlaceholder')}
+                        required
+                        bg="rgba(255, 255, 255, 0.1)"
+                        border="1px solid rgba(255, 255, 255, 0.2)"
+                        color="white"
+                        _placeholder={{ color: 'gray.400' }}
+                        _hover={{ borderColor: 'rgba(255, 255, 255, 0.3)' }}
+                        _focus={{ borderColor: 'blue.400', boxShadow: '0 0 0 1px blue.400' }}
+                      />
+                    </FormControl>
+                    <FormControl isInvalid={!!error}>
+                      <FormLabel htmlFor="password" color="white">{t('auth.register.password')}</FormLabel>
+                      <Input
+                        id="password"
+                        type="password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        placeholder={t('auth.register.passwordPlaceholder')}
+                        required
+                        autoComplete="new-password"
+                        bg="rgba(255, 255, 255, 0.1)"
+                        border="1px solid rgba(255, 255, 255, 0.2)"
+                        color="white"
+                        _placeholder={{ color: 'gray.400' }}
+                        _hover={{ borderColor: 'rgba(255, 255, 255, 0.3)' }}
+                        _focus={{ borderColor: 'blue.400', boxShadow: '0 0 0 1px blue.400' }}
+                      />
+                      {error && <FormErrorMessage color="red.300">{error}</FormErrorMessage>}
+                    </FormControl>
+                  </Stack>
+                  <Stack spacing="4">
+                    <Button
+                      type="submit"
+                      colorScheme="blue"
+                      isLoading={isLoading}
+                      loadingText={t('auth.register.signingUp')}
+                      _hover={{ transform: 'translateY(-1px)', shadow: 'lg' }}
+                      transition="all 0.2s"
+                    >
+                      {t('auth.register.signUp')}
+                    </Button>
+                  </Stack>
+                </Stack>
+              </form>
+            </Box>
+            <Stack pt={6}>
+              <Text align={'center'} color="gray.300">
+                {t('auth.common.hasAccount')}{' '}
+                <Link as={NextLink} href="/login" color={'blue.400'} _hover={{ color: 'blue.300' }}>
+                  {t('auth.common.login')}
+                </Link>
+              </Text>
+            </Stack>
+          </Stack>
+        )}
       </Container>
     </Box>
   );

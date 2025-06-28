@@ -69,27 +69,6 @@ export default function Login() {
     }
   }, [status, session, router]);
 
-  // 如果正在加载会话状态，显示加载状态
-  if (status === 'loading') {
-    return (
-      <Box bg="#0a0a0a" minH="100vh">
-        <Navbar />
-        <Container maxW="lg" py={{ base: '12', md: '24' }} px={{ base: '0', sm: '8' }}>
-          <Stack spacing="8" textAlign="center">
-            <Text fontSize="2xl" fontWeight="bold" color="white">
-              {t('common.loading')}
-            </Text>
-          </Stack>
-        </Container>
-      </Box>
-    );
-  }
-
-  // 如果用户已经登录，不渲染登录表单
-  if (status === 'authenticated') {
-    return null;
-  }
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
@@ -98,13 +77,12 @@ export default function Login() {
     const result = await signIn('credentials', {
       email,
       password,
-      redirect: false, // 非常重要：设置为false，这样我们才能在前端处理错误
+      redirect: false,
     });
 
     setIsLoading(false);
 
     if (result.error) {
-      // signIn 返回了错误，我们根据错误类型设置提示信息
       let errorMessage = '';
       if (result.error === 'CredentialsSignin') {
         errorMessage = t('auth.login.credentialsError');
@@ -121,7 +99,6 @@ export default function Login() {
         position: 'top',
       });
     } else {
-      // 登录成功，使用 NextAuth 的默认重定向
       toast({
         title: t('auth.login.success'),
         status: 'success',
@@ -157,111 +134,125 @@ export default function Login() {
     <Box bg="#0a0a0a" minH="100vh">
       <Navbar />
       <Container maxW="lg" py={{ base: '12', md: '24' }} px={{ base: '0', sm: '8' }}>
-        <Stack spacing="8">
-          <Stack spacing="6" textAlign="center">
-            <Text fontSize="2xl" fontWeight="bold" color="white" className="hero-title">
-              {t('auth.login.title')}
-            </Text>
-            <Text color="gray.300">
-              {t('auth.login.subtitle')}
+        {status === 'loading' ? (
+          <Stack spacing="8" textAlign="center">
+            <Text fontSize="2xl" fontWeight="bold" color="white">
+              {t('common.loading')}
             </Text>
           </Stack>
-          <Box
-            py={{ base: '0', sm: '8' }}
-            px={{ base: '4', sm: '10' }}
-            bg="rgba(255, 255, 255, 0.05)"
-            backdropFilter="blur(10px)"
-            border="1px solid rgba(255, 255, 255, 0.1)"
-            boxShadow="xl"
-            borderRadius={{ base: 'none', sm: 'xl' }}
-            className="modern-card"
-          >
-            <form onSubmit={handleSubmit}>
-              <Stack spacing="6">
-                <Stack spacing="5">
-                  <FormControl isInvalid={!!error}>
-                    <FormLabel htmlFor="email" color="white">{t('auth.login.email')}</FormLabel>
-                    <Input
-                      id="email"
-                      type="email"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      placeholder={t('auth.login.emailPlaceholder')}
-                      required
-                      autoComplete="email"
-                      bg="rgba(255, 255, 255, 0.1)"
-                      border="1px solid rgba(255, 255, 255, 0.2)"
-                      color="white"
-                      _placeholder={{ color: 'gray.400' }}
-                      _hover={{ borderColor: 'rgba(255, 255, 255, 0.3)' }}
-                      _focus={{ borderColor: 'blue.400', boxShadow: '0 0 0 1px blue.400' }}
-                    />
-                  </FormControl>
-                  <FormControl isInvalid={!!error}>
-                    <FormLabel htmlFor="password" color="white">{t('auth.login.password')}</FormLabel>
-                    <Input
-                      id="password"
-                      type="password"
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                      placeholder={t('auth.login.passwordPlaceholder')}
-                      required
-                      autoComplete="current-password"
-                      bg="rgba(255, 255, 255, 0.1)"
-                      border="1px solid rgba(255, 255, 255, 0.2)"
-                      color="white"
-                      _placeholder={{ color: 'gray.400' }}
-                      _hover={{ borderColor: 'rgba(255, 255, 255, 0.3)' }}
-                      _focus={{ borderColor: 'blue.400', boxShadow: '0 0 0 1px blue.400' }}
-                    />
-                    {error && <FormErrorMessage color="red.300">{error}</FormErrorMessage>}
-                  </FormControl>
-                </Stack>
-                <Stack spacing="4">
-                  <Button
-                    type="submit"
-                    colorScheme="blue"
-                    isLoading={isLoading}
-                    loadingText={t('auth.login.signingIn')}
-                    _hover={{ transform: 'translateY(-1px)', shadow: 'lg' }}
-                    transition="all 0.2s"
-                  >
-                    {t('auth.login.signIn')}
-                  </Button>
-                  <VStack spacing="4">
-                    <Text color="gray.400">{t('auth.login.or')}</Text>
+        ) : status === 'authenticated' ? (
+          <Stack spacing="8" textAlign="center">
+            <Text fontSize="2xl" fontWeight="bold" color="white">
+              正在跳转...
+            </Text>
+          </Stack>
+        ) : (
+          <Stack spacing="8">
+            <Stack spacing="6" textAlign="center">
+              <Text fontSize="2xl" fontWeight="bold" color="white" className="hero-title">
+                {t('auth.login.title')}
+              </Text>
+              <Text color="gray.300">
+                {t('auth.login.subtitle')}
+              </Text>
+            </Stack>
+            <Box
+              py={{ base: '0', sm: '8' }}
+              px={{ base: '4', sm: '10' }}
+              bg="rgba(255, 255, 255, 0.05)"
+              backdropFilter="blur(10px)"
+              border="1px solid rgba(255, 255, 255, 0.1)"
+              boxShadow="xl"
+              borderRadius={{ base: 'none', sm: 'xl' }}
+              className="modern-card"
+            >
+              <form onSubmit={handleSubmit}>
+                <Stack spacing="6">
+                  <Stack spacing="5">
+                    <FormControl isInvalid={!!error}>
+                      <FormLabel htmlFor="email" color="white">{t('auth.login.email')}</FormLabel>
+                      <Input
+                        id="email"
+                        type="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        placeholder={t('auth.login.emailPlaceholder')}
+                        required
+                        autoComplete="email"
+                        bg="rgba(255, 255, 255, 0.1)"
+                        border="1px solid rgba(255, 255, 255, 0.2)"
+                        color="white"
+                        _placeholder={{ color: 'gray.400' }}
+                        _hover={{ borderColor: 'rgba(255, 255, 255, 0.3)' }}
+                        _focus={{ borderColor: 'blue.400', boxShadow: '0 0 0 1px blue.400' }}
+                      />
+                    </FormControl>
+                    <FormControl isInvalid={!!error}>
+                      <FormLabel htmlFor="password" color="white">{t('auth.login.password')}</FormLabel>
+                      <Input
+                        id="password"
+                        type="password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        placeholder={t('auth.login.passwordPlaceholder')}
+                        required
+                        autoComplete="current-password"
+                        bg="rgba(255, 255, 255, 0.1)"
+                        border="1px solid rgba(255, 255, 255, 0.2)"
+                        color="white"
+                        _placeholder={{ color: 'gray.400' }}
+                        _hover={{ borderColor: 'rgba(255, 255, 255, 0.3)' }}
+                        _focus={{ borderColor: 'blue.400', boxShadow: '0 0 0 1px blue.400' }}
+                      />
+                      {error && <FormErrorMessage color="red.300">{error}</FormErrorMessage>}
+                    </FormControl>
+                  </Stack>
+                  <Stack spacing="4">
                     <Button
-                      w="full"
-                      variant="outline"
-                      leftIcon={<FcGoogle />}
-                      onClick={handleGoogleSignIn}
-                      isLoading={isGoogleLoading}
-                      loadingText={t('auth.login.googleSignInLoading')}
-                      borderColor="rgba(255, 255, 255, 0.2)"
-                      color="white"
-                      _hover={{ 
-                        bg: 'rgba(255, 255, 255, 0.1)', 
-                        borderColor: 'rgba(255, 255, 255, 0.3)',
-                        transform: 'translateY(-1px)'
-                      }}
+                      type="submit"
+                      colorScheme="blue"
+                      isLoading={isLoading}
+                      loadingText={t('auth.login.signingIn')}
+                      _hover={{ transform: 'translateY(-1px)', shadow: 'lg' }}
                       transition="all 0.2s"
                     >
-                      {t('auth.login.googleSignIn')}
+                      {t('auth.login.signIn')}
                     </Button>
-                  </VStack>
+                    <VStack spacing="4">
+                      <Text color="gray.400">{t('auth.login.or')}</Text>
+                      <Button
+                        w="full"
+                        variant="outline"
+                        leftIcon={<FcGoogle />}
+                        onClick={handleGoogleSignIn}
+                        isLoading={isGoogleLoading}
+                        loadingText={t('auth.login.googleSignInLoading')}
+                        borderColor="rgba(255, 255, 255, 0.2)"
+                        color="white"
+                        _hover={{ 
+                          bg: 'rgba(255, 255, 255, 0.1)', 
+                          borderColor: 'rgba(255, 255, 255, 0.3)',
+                          transform: 'translateY(-1px)'
+                        }}
+                        transition="all 0.2s"
+                      >
+                        {t('auth.login.googleSignIn')}
+                      </Button>
+                    </VStack>
+                  </Stack>
                 </Stack>
-              </Stack>
-            </form>
-          </Box>
-          <Stack pt={6}>
-            <Text align={'center'} color="gray.300">
-              {t('auth.common.noAccount')}{' '}
-              <Link as={NextLink} href="/register" color={'blue.400'} _hover={{ color: 'blue.300' }}>
-                {t('auth.common.register')}
-              </Link>
-            </Text>
+              </form>
+            </Box>
+            <Stack pt={6}>
+              <Text align={'center'} color="gray.300">
+                {t('auth.common.noAccount')}{' '}
+                <Link as={NextLink} href="/register" color={'blue.400'} _hover={{ color: 'blue.300' }}>
+                  {t('auth.common.register')}
+                </Link>
+              </Text>
+            </Stack>
           </Stack>
-        </Stack>
+        )}
       </Container>
     </Box>
   );
