@@ -1,3 +1,7 @@
+/* 
+ * ✨ NEW VERSION - 2025-06-30 
+ * 现代化注册页面 - 完全重新设计的UI
+ */
 import { useState, useEffect } from 'react';
 import { signIn, useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
