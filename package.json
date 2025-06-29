@@ -13,7 +13,11 @@
     "postinstall": "prisma generate",
     "check-auth": "node scripts/check-auth-config.js",
     "troubleshoot": "node scripts/troubleshoot.js",
-    "clear-db": "node scripts/clear-database.js"
+    "clear-db": "node scripts/clear-database.js",
+    "vercel-env-check": "node scripts/vercel-env-check.js",
+    "fix-vercel-auth": "node scripts/fix-vercel-auth.js",
+    "setup-supabase": "npx prisma generate && npx prisma db push",
+    "reset-supabase": "npx prisma db push --force-reset"
   },
   "prisma": {},
   "dependencies": {
