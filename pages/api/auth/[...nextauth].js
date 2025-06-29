@@ -141,6 +141,49 @@ const buildAuthOptions = () => {
             }
             return session;
           },
+          async redirect({ url, baseUrl }) {
+            // 登录成功后重定向到首页
+            console.log('[NextAuth] 重定向处理:', { url, baseUrl });
+            
+            // 如果是登录回调，重定向到首页
+            if (url.startsWith('/api/auth/callback')) {
+              console.log('[NextAuth] 登录成功，重定向到首页');
+              return baseUrl;
+            }
+            
+            // 如果是相对路径，确保在同一域下
+            if (url.startsWith('/')) {
+              return `${baseUrl}${url}`;
+            }
+            
+            // 如果是同一域下的URL，允许重定向
+            if (new URL(url).origin === baseUrl) {
+              return url;
+            }
+            
+            // 默认重定向到首页
+            return baseUrl;
+          },
+          async signIn({ user, account, profile, email, credentials }) {
+            console.log('[NextAuth] signIn callback:', { 
+              provider: account?.provider, 
+              email: user?.email 
+            });
+            
+            // 对于credentials provider (邮箱登录)
+            if (account?.provider === 'credentials') {
+              console.log('[NextAuth] 邮箱登录验证通过:', user.email);
+              return true;
+            }
+            
+            // 对于Google provider
+            if (account?.provider === 'google') {
+              console.log('[NextAuth] Google登录验证通过:', user.email);
+              return true;
+            }
+            
+            return true;
+          },
         },
       };
 
@@ -176,6 +219,29 @@ const buildAuthOptions = () => {
             }
             console.log('[NextAuth] Session 创建成功:', session.user?.email);
             return session;
+          },
+          async redirect({ url, baseUrl }) {
+            // 登录成功后重定向到首页
+            console.log('[NextAuth] 重定向处理:', { url, baseUrl });
+            
+            // 如果是登录回调，重定向到首页
+            if (url.startsWith('/api/auth/callback')) {
+              console.log('[NextAuth] 登录成功，重定向到首页');
+              return baseUrl;
+            }
+            
+            // 如果是相对路径，确保在同一域下
+            if (url.startsWith('/')) {
+              return `${baseUrl}${url}`;
+            }
+            
+            // 如果是同一域下的URL，允许重定向
+            if (new URL(url).origin === baseUrl) {
+              return url;
+            }
+            
+            // 默认重定向到首页
+            return baseUrl;
           },
           async signIn({ user, account, profile }) {
             // Google 登录验证

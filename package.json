@@ -12,7 +12,8 @@
     "db:migrate": "node scripts/migrate.js",
     "postinstall": "prisma generate",
     "check-auth": "node scripts/check-auth-config.js",
-    "troubleshoot": "node scripts/troubleshoot.js"
+    "troubleshoot": "node scripts/troubleshoot.js",
+    "clear-db": "node scripts/clear-database.js"
   },
   "prisma": {},
   "dependencies": {
