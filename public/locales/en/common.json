@@ -183,6 +183,10 @@
     "register": {
       "title": "Register",
       "subtitle": "Create a new account",
+      "welcomeTitle": "Join Flux AI",
+      "welcomeDescription": "Start your AI journey and discover unlimited possibilities",
+      "formTitle": "Create New Account",
+      "formDescription": "Fast and secure Google registration",
       "email": "Email",
       "emailPlaceholder": "Enter your email",
       "password": "Password",
@@ -192,14 +196,74 @@
       "submit": "Register",
       "submitting": "Registering...",
       "googleSignUp": "Register with Google",
-      "googleSignUpLoading": "Registering with Google...",
-      "or": "or",
+      "googleSignUpLoading": "Connecting to Google...",
+      "secureTransmission": "Secure encrypted transmission",
       "hasAccount": "Already have an account?",
-      "login": "Login Now",
+      "loginLink": "Login Now",
+      "termsText": "*By registering, you agree to our Terms of Service and Privacy Policy",
+      "rightSideTitle": "AI Creation Experience",
+      "rightSideDescription": "Turn your creativity into reality instantly ✨",
+      "features": {
+        "textToImage": {
+          "title": "Text to Image",
+          "description": "Generate images from text"
+        },
+        "textToVideo": {
+          "title": "Text to Video",
+          "description": "Create videos with one click"
+        },
+        "digitalHuman": {
+          "title": "Digital Human",
+          "description": "Create AI virtual avatars"
+        },
+        "realTime": {
+          "title": "Real-time Generation",
+          "description": "Fast response, instant creation"
+        }
+      },
+      "bottomTitle": "Start Creating Now",
+      "bottomDescription": "Join thousands of creators and unleash your creativity with AI",
+      "or": "or",
       "error": "Registration Failed",
       "loginError": "Registration successful but login failed, please try again",
       "serverError": "Server error, please try again later",
       "googleError": "Google registration failed, please try again"
+    },
+    "loginNew": {
+      "welcomeTitle": "Welcome Back",
+      "welcomeDescription": "Sign in to your account to continue your AI creation journey",
+      "formTitle": "Sign In to Account",
+      "formDescription": "Secure, fast Google account login",
+      "googleButton": "Sign in with Google",
+      "loggingIn": "Signing in...",
+      "connectingGoogle": "Connecting to Google...",
+      "secureTransmission": "Secure encrypted transmission",
+      "noAccount": "Don't have an account?",
+      "registerNow": "Register now",
+      "disclaimer": "*Flux AI Studio and Flux AI have independent account systems",
+      "loading": "Loading...",
+      "loginSuccess": "Login successful, redirecting...",
+      "loginError": "Login Error",
+      "loginFailed": "Login failed, please try again",
+      "googleLoginFailed": "Google login failed, please try again",
+      "promoTitle": "Creativity to Slideshow Videos", 
+      "promoDescription": "With Flux AI, you can instantly transform any content or idea into stunning videos 🎬",
+      "promoSlogan": "Unleash Your Creativity, Powered by AI",
+      "features": {
+        "imageGeneration": "Image Generation",
+        "videoGeneration": "Video Generation", 
+        "aiAvatar": "AI Digital Human"
+      },
+      "aiCreationTools": "AI Creation Tools"
+    },
+    "common": {
+      "noAccount": "Don't have an account?",
+      "hasAccount": "Already have an account?",
+      "register": "Register Now",
+      "login": "Login Now",
+      "loading": "Loading...",
+      "loginSuccess": "Login successful, redirecting...",
+      "registerSuccess": "Registration successful, redirecting..."
     }
   },
   "hero": {

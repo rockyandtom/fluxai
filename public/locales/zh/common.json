@@ -199,6 +199,10 @@
     "register": {
       "title": "注册",
       "subtitle": "创建新账号",
+      "welcomeTitle": "加入 Flux AI",
+      "welcomeDescription": "开启您的AI创作之旅，发现无限可能",
+      "formTitle": "创建新账户",
+      "formDescription": "安全、快速的Google账户注册",
       "email": "邮箱",
       "emailPlaceholder": "请输入邮箱",
       "password": "密码",
@@ -207,17 +211,73 @@
       "signingUp": "注册中...",
       "submit": "注册",
       "submitting": "注册中...",
-      "googleSignUp": "使用谷歌账号注册",
-      "googleSignUpLoading": "谷歌注册中...",
+      "googleSignUp": "使用Google注册",
+      "googleSignUpLoading": "正在连接Google...",
+      "secureTransmission": "安全加密传输",
+      "hasAccount": "已有账户？",
+      "loginLink": "立即登录",
+      "termsText": "*注册即表示您同意我们的服务条款和隐私政策",
+      "rightSideTitle": "AI创作新体验",
+      "rightSideDescription": "强大的AI工具，让您的创意瞬间变为现实 ✨",
+      "features": {
+        "textToImage": {
+          "title": "文本生成图片",
+          "description": "从文字描述生成精美图像"
+        },
+        "textToVideo": {
+          "title": "文本生成视频",
+          "description": "一键创建专业视频内容"
+        },
+        "digitalHuman": {
+          "title": "数字人视频",
+          "description": "打造个性化AI虚拟形象"
+        },
+        "realTime": {
+          "title": "实时生成",
+          "description": "快速响应，即时创作"
+        }
+      },
+      "bottomTitle": "立即开启创作之旅",
+      "bottomDescription": "加入数万创作者，用AI释放您的无限创意",
       "or": "或",
       "success": "注册成功",
       "error": "注册失败"
+    },
+    "loginNew": {
+      "welcomeTitle": "欢迎回来",
+      "welcomeDescription": "登录您的账户，继续您的AI创作之旅",
+      "formTitle": "登录账户",
+      "formDescription": "安全、快速的Google账户登录",
+      "googleButton": "使用Google登录",
+      "loggingIn": "登录中...",
+      "connectingGoogle": "正在连接Google...",
+      "secureTransmission": "安全加密传输",
+      "noAccount": "没有账户？",
+      "registerNow": "立即注册",
+      "disclaimer": "*Flux AI Studio 和 Flux AI 拥有独立的账户系统",
+      "loading": "加载中...",
+      "loginSuccess": "登录成功，正在跳转...",
+      "loginError": "登录错误",
+      "loginFailed": "登录失败，请重试",
+      "googleLoginFailed": "Google登录失败，请重试",
+      "promoTitle": "创意到幻灯片视频", 
+      "promoDescription": "使用 Flux AI，您可以将任何内容或创意瞬间转换为精美视频 🎬",
+      "promoSlogan": "Unleash Your Creativity, Powered by AI",
+      "features": {
+        "imageGeneration": "图像生成",
+        "videoGeneration": "视频生成", 
+        "aiAvatar": "AI数字人"
+      },
+      "aiCreationTools": "AI 创作工具"
     },
     "common": {
       "noAccount": "还没有账号？",
       "hasAccount": "已有账号？",
       "register": "立即注册",
-      "login": "立即登录"
+      "login": "立即登录",
+      "loading": "加载中...",
+      "loginSuccess": "登录成功，正在跳转...",
+      "registerSuccess": "注册成功，正在跳转..."
     }
   },
   "create": {

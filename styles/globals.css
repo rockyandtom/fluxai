@@ -125,6 +125,16 @@ html {
   }
 }
 
+/* 加载旋转动画 */
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
 /* 确保所有弹出框都有正确的层级 */
 .chakra-portal {
   z-index: 9999;
