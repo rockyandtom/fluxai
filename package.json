@@ -11,7 +11,8 @@
     "prisma:migrate": "dotenv -f .env.local -- npx prisma migrate dev",
     "db:migrate": "node scripts/migrate.js",
     "postinstall": "prisma generate",
-    "check-auth": "node scripts/check-auth-config.js"
+    "check-auth": "node scripts/check-auth-config.js",
+    "troubleshoot": "node scripts/troubleshoot.js"
   },
   "prisma": {},
   "dependencies": {
