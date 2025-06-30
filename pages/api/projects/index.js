@@ -1,6 +1,6 @@
 import { getServerSession } from 'next-auth/next';
 import { authOptions } from '../auth/[...nextauth]';
-import prisma from '../../../prisma/client';
+import { findUserByEmail, findUserProjects } from '../../../prisma/client';
 
 export default async function handler(req, res) {
   // 添加CORS头
@@ -25,39 +25,22 @@ export default async function handler(req, res) {
       return res.status(401).json({ message: 'Unauthorized' });
     }
 
-    // 处理不同的用户ID来源
-    let userId = session.user.id;
-    
-    // 如果没有直接的ID，尝试通过邮箱查找用户
-    if (!userId && session.user.email) {
+    // 使用安全重试函数查询用户
+    let user = null;
+    if (session.user.email) {
       console.log('通过邮箱查找用户ID:', session.user.email);
-      const user = await prisma.user.findUnique({
-        where: { email: session.user.email },
-        select: { id: true }
-      });
-      userId = user?.id;
+      user = await findUserByEmail(session.user.email);
     }
 
-    if (!userId) {
+    if (!user || !user.id) {
       console.log('无法获取用户ID');
-      return res.status(401).json({ message: 'User ID not found' });
+      return res.status(401).json({ message: 'User not found, please login again' });
     }
 
-    console.log('查询用户项目, userId:', userId);
-    const projects = await prisma.project.findMany({
-      where: { userId: userId },
-      orderBy: {
-        createdAt: 'desc',
-      },
-      select: {
-        id: true,
-        appName: true,
-        imageUrl: true,
-        createdAt: true,
-        updatedAt: true,
-        userId: true,
-      }
-    });
+    console.log('查询用户项目, userId:', user.id);
+    
+    // 使用安全重试函数查询项目
+    const projects = await findUserProjects(user.id);
 
     console.log(`找到 ${projects.length} 个项目`);
     res.status(200).json(projects);
@@ -68,6 +51,11 @@ export default async function handler(req, res) {
     // 处理数据库连接错误
     if (error.code === 'P1001') {
       return res.status(503).json({ message: '数据库连接失败，请稍后重试' });
+    }
+    
+    // 处理 prepared statement 错误
+    if (error.code === '42P05') {
+      return res.status(503).json({ message: '数据库繁忙，请稍后重试' });
     }
     
     // 处理认证错误

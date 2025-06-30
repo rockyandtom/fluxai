@@ -10,7 +10,7 @@ import { FaHome, FaPlus, FaFolder, FaChevronLeft, FaChevronRight, FaDownload, Fa
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { motion } from 'framer-motion';
-import prisma from '../prisma/client';
+import { findUserByEmail, findUserProjects } from '../prisma/client';
 import Navbar from '../components/Navbar';
 
 // --- Components ---
@@ -308,42 +308,44 @@ export async function getServerSideProps({ req, locale }) {
       };
     }
 
-    // 使用新的Prisma客户端实例，避免连接冲突
-    // 使用优化的Prisma客户端单例
+    // 使用安全的数据库查询函数
 
     try {
-      const userWithProjects = await prisma.user.findUnique({
-        where: {
-          email: session.user.email,
-        },
-        include: {
-          projects: {
-            orderBy: {
-              createdAt: 'desc',
-            },
+      console.log('SSR: 查找用户和项目，邮箱:', session.user.email);
+      
+      // 使用安全重试函数查询用户
+      const user = await findUserByEmail(session.user.email);
+      
+      if (!user) {
+        console.log('SSR: 用户不存在');
+        return {
+          props: {
+            ...(await serverSideTranslations(locale, ['common'])),
+            initialProjects: [],
           },
-        },
-      });
+        };
+      }
 
-      const projects = userWithProjects?.projects.map(p => ({
+      // 使用安全重试函数查询项目
+      const projects = await findUserProjects(user.id);
+      
+      const serializedProjects = projects.map(p => ({
         ...p,
-        // Convert Date objects to strings
+        // Convert Date objects to strings for JSON serialization
         createdAt: p.createdAt.toISOString(),
         updatedAt: p.updatedAt.toISOString(),
-      })) || [];
+      }));
 
-      await prisma.$disconnect();
+      console.log(`SSR: 找到 ${serializedProjects.length} 个项目`);
 
       return {
         props: {
           ...(await serverSideTranslations(locale, ['common'])),
-          initialProjects: projects,
+          initialProjects: serializedProjects,
         },
       };
     } catch (dbError) {
       console.error('Database query error in getServerSideProps:', dbError);
-      
-      await prisma.$disconnect();
       
       // 如果数据库查询失败，返回空的项目列表，让客户端通过API获取
       return {
