@@ -10,7 +10,7 @@ import { FaHome, FaPlus, FaFolder, FaChevronLeft, FaChevronRight, FaDownload, Fa
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { motion } from 'framer-motion';
-import prisma from '../prisma/client';
+import { PrismaClient } from '@prisma/client';
 import Navbar from '../components/Navbar';
 
 // --- Components ---
@@ -296,9 +296,67 @@ export default function Projects({ initialProjects }) {
 }
 
 export async function getServerSideProps({ req, locale }) {
-  const session = await getSession({ req });
+  try {
+    const session = await getSession({ req });
 
-  if (!session) {
+    if (!session) {
+      return {
+        redirect: {
+          destination: '/login',
+          permanent: false,
+        },
+      };
+    }
+
+    // 使用新的Prisma客户端实例，避免连接冲突
+    const prisma = new PrismaClient();
+
+    try {
+      const userWithProjects = await prisma.user.findUnique({
+        where: {
+          email: session.user.email,
+        },
+        include: {
+          projects: {
+            orderBy: {
+              createdAt: 'desc',
+            },
+          },
+        },
+      });
+
+      const projects = userWithProjects?.projects.map(p => ({
+        ...p,
+        // Convert Date objects to strings
+        createdAt: p.createdAt.toISOString(),
+        updatedAt: p.updatedAt.toISOString(),
+      })) || [];
+
+      await prisma.$disconnect();
+
+      return {
+        props: {
+          ...(await serverSideTranslations(locale, ['common'])),
+          initialProjects: projects,
+        },
+      };
+    } catch (dbError) {
+      console.error('Database query error in getServerSideProps:', dbError);
+      
+      await prisma.$disconnect();
+      
+      // 如果数据库查询失败，返回空的项目列表，让客户端通过API获取
+      return {
+        props: {
+          ...(await serverSideTranslations(locale, ['common'])),
+          initialProjects: [],
+        },
+      };
+    }
+  } catch (error) {
+    console.error('getServerSideProps error:', error);
+    
+    // 如果出现任何错误，重定向到登录页面
     return {
       redirect: {
         destination: '/login',
@@ -306,31 +364,4 @@ export async function getServerSideProps({ req, locale }) {
       },
     };
   }
-
-  const userWithProjects = await prisma.user.findUnique({
-    where: {
-      email: session.user.email,
-    },
-    include: {
-      projects: {
-        orderBy: {
-          createdAt: 'desc',
-        },
-      },
-    },
-  });
-
-  const projects = userWithProjects?.projects.map(p => ({
-    ...p,
-    // Convert Date objects to strings
-    createdAt: p.createdAt.toISOString(),
-    updatedAt: p.updatedAt.toISOString(),
-  })) || [];
-
-  return {
-    props: {
-      ...(await serverSideTranslations(locale, ['common'])),
-      initialProjects: projects,
-    },
-  };
 } 
