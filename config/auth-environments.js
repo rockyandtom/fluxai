@@ -9,15 +9,15 @@
  */
 export const AUTH_ENVIRONMENTS = {
   DEVELOPMENT: 'development',
-  PRODUCTION_SQLITE: 'production_sqlite', // 当前使用
-  PRODUCTION_POSTGRESQL: 'production_postgresql', // 数据库迁移后使用
+  PRODUCTION_SQLITE: 'production_sqlite',
+  PRODUCTION_POSTGRESQL: 'production_postgresql', // 当前使用 - 生产环境推荐
 };
 
 /**
  * 根据环境获取认证配置
  */
 export const getAuthConfig = () => {
-  const environment = process.env.AUTH_ENVIRONMENT || AUTH_ENVIRONMENTS.PRODUCTION_SQLITE;
+  const environment = process.env.AUTH_ENVIRONMENT || AUTH_ENVIRONMENTS.PRODUCTION_POSTGRESQL;
   
   const configs = {
     [AUTH_ENVIRONMENTS.DEVELOPMENT]: {
