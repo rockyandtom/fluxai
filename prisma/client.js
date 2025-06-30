@@ -12,8 +12,6 @@ const createPrismaClient = () => {
     },
     // Serverless环境优化配置
     log: process.env.NODE_ENV === 'development' ? ['error'] : [],
-    // 添加更严格的连接池配置，防止 prepared statement 冲突
-    engineType: 'binary',
   });
 };
 
