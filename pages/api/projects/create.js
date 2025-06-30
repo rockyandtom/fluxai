@@ -1,6 +1,6 @@
 import { getServerSession } from 'next-auth/next';
 import { authOptions } from '../auth/[...nextauth]';
-import prisma from '../../../prisma/client';
+import { findUserByEmail, createProject } from '../../../prisma/client';
 
 export default async function handler(req, res) {
   // 添加CORS头
@@ -25,22 +25,16 @@ export default async function handler(req, res) {
       return res.status(401).json({ message: 'Unauthorized' });
     }
 
-    // 处理不同的用户ID来源
-    let userId = session.user.id;
-    
-    // 如果没有直接的ID，尝试通过邮箱查找用户
-    if (!userId && session.user.email) {
+    // 使用安全函数查询用户
+    let user = null;
+    if (session.user.email) {
       console.log('通过邮箱查找用户ID:', session.user.email);
-      const user = await prisma.user.findUnique({
-        where: { email: session.user.email },
-        select: { id: true }
-      });
-      userId = user?.id;
+      user = await findUserByEmail(session.user.email);
     }
 
-    if (!userId) {
+    if (!user || !user.id) {
       console.log('无法获取用户ID');
-      return res.status(401).json({ message: 'User ID not found' });
+      return res.status(401).json({ message: 'User not found, please login again' });
     }
 
     const { appName, imageUrl } = req.body;
@@ -50,15 +44,10 @@ export default async function handler(req, res) {
       return res.status(400).json({ message: 'Missing appName or imageUrl' });
     }
 
-    console.log('创建项目:', { appName, userId, imageUrl: imageUrl.substring(0, 50) + '...' });
+    console.log('创建项目 (使用原生SQL):', { appName, userId: user.id, imageUrl: imageUrl.substring(0, 50) + '...' });
 
-    const project = await prisma.project.create({
-      data: {
-        appName: appName,
-        imageUrl: imageUrl,
-        userId: userId,
-      },
-    });
+    // 使用安全函数创建项目，完全避免prepared statement问题
+    const project = await createProject(appName, imageUrl, user.id);
 
     console.log('项目创建成功:', project.id);
 
@@ -68,7 +57,7 @@ export default async function handler(req, res) {
         id: project.id,
         appName: project.appName,
         imageUrl: project.imageUrl,
-        createdAt: project.createdAt.toISOString(),
+        createdAt: project.createdAt,
         userId: project.userId
       }
     });
@@ -86,35 +75,12 @@ export default async function handler(req, res) {
       return res.status(400).json({ message: '用户不存在，请重新登录' });
     }
 
-    // 处理Prepared Statement错误
-    if (error.code === '42P05' || error.message.includes('prepared statement')) {
-      console.log('检测到prepared statement冲突，重试...');
-      // 简单重试机制
-      try {
-        await new Promise(resolve => setTimeout(resolve, 100));
-        const retryProject = await prisma.project.create({
-          data: {
-            appName: req.body.appName,
-            imageUrl: req.body.imageUrl,
-            userId: userId,
-          },
-        });
-        
-        return res.status(201).json({
-          success: true,
-          project: {
-            id: retryProject.id,
-            appName: retryProject.appName,
-            imageUrl: retryProject.imageUrl,
-            createdAt: retryProject.createdAt.toISOString(),
-            userId: retryProject.userId
-          }
-        });
-      } catch (retryError) {
-        console.error('重试也失败:', retryError);
-      }
+    // 数据重复错误
+    if (error.code === '23505') {
+      return res.status(409).json({ message: '项目ID重复，请重试' });
     }
 
+    // 通用错误处理
     res.status(500).json({ 
       message: '保存作品失败',
       error: process.env.NODE_ENV === 'development' ? error.message : '服务器内部错误'
