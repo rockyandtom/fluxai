@@ -219,6 +219,53 @@ export const findUserProjects = async (userId) => {
   }
 };
 
+// 安全查找单个项目函数
+export const findProjectById = async (projectId) => {
+  console.log('=== 开始查找项目 ===');
+  console.log('查找项目ID:', projectId);
+  
+  try {
+    const result = await safeQuery(async (client) => {
+      console.log('执行单个项目查询 SQL');
+      return await client.project.findUnique({
+        where: { id: projectId },
+        select: {
+          id: true,
+          userId: true,
+          appName: true,
+        }
+      });
+    });
+    
+    console.log('项目查找完成:', result ? '找到项目' : '项目不存在', result?.id);
+    return result;
+  } catch (error) {
+    console.error('查找项目失败:', error);
+    throw error;
+  }
+};
+
+// 安全删除项目函数
+export const deleteProject = async (projectId) => {
+  console.log('=== 开始删除项目 ===');
+  console.log('删除项目ID:', projectId);
+  
+  try {
+    const result = await safeQuery(async (client) => {
+      console.log('执行项目删除 SQL');
+      return await client.project.delete({
+        where: { id: projectId },
+      });
+    });
+    
+    console.log('项目删除完成:', result.id);
+    return result;
+  } catch (error) {
+    console.error('删除项目失败:', error);
+    throw error;
+  }
+};
+
 // 改进的断开连接函数
 export const disconnect = async () => {
   try {
