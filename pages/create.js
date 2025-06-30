@@ -668,7 +668,7 @@ export default function Create() {
             ));
             setActiveTaskCount(prev => prev - 1);
             
-            // 自动保存作品到数据库
+            // 自动保存作品到数据库 - 增强错误处理和用户反馈
             try {
               const saveRes = await fetch('/api/projects/create', {
                 method: 'POST',
@@ -678,11 +678,51 @@ export default function Create() {
                   imageUrl: resultData.imageUrl,
                 }),
               });
-              if (saveRes.status === 401) {
-                toast({ title: t('toast.loginRequired'), description: t('toast.loginToSave'), status: 'info', duration: 5000, isClosable: true });
+              
+              const saveData = await saveRes.json();
+              
+              if (saveRes.ok && saveData.success) {
+                // 保存成功
+                toast({ 
+                  title: '🎉 作品已保存', 
+                  description: '您的作品已自动保存到"我的项目"中！', 
+                  status: 'success', 
+                  duration: 4000, 
+                  isClosable: true 
+                });
+                console.log('项目保存成功:', saveData.project.id);
+                
+              } else if (saveRes.status === 401) {
+                // 登录过期
+                toast({ 
+                  title: '登录已过期', 
+                  description: '请重新登录以保存作品', 
+                  status: 'warning', 
+                  duration: 6000, 
+                  isClosable: true 
+                });
+                
+              } else {
+                // 其他错误
+                console.error('保存项目失败:', saveData);
+                toast({ 
+                  title: '⚠️ 保存失败', 
+                  description: saveData.message || '作品生成成功但保存失败，请手动截图保存', 
+                  status: 'warning', 
+                  duration: 8000, 
+                  isClosable: true 
+                });
               }
+              
             } catch (saveError) {
-              console.error('Save project error:', saveError);
+              console.error('保存项目网络错误:', saveError);
+              toast({ 
+                title: '⚠️ 网络错误', 
+                description: '作品生成成功但因网络问题无法保存，请手动截图保存', 
+                status: 'warning', 
+                duration: 8000, 
+                isClosable: true 
+              });
             }
             return; // 成功获取结果，停止轮询
           }
