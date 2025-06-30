@@ -1,5 +1,5 @@
 /**
- * 手动测试项目保存功能 - 使用原生SQL避免prepared statement冲突
+ * 手动测试项目保存功能 - 保守修复方案
  * 访问: /api/debug/save-test?appName=test&imageUrl=https://example.com/image.jpg
  */
 
@@ -25,7 +25,7 @@ export default async function handler(req, res) {
   const testImageUrl = imageUrl || 'https://via.placeholder.com/400x300.png?text=Test+Project';
 
   try {
-    console.log('开始项目保存测试 - 使用原生SQL...');
+    console.log('开始项目保存测试 - 使用保守重试方案...');
 
     // 1. 测试数据库连接
     const connectionTest = await testConnection();
@@ -54,7 +54,7 @@ export default async function handler(req, res) {
       });
     }
 
-    // 3. 使用安全函数查询用户
+    // 3. 使用安全重试函数查询用户
     const user = await findUserByEmail(session.user.email);
     console.log('用户查询结果:', user ? 'OK' : 'FAILED');
     
@@ -64,11 +64,11 @@ export default async function handler(req, res) {
         message: '用户不存在',
         step: 'user_query',
         email: session.user.email,
-        solution: '请尝试重新登录Google账户，或联系管理员'
+        solution: '请尝试重新登录Google账户'
       });
     }
 
-    // 4. 使用安全函数创建项目
+    // 4. 使用安全重试函数创建项目
     console.log('创建测试项目:', { appName, userId: user.id, imageUrl: testImageUrl });
 
     const project = await createProject(appName, testImageUrl, user.id);
@@ -76,7 +76,7 @@ export default async function handler(req, res) {
 
     res.status(200).json({
       status: 'SUCCESS',
-      message: '🎉 项目保存测试成功！已彻底解决Prepared Statement问题！',
+      message: '🎉 项目保存测试成功！使用保守重试方案解决冲突！',
       results: {
         connectionTest: connectionTest,
         session: {
@@ -92,25 +92,25 @@ export default async function handler(req, res) {
           id: project.id,
           appName: project.appName,
           imageUrl: project.imageUrl,
-          createdAt: project.createdAt,
+          createdAt: project.createdAt.toISOString(),
           userId: project.userId
         },
-        verification: '✅ 项目已使用原生SQL成功保存到数据库'
+        verification: '✅ 项目已通过重试机制成功保存到数据库'
       },
       technicalInfo: {
-        solution: '使用原生SQL查询完全避免Prepared Statement冲突',
+        solution: '保守的重试机制，遵循网站开发规范指南',
         optimizations: [
-          '✅ 原生SQL查询替代ORM',
-          '✅ 自动重试机制',
-          '✅ 随机延迟避免并发冲突',
-          '✅ 新的客户端实例管理'
+          '✅ 保持原有Prisma ORM功能',
+          '✅ 添加智能重试包装器',
+          '✅ 渐进式延迟避免冲突',
+          '✅ 不破坏现有代码结构'
         ]
       },
       nextSteps: [
-        '✅ 项目保存功能现在完全正常！',
+        '✅ 项目保存功能现在稳定工作！',
         '🔄 刷新"我的项目"页面应该能看到测试项目',
         '🗑️ 可以手动删除这个测试项目',
-        '🎯 现在尝试重新生成AI作品，应该能完美保存'
+        '🎯 现在尝试重新生成AI作品，应该能稳定保存'
       ],
       timestamp: new Date().toISOString()
     });
@@ -118,23 +118,22 @@ export default async function handler(req, res) {
   } catch (error) {
     console.error('项目保存测试错误:', error);
     
-    // 即使用了原生SQL，仍然可能有其他类型的错误
     res.status(500).json({
       status: 'ERROR',
       message: '项目保存测试失败',
       error: error.message,
       errorCode: error.code,
       possibleCauses: [
-        '数据库表结构问题',
+        '数据库持续冲突',
         '网络连接不稳定',
         '数据库权限问题',
-        '数据验证失败'
+        'Serverless环境限制'
       ],
       solutions: [
-        '检查数据库表是否存在',
-        '验证网络连接稳定性',
-        '确认数据库用户权限正确',
-        '检查输入数据格式'
+        '稍等片刻后重试',
+        '检查网络连接稳定性',
+        '确认数据库配置正确',
+        '考虑增加重试次数'
       ],
       timestamp: new Date().toISOString()
     });

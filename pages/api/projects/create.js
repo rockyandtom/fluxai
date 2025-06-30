@@ -25,7 +25,7 @@ export default async function handler(req, res) {
       return res.status(401).json({ message: 'Unauthorized' });
     }
 
-    // 使用安全函数查询用户
+    // 使用安全重试函数查询用户
     let user = null;
     if (session.user.email) {
       console.log('通过邮箱查找用户ID:', session.user.email);
@@ -44,9 +44,9 @@ export default async function handler(req, res) {
       return res.status(400).json({ message: 'Missing appName or imageUrl' });
     }
 
-    console.log('创建项目 (使用原生SQL):', { appName, userId: user.id, imageUrl: imageUrl.substring(0, 50) + '...' });
+    console.log('创建项目 (使用重试机制):', { appName, userId: user.id, imageUrl: imageUrl.substring(0, 50) + '...' });
 
-    // 使用安全函数创建项目，完全避免prepared statement问题
+    // 使用安全重试函数创建项目
     const project = await createProject(appName, imageUrl, user.id);
 
     console.log('项目创建成功:', project.id);
@@ -57,7 +57,7 @@ export default async function handler(req, res) {
         id: project.id,
         appName: project.appName,
         imageUrl: project.imageUrl,
-        createdAt: project.createdAt,
+        createdAt: project.createdAt.toISOString(),
         userId: project.userId
       }
     });
@@ -78,6 +78,11 @@ export default async function handler(req, res) {
     // 数据重复错误
     if (error.code === '23505') {
       return res.status(409).json({ message: '项目ID重复，请重试' });
+    }
+
+    // Prepared statement错误应该通过重试机制自动处理
+    if (error.code === '42P05') {
+      return res.status(503).json({ message: '数据库繁忙，请稍后重试' });
     }
 
     // 通用错误处理

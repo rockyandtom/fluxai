@@ -1,51 +1,65 @@
 import { PrismaClient } from '@prisma/client';
 
-// Serverless环境完全优化配置 - 彻底解决42P05问题
+// 保守的Serverless优化配置 - 遵循网站开发规范指南
 const globalForPrisma = globalThis;
 
 const createPrismaClient = () => {
-  const client = new PrismaClient({
-    // 数据源配置
+  return new PrismaClient({
     datasources: {
       db: {
         url: process.env.DATABASE_URL,
       },
     },
-    // 彻底禁用prepared statements和连接池
+    // Serverless环境优化配置
     log: process.env.NODE_ENV === 'development' ? ['error'] : [],
   });
-
-  // 修改客户端配置以避免prepared statement冲突
-  client.$use(async (params, next) => {
-    // 在每个查询前添加延迟，避免并发冲突
-    if (process.env.NODE_ENV === 'production') {
-      await new Promise(resolve => setTimeout(resolve, Math.random() * 50));
-    }
-    
-    try {
-      const result = await next(params);
-      return result;
-    } catch (error) {
-      // 如果遇到prepared statement错误，重试一次
-      if (error.code === '42P05' || error.message?.includes('prepared statement')) {
-        console.log('Prepared statement冲突，延迟重试...');
-        await new Promise(resolve => setTimeout(resolve, 100 + Math.random() * 100));
-        return await next(params);
-      }
-      throw error;
-    }
-  });
-
-  return client;
 };
 
-// 每次都创建新的客户端实例，避免连接池问题
-const prisma = createPrismaClient();
+// 单例模式管理Prisma客户端，避免重复创建
+const prisma = globalForPrisma.prisma ?? createPrismaClient();
 
-// 导出连接测试函数
+if (process.env.NODE_ENV !== 'production') {
+  globalForPrisma.prisma = prisma;
+}
+
+// 保留原有功能的安全函数
+export const safeQuery = async (operation) => {
+  const maxRetries = 3;
+  let lastError;
+
+  for (let i = 0; i < maxRetries; i++) {
+    try {
+      // 在重试之间添加延迟，避免并发冲突
+      if (i > 0) {
+        await new Promise(resolve => setTimeout(resolve, 100 * i));
+      }
+      
+      const result = await operation(prisma);
+      return result;
+    } catch (error) {
+      lastError = error;
+      
+      // 如果是prepared statement错误，继续重试
+      if (error.code === '42P05' || error.message?.includes('prepared statement')) {
+        console.log(`准备语句冲突，第${i + 1}次重试...`);
+        continue;
+      }
+      
+      // 其他错误立即抛出
+      throw error;
+    }
+  }
+  
+  // 所有重试都失败
+  throw lastError;
+};
+
+// 连接测试函数 - 使用安全查询包装器
 export const testConnection = async () => {
   try {
-    await prisma.$queryRaw`SELECT 1 as test`;
+    await safeQuery(async (client) => {
+      return await client.$queryRaw`SELECT 1 as test`;
+    });
     return { success: true, message: '数据库连接正常' };
   } catch (error) {
     console.error('Database connection test failed:', error);
@@ -58,71 +72,32 @@ export const testConnection = async () => {
   }
 };
 
-// 安全查询用户函数
+// 安全查询用户函数 - 保持ORM方式但增加重试
 export const findUserByEmail = async (email) => {
-  try {
-    const users = await prisma.$queryRaw`
-      SELECT id, email, name, image FROM "User" WHERE email = ${email}
-    `;
-    return users[0] || null;
-  } catch (error) {
-    console.error('查询用户失败:', error);
-    if (error.code === '42P05') {
-      // 重试一次
-      await new Promise(resolve => setTimeout(resolve, 150));
-      const retryUsers = await prisma.$queryRaw`
-        SELECT id, email, name, image FROM "User" WHERE email = ${email}
-      `;
-      return retryUsers[0] || null;
-    }
-    throw error;
-  }
+  return await safeQuery(async (client) => {
+    return await client.user.findUnique({
+      where: { email: email },
+      select: { 
+        id: true, 
+        email: true, 
+        name: true,
+        image: true
+      }
+    });
+  });
 };
 
-// 安全创建项目函数
+// 安全创建项目函数 - 保持ORM方式但增加重试
 export const createProject = async (appName, imageUrl, userId) => {
-  try {
-    const projects = await prisma.$queryRaw`
-      INSERT INTO "Project" ("id", "appName", "imageUrl", "userId", "createdAt", "updatedAt")
-      VALUES (
-        ${generateId()},
-        ${appName},
-        ${imageUrl},
-        ${userId},
-        NOW(),
-        NOW()
-      )
-      RETURNING *
-    `;
-    return projects[0];
-  } catch (error) {
-    console.error('创建项目失败:', error);
-    if (error.code === '42P05') {
-      // 重试一次
-      await new Promise(resolve => setTimeout(resolve, 150));
-      const retryProjects = await prisma.$queryRaw`
-        INSERT INTO "Project" ("id", "appName", "imageUrl", "userId", "createdAt", "updatedAt")
-        VALUES (
-          ${generateId()},
-          ${appName},
-          ${imageUrl},
-          ${userId},
-          NOW(),
-          NOW()
-        )
-        RETURNING *
-      `;
-      return retryProjects[0];
-    }
-    throw error;
-  }
-};
-
-// 生成唯一ID函数（模拟cuid）
-const generateId = () => {
-  const timestamp = Date.now().toString(36);
-  const randomPart = Math.random().toString(36).substring(2, 15);
-  return `c${timestamp}${randomPart}`;
+  return await safeQuery(async (client) => {
+    return await client.project.create({
+      data: {
+        appName: appName,
+        imageUrl: imageUrl,
+        userId: userId,
+      },
+    });
+  });
 };
 
 export default prisma; 
