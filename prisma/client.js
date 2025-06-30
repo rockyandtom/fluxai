@@ -4,6 +4,7 @@ import { PrismaClient } from '@prisma/client';
 const globalForPrisma = globalThis;
 
 const createPrismaClient = () => {
+  console.log('创建新的 Prisma 客户端实例');
   return new PrismaClient({
     datasources: {
       db: {
@@ -27,6 +28,8 @@ export const safeQuery = async (operation) => {
   const maxRetries = 5; // 增加重试次数
   let lastError;
 
+  console.log(`开始执行安全查询，最大重试次数: ${maxRetries}`);
+
   for (let i = 0; i < maxRetries; i++) {
     try {
       // 在重试之间添加指数退避延迟
@@ -36,11 +39,14 @@ export const safeQuery = async (operation) => {
         await new Promise(resolve => setTimeout(resolve, delay));
       }
       
+      console.log(`执行数据库操作 (尝试 ${i + 1}/${maxRetries})`);
       const result = await operation(prisma);
       
       // 如果之前有错误但这次成功了，记录恢复信息
       if (i > 0) {
         console.log(`数据库操作在第${i + 1}次尝试时成功`);
+      } else {
+        console.log('数据库操作第一次尝试就成功');
       }
       
       return result;
@@ -49,7 +55,8 @@ export const safeQuery = async (operation) => {
       
       console.error(`数据库操作失败 (尝试 ${i + 1}/${maxRetries}):`, {
         code: error.code,
-        message: error.message.substring(0, 200)
+        message: error.message.substring(0, 200),
+        name: error.name
       });
       
       // 特定错误处理：prepared statement 冲突
@@ -85,6 +92,10 @@ export const safeQuery = async (operation) => {
   }
   
   // 所有重试都失败，抛出最后的错误
+  console.error('SafeQuery 失败，所有重试都用尽:', {
+    finalError: lastError.message,
+    code: lastError.code
+  });
   throw lastError;
 };
 
@@ -95,6 +106,7 @@ export const testConnection = async () => {
     
     // 使用最简单的查询来测试连接
     await safeQuery(async (client) => {
+      console.log('执行连接测试查询: SELECT 1');
       // 使用更简单的查询避免复杂的 prepared statement
       return await client.$executeRaw`SELECT 1`;
     });
@@ -119,58 +131,98 @@ export const testConnection = async () => {
 
 // 安全查询用户函数 - 保持ORM方式但增加重试
 export const findUserByEmail = async (email) => {
+  console.log('=== 开始查询用户 ===');
   console.log('查询用户邮箱:', email);
   
-  return await safeQuery(async (client) => {
-    return await client.user.findUnique({
-      where: { email: email },
-      select: { 
-        id: true, 
-        email: true, 
-        name: true,
-        image: true
-      }
+  try {
+    const result = await safeQuery(async (client) => {
+      console.log('执行用户查询 SQL');
+      return await client.user.findUnique({
+        where: { email: email },
+        select: { 
+          id: true, 
+          email: true, 
+          name: true,
+          image: true
+        }
+      });
     });
-  });
+    
+    console.log('用户查询完成:', result ? '找到用户' : '未找到用户', result?.id);
+    return result;
+  } catch (error) {
+    console.error('查询用户失败:', error);
+    throw error;
+  }
 };
 
 // 安全创建项目函数 - 保持ORM方式但增加重试
 export const createProject = async (appName, imageUrl, userId) => {
-  console.log('创建项目:', { appName, userId, imageUrlLength: imageUrl?.length });
-  
-  return await safeQuery(async (client) => {
-    return await client.project.create({
-      data: {
-        appName: appName,
-        imageUrl: imageUrl,
-        userId: userId,
-      },
-    });
+  console.log('=== 开始创建项目 ===');
+  console.log('创建项目参数:', { 
+    appName, 
+    userId, 
+    imageUrlLength: imageUrl?.length,
+    imageUrlType: typeof imageUrl
   });
+  
+  try {
+    const result = await safeQuery(async (client) => {
+      console.log('执行项目创建 SQL');
+      return await client.project.create({
+        data: {
+          appName: appName,
+          imageUrl: imageUrl,
+          userId: userId,
+        },
+      });
+    });
+    
+    console.log('项目创建完成:', {
+      id: result.id,
+      appName: result.appName,
+      userId: result.userId
+    });
+    return result;
+  } catch (error) {
+    console.error('创建项目失败:', error);
+    throw error;
+  }
 };
 
 // 安全查询用户项目函数
 export const findUserProjects = async (userId) => {
-  console.log('查询用户项目:', userId);
+  console.log('=== 开始查询用户项目 ===');
+  console.log('查询用户项目, userId:', userId);
   
-  return await safeQuery(async (client) => {
-    return await client.project.findMany({
-      where: { userId: userId },
-      orderBy: { createdAt: 'desc' },
-      select: {
-        id: true,
-        appName: true,
-        imageUrl: true,
-        createdAt: true,
-        updatedAt: true
-      }
+  try {
+    const result = await safeQuery(async (client) => {
+      console.log('执行项目查询 SQL');
+      return await client.project.findMany({
+        where: { userId: userId },
+        orderBy: { createdAt: 'desc' },
+        select: {
+          id: true,
+          appName: true,
+          imageUrl: true,
+          createdAt: true,
+          updatedAt: true
+        }
+      });
     });
-  });
+    
+    console.log(`项目查询完成，找到 ${result.length} 个项目`);
+    return result;
+  } catch (error) {
+    console.error('查询项目失败:', error);
+    throw error;
+  }
 };
 
 // 改进的断开连接函数
 export const disconnect = async () => {
   try {
+    console.log('断开 Prisma 连接...');
     await prisma.$disconnect();
     console.log('Prisma 客户端已安全断开连接');
   } catch (error) {
