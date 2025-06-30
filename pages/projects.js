@@ -10,7 +10,7 @@ import { FaHome, FaPlus, FaFolder, FaChevronLeft, FaChevronRight, FaDownload, Fa
 import { useTranslation } from 'next-i18next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { motion } from 'framer-motion';
-import { PrismaClient } from '@prisma/client';
+import prisma from '../prisma/client';
 import Navbar from '../components/Navbar';
 
 // --- Components ---
@@ -309,7 +309,7 @@ export async function getServerSideProps({ req, locale }) {
     }
 
     // 使用新的Prisma客户端实例，避免连接冲突
-    const prisma = new PrismaClient();
+    // 使用优化的Prisma客户端单例
 
     try {
       const userWithProjects = await prisma.user.findUnique({

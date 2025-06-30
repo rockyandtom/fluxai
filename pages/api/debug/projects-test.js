@@ -5,14 +5,12 @@
 
 import { getServerSession } from 'next-auth/next';
 import { authOptions } from '../auth/[...nextauth]';
-import { PrismaClient } from '@prisma/client';
+import prisma from '../../../prisma/client';
 
 export default async function handler(req, res) {
   if (req.method !== 'GET') {
     return res.status(405).json({ error: 'Method not allowed' });
   }
-
-  const prisma = new PrismaClient();
 
   try {
     console.log('开始测试项目查询...');
@@ -76,8 +74,6 @@ export default async function handler(req, res) {
       }
     });
 
-    await prisma.$disconnect();
-
     res.status(200).json({
       status: 'SUCCESS',
       message: '项目查询测试完成',
@@ -102,8 +98,7 @@ export default async function handler(req, res) {
 
   } catch (error) {
     console.error('项目查询测试错误:', error);
-    
-    await prisma.$disconnect();
+
     
     res.status(500).json({
       status: 'ERROR',

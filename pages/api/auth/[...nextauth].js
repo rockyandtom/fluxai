@@ -7,12 +7,7 @@
 import NextAuth from 'next-auth';
 import GoogleProvider from 'next-auth/providers/google';
 import { PrismaAdapter } from '@next-auth/prisma-adapter';
-import { PrismaClient } from '@prisma/client';
-
-// 创建Prisma客户端实例
-const prisma = global.prisma || new PrismaClient();
-
-if (process.env.NODE_ENV === 'development') global.prisma = prisma;
+import prisma from '../../../prisma/client';
 
 // NextAuth配置
 const authOptions = {

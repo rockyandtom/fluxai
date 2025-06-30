@@ -1,6 +1,6 @@
 import { getServerSession } from 'next-auth/next';
 import { authOptions } from '../auth/[...nextauth]';
-import { PrismaClient } from '@prisma/client';
+import prisma from '../../../prisma/client';
 
 export default async function handler(req, res) {
   // 添加CORS头
@@ -15,8 +15,6 @@ export default async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ message: 'Method Not Allowed' });
   }
-
-  const prisma = new PrismaClient();
 
   try {
     const session = await getServerSession(req, res, authOptions);
@@ -64,8 +62,6 @@ export default async function handler(req, res) {
 
     console.log('项目创建成功:', project.id);
 
-    await prisma.$disconnect();
-
     res.status(201).json({
       success: true,
       project: {
@@ -80,8 +76,6 @@ export default async function handler(req, res) {
   } catch (error) {
     console.error('创建项目失败:', error);
     
-    await prisma.$disconnect();
-    
     // 处理数据库连接错误
     if (error.code === 'P1001') {
       return res.status(503).json({ message: '数据库连接失败，请稍后重试' });
@@ -90,6 +84,35 @@ export default async function handler(req, res) {
     // 处理外键约束错误
     if (error.code === 'P2003') {
       return res.status(400).json({ message: '用户不存在，请重新登录' });
+    }
+
+    // 处理Prepared Statement错误
+    if (error.code === '42P05' || error.message.includes('prepared statement')) {
+      console.log('检测到prepared statement冲突，重试...');
+      // 简单重试机制
+      try {
+        await new Promise(resolve => setTimeout(resolve, 100));
+        const retryProject = await prisma.project.create({
+          data: {
+            appName: req.body.appName,
+            imageUrl: req.body.imageUrl,
+            userId: userId,
+          },
+        });
+        
+        return res.status(201).json({
+          success: true,
+          project: {
+            id: retryProject.id,
+            appName: retryProject.appName,
+            imageUrl: retryProject.imageUrl,
+            createdAt: retryProject.createdAt.toISOString(),
+            userId: retryProject.userId
+          }
+        });
+      } catch (retryError) {
+        console.error('重试也失败:', retryError);
+      }
     }
 
     res.status(500).json({ 

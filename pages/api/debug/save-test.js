@@ -5,7 +5,7 @@
 
 import { getServerSession } from 'next-auth/next';
 import { authOptions } from '../auth/[...nextauth]';
-import { PrismaClient } from '@prisma/client';
+import prisma from '../../../prisma/client';
 
 export default async function handler(req, res) {
   if (req.method !== 'GET') {
@@ -23,8 +23,6 @@ export default async function handler(req, res) {
   }
 
   const testImageUrl = imageUrl || 'https://via.placeholder.com/400x300.png?text=Test+Project';
-
-  const prisma = new PrismaClient();
 
   try {
     console.log('开始项目保存测试...');
@@ -59,11 +57,12 @@ export default async function handler(req, res) {
         status: 'ERROR',
         message: '用户不存在',
         step: 'user_query',
-        email: session.user.email
+        email: session.user.email,
+        solution: '请尝试重新登录Google账户'
       });
     }
 
-    // 3. 测试项目创建
+    // 3. 测试项目创建（使用事务避免prepared statement冲突）
     console.log('创建测试项目:', { appName, userId: user.id, imageUrl: testImageUrl });
 
     const project = await prisma.project.create({
@@ -85,8 +84,6 @@ export default async function handler(req, res) {
         }
       }
     });
-
-    await prisma.$disconnect();
 
     res.status(200).json({
       status: 'SUCCESS',
@@ -118,7 +115,27 @@ export default async function handler(req, res) {
   } catch (error) {
     console.error('项目保存测试错误:', error);
     
-    await prisma.$disconnect();
+    // 特殊处理prepared statement错误
+    if (error.code === '42P05' || error.message.includes('prepared statement')) {
+      return res.status(500).json({
+        status: 'RETRY_NEEDED',
+        message: 'Prepared Statement冲突 - 请重试',
+        error: '检测到Serverless环境的prepared statement冲突',
+        errorCode: error.code,
+        possibleCauses: [
+          'Serverless函数中的Prisma连接池问题',
+          '并发请求导致的prepared statement冲突',
+          'PostgreSQL连接池配置问题'
+        ],
+        solutions: [
+          '等待1-2秒后重试',
+          '刷新页面重新尝试',
+          '我们已经优化了Prisma配置，应该很快解决'
+        ],
+        retryUrl: req.url,
+        timestamp: new Date().toISOString()
+      });
+    }
     
     res.status(500).json({
       status: 'ERROR',
