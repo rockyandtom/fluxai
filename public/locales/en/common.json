@@ -538,6 +538,37 @@
     "uploadFileFirst": "Please upload a file first",
     "login_success": "Login successful!",
     "featureInDevelopment": "Feature Under Development",
-    "featureInDevelopmentDesc": "This feature is under development. Stay tuned!"
+    "featureInDevelopmentDesc": "This feature is under development. Stay tuned!",
+    "uploadFile": {
+      "title": "Please Upload a File",
+      "description": "This app requires you to upload an image or video file"
+    },
+    "taskCreated": {
+      "title": "Task Created",
+      "description": "Your creation task has been added to the queue, please wait..."
+    },
+    "workSaved": {
+      "title": "🎉 Work Saved"
+    },
+    "loginExpired": {
+      "title": "Login Expired",
+      "description": "Please log in again to save your work"
+    },
+    "saveFailed": {
+      "title": "⚠️ Save Failed",
+      "description": "Work generated successfully but failed to save, please manually screenshot and save"
+    },
+    "networkError": {
+      "title": "⚠️ Network Error",
+      "description": "Work generated successfully but couldn't save due to network issues, please manually screenshot and save"
+    },
+    "networkUnstable": {
+      "title": "Network Unstable",
+      "description": "Network connection is unstable, task is still running in background, please wait..."
+    },
+    "serverBusy": {
+      "title": "Server Busy",
+      "description": "Server is currently under high load, task is still running in background, please wait..."
+    }
   }
 } 

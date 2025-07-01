@@ -554,8 +554,8 @@ export default function Create() {
     const requiresFile = selectedApp?.nodeInfoList?.some(n => n.fieldName === 'image' || n.fieldValue === 'user_upload');
     if (requiresFile && !file) {
       toast({ 
-        title: '请上传文件', 
-        description: '该应用需要您上传图片或视频文件', 
+        title: t('toast.uploadFile.title'), 
+        description: t('toast.uploadFile.description'), 
         status: 'warning', 
         duration: 5000, 
         isClosable: true 
@@ -577,8 +577,8 @@ export default function Create() {
     
     // 成功提示
     toast({ 
-      title: '任务已创建', 
-      description: '您的创作任务已加入队列，请稍等...', 
+      title: t('toast.taskCreated.title'), 
+      description: t('toast.taskCreated.description'), 
       status: 'success', 
       duration: 3000, 
       isClosable: true 
@@ -720,7 +720,7 @@ export default function Create() {
               if (saveRes.ok && saveData.success) {
                 // 保存成功
                 toast({ 
-                  title: '🎉 作品已保存', 
+                  title: t('toast.workSaved.title'), 
                   description: t('task.worksSaved'), 
                   status: 'success', 
                   duration: 4000, 
@@ -731,8 +731,8 @@ export default function Create() {
               } else if (saveRes.status === 401) {
                 // 登录过期
                 toast({ 
-                  title: '登录已过期', 
-                  description: '请重新登录以保存作品', 
+                  title: t('toast.loginExpired.title'), 
+                  description: t('toast.loginExpired.description'), 
                   status: 'warning', 
                   duration: 6000, 
                   isClosable: true 
@@ -742,8 +742,8 @@ export default function Create() {
                 // 其他错误
                 console.error('保存项目失败:', saveData);
                 toast({ 
-                  title: '⚠️ 保存失败', 
-                  description: saveData.message || '作品生成成功但保存失败，请手动截图保存', 
+                  title: t('toast.saveFailed.title'), 
+                  description: saveData.message || t('toast.saveFailed.description'), 
                   status: 'warning', 
                   duration: 8000, 
                   isClosable: true 
@@ -753,8 +753,8 @@ export default function Create() {
             } catch (saveError) {
               console.error('保存项目网络错误:', saveError);
               toast({ 
-                title: '⚠️ 网络错误', 
-                description: '作品生成成功但因网络问题无法保存，请手动截图保存', 
+                title: t('toast.networkError.title'), 
+                description: t('toast.networkError.description'), 
                 status: 'warning', 
                 duration: 8000, 
                 isClosable: true 
@@ -791,8 +791,8 @@ export default function Create() {
         if (consecutiveNetworkErrors >= MAX_CONSECUTIVE_NETWORK_ERRORS) {
           // 连续网络错误次数过多，提示用户但继续轮询
           toast({
-            title: '网络不稳定',
-            description: '检测到网络连接不稳定，任务仍在后台执行，请稍等...',
+            title: t('toast.networkUnstable.title'),
+            description: t('toast.networkUnstable.description'),
             status: 'warning',
             duration: 5000,
             isClosable: true
@@ -817,8 +817,8 @@ export default function Create() {
       // 其他类型的错误（如fetch失败、网络中断等），继续重试
       if (consecutiveNetworkErrors >= MAX_CONSECUTIVE_NETWORK_ERRORS) {
         toast({
-          title: '服务繁忙',
-          description: '服务器当前负载较高，任务仍在后台执行，请稍等...',
+          title: t('toast.serverBusy.title'),
+          description: t('toast.serverBusy.description'),
           status: 'warning',
           duration: 5000,
           isClosable: true

@@ -276,7 +276,7 @@ export default function Projects({ initialProjects }) {
               color="white"
               _hover={{ bg: 'rgba(255, 255, 255, 0.1)' }}
             >
-              关闭
+              {t('task.close')}
             </Button>
             <Button 
               as="a" 
