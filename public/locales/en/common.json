@@ -531,6 +531,11 @@
     "loginRequired": "Login Required",
     "loginToSave": "Log in to automatically save your creations",
     "selectApp": "Please select an application first",
+    "selectAppTitle": "Please Select an App",
+    "selectAppDescription": "Please select an AI app below, then upload a file",
+    "selectAppToStart": "Please select an AI app below to start creating",
+    "loginFirst": "Please log in first",
+    "uploadFileFirst": "Please upload a file first",
     "login_success": "Login successful!",
     "featureInDevelopment": "Feature Under Development",
     "featureInDevelopmentDesc": "This feature is under development. Stay tuned!"

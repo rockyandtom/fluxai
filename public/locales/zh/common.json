@@ -395,6 +395,11 @@
     "loginRequired": "需要登录",
     "loginToSave": "登录后您的作品将自动保存",
     "selectApp": "请先选择一个应用",
+    "selectAppTitle": "请先选择应用",
+    "selectAppDescription": "请在下方选择一个AI应用，然后上传文件",
+    "selectAppToStart": "请在下方选择一个AI应用开始创作",
+    "loginFirst": "请先登录",
+    "uploadFileFirst": "请先上传文件",
     "login_success": "登录成功！",
     "featureInDevelopment": "功能正在开发中",
     "featureInDevelopmentDesc": "该功能正在开发中，敬请期待！"

@@ -542,7 +542,7 @@ export default function Create() {
     if (!selectedApp) {
       toast({ 
         title: t('toast.selectApp', '请先选择一个应用'), 
-        description: '请在下方选择一个AI应用开始创作', 
+        description: t('toast.selectAppToStart'), 
         status: 'warning', 
         duration: 5000, 
         isClosable: true 
@@ -924,8 +924,8 @@ export default function Create() {
                   e.stopPropagation();
                   if (!selectedApp) {
                     toast({
-                      title: '请先选择应用',
-                      description: '请在下方选择一个AI应用，然后上传文件',
+                      title: t('toast.selectAppTitle'),
+                      description: t('toast.selectAppDescription'),
                       status: 'warning',
                       duration: 3000,
                       isClosable: true,
@@ -950,8 +950,8 @@ export default function Create() {
                     e.preventDefault();
                     if (!selectedApp) {
                       toast({
-                        title: '请先选择应用',
-                        description: '请在下方选择一个AI应用，然后上传文件',
+                        title: t('toast.selectAppTitle'),
+                        description: t('toast.selectAppDescription'),
                         status: 'warning',
                         duration: 3000,
                         isClosable: true,
@@ -1035,15 +1035,15 @@ export default function Create() {
                   _hover={{ transform: 'translateY(-2px)', shadow: 'lg' }}
                   transition="all 0.2s ease"
                   title={
-                    !session ? '请先登录' :
-                    !selectedApp ? '请先选择应用' :
-                    (selectedApp?.nodeInfoList?.some(n => n.fieldName === 'image' || n.fieldValue === 'user_upload') && !file) ? '请先上传文件' :
+                    !session ? t('toast.loginFirst') :
+                    !selectedApp ? t('toast.selectAppTitle') :
+                    (selectedApp?.nodeInfoList?.some(n => n.fieldName === 'image' || n.fieldValue === 'user_upload') && !file) ? t('toast.uploadFileFirst') :
                     ''
                   }
                 >
-                  {!session ? '请先登录' :
-                   !selectedApp ? '请先选择应用' :
-                   (selectedApp?.nodeInfoList?.some(n => n.fieldName === 'image' || n.fieldValue === 'user_upload') && !file) ? '请先上传文件' :
+                  {!session ? t('toast.loginFirst') :
+                   !selectedApp ? t('toast.selectAppTitle') :
+                   (selectedApp?.nodeInfoList?.some(n => n.fieldName === 'image' || n.fieldValue === 'user_upload') && !file) ? t('toast.uploadFileFirst') :
                    t('creationCenter.generateButton', '生成我的作品')}
                 </Button>
               </Flex>
