@@ -3,9 +3,9 @@ const path = require('path');
 /** @type {import('next-i18next').UserConfig} */
 module.exports = {
   i18n: {
-    defaultLocale: 'en',
+    defaultLocale: 'zh',
     locales: ['en', 'zh'],
-    localeDetection: false, // 禁用自动语言检测，强制使用defaultLocale
+    localeDetection: true, // 启用自动语言检测
   },
   defaultNS: 'common',
   localePath: path.resolve('./public/locales'),

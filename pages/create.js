@@ -526,8 +526,6 @@ export default function Create() {
     setPreviewUrl(null);
   };
 
-
-
   const handleGenerate = async () => {
     // 遵循网站开发规范指南 - 详细的错误检查和用户提示
     if (!session) {
@@ -920,30 +918,49 @@ export default function Create() {
                 borderRadius="lg"
                 bg={file ? "rgba(59, 130, 246, 0.1)" : "rgba(255, 255, 255, 0.1)"}
                 p={6}
-                cursor={selectedApp ? "pointer" : "not-allowed"}
-                onClick={selectedApp ? (e) => {
+                cursor="pointer"
+                onClick={(e) => {
                   e.preventDefault();
                   e.stopPropagation();
+                  if (!selectedApp) {
+                    toast({
+                      title: '请先选择应用',
+                      description: '请在下方选择一个AI应用，然后上传文件',
+                      status: 'warning',
+                      duration: 3000,
+                      isClosable: true,
+                    });
+                    return;
+                  }
                   handleUploadClick();
-                } : undefined}
+                }}
                 onDragOver={handleDragOver}
                 onDrop={handleDrop}
                 transition="all 0.3s ease"
-                _hover={selectedApp ? { 
+                _hover={{ 
                   borderColor: "blue.400", 
                   bg: "rgba(59, 130, 246, 0.15)",
                   transform: "translateY(-2px)"
-                } : {}}
-                opacity={selectedApp ? 1 : 0.6}
+                }}
                 position="relative"
                 role="button"
-                tabIndex={selectedApp ? 0 : -1}
-                onKeyDown={selectedApp ? (e) => {
+                tabIndex={0}
+                onKeyDown={(e) => {
                   if (e.key === 'Enter' || e.key === ' ') {
                     e.preventDefault();
+                    if (!selectedApp) {
+                      toast({
+                        title: '请先选择应用',
+                        description: '请在下方选择一个AI应用，然后上传文件',
+                        status: 'warning',
+                        duration: 3000,
+                        isClosable: true,
+                      });
+                      return;
+                    }
                     handleUploadClick();
                   }
-                } : undefined}
+                }}
               >
                 {file ? (
                   // 文件已选择状态
@@ -1017,8 +1034,17 @@ export default function Create() {
                   isDisabled={!session || !selectedApp || (selectedApp?.nodeInfoList?.some(n => n.fieldName === 'image' || n.fieldValue === 'user_upload') && !file)}
                   _hover={{ transform: 'translateY(-2px)', shadow: 'lg' }}
                   transition="all 0.2s ease"
+                  title={
+                    !session ? '请先登录' :
+                    !selectedApp ? '请先选择应用' :
+                    (selectedApp?.nodeInfoList?.some(n => n.fieldName === 'image' || n.fieldValue === 'user_upload') && !file) ? '请先上传文件' :
+                    ''
+                  }
                 >
-                  {t('creationCenter.generateButton', '生成我的作品')}
+                  {!session ? '请先登录' :
+                   !selectedApp ? '请先选择应用' :
+                   (selectedApp?.nodeInfoList?.some(n => n.fieldName === 'image' || n.fieldValue === 'user_upload') && !file) ? '请先上传文件' :
+                   t('creationCenter.generateButton', '生成我的作品')}
                 </Button>
               </Flex>
             </VStack>
