@@ -423,7 +423,7 @@ export default function Create() {
   const [activeTaskCount, setActiveTaskCount] = useState(0);
   const { isOpen: isResultModalOpen, onOpen: onResultModalOpen, onClose: onResultModalClose } = useDisclosure();
   const [resultImage, setResultImage] = useState(null);
-  const [textInputValue, setTextInputValue] = useState('');
+
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [taskQueueOpen, setTaskQueueOpen] = useState(() => {
     // 默认情况下，如果没有正在运行或排队的任务，则折叠任务列表
@@ -526,9 +526,7 @@ export default function Create() {
     setPreviewUrl(null);
   };
 
-  const handleTextChange = (e) => {
-    setTextInputValue(e.target.value);
-  };
+
 
   const handleGenerate = async () => {
     if (!selectedApp || !file || !session) {
@@ -874,54 +872,103 @@ export default function Create() {
             className="modern-card"
           >
             <VStack spacing={6} align="stretch">
-              <Textarea
-                value={textInputValue}
-                onChange={handleTextChange}
-                placeholder={t('creationCenter.promptPlaceholder')}
-                size="lg"
+              {/* 文件上传拖拽区域 - 保持原有尺寸 */}
+              <Box
                 minHeight="150px"
-                isDisabled={!selectedApp}
-                bg="rgba(255, 255, 255, 0.1)"
-                border="1px solid rgba(255, 255, 255, 0.2)"
-                color="white"
-                _placeholder={{ color: 'gray.400' }}
-                _hover={{ borderColor: 'rgba(255, 255, 255, 0.3)' }}
-                _focus={{ borderColor: 'blue.400', boxShadow: '0 0 0 1px blue.400' }}
-              />
-                              <HStack justify="space-between">
-                <HStack>
-                  <Button 
-                    onClick={handleUploadClick} 
-                    leftIcon={<FaUpload />} 
-                    isDisabled={!selectedApp}
-                    variant="outline"
-                    borderColor="rgba(255, 255, 255, 0.2)"
-                    color="white"
-                    _hover={{ 
-                      bg: 'rgba(255, 255, 255, 0.1)', 
-                      borderColor: 'rgba(255, 255, 255, 0.3)' 
-                    }}
-                  >
-                    {t('creationCenter.uploadButton')}
-                  </Button>
-                  {file && (
-                    <HStack spacing={2} bg={fileInfoBgColor} p={2} borderRadius="md" maxW="200px">
-                      <Text fontSize="sm" noOfLines={1} color="white">{file.name}</Text>
-                      <Icon as={FaTimes} cursor="pointer" onClick={handleRemoveFile} color="gray.300" _hover={{ color: 'white' }} />
-                    </HStack>
-                  )}
-                </HStack>
+                border="2px dashed"
+                borderColor={file ? "blue.400" : "rgba(255, 255, 255, 0.2)"}
+                borderRadius="lg"
+                bg={file ? "rgba(59, 130, 246, 0.1)" : "rgba(255, 255, 255, 0.1)"}
+                p={6}
+                cursor={selectedApp ? "pointer" : "not-allowed"}
+                onClick={selectedApp ? handleUploadClick : undefined}
+                onDragOver={handleDragOver}
+                onDrop={handleDrop}
+                transition="all 0.3s ease"
+                _hover={selectedApp ? { 
+                  borderColor: "blue.400", 
+                  bg: "rgba(59, 130, 246, 0.15)",
+                  transform: "translateY(-2px)"
+                } : {}}
+                opacity={selectedApp ? 1 : 0.6}
+                position="relative"
+              >
+                {file ? (
+                  // 文件已选择状态
+                  <VStack spacing={4}>
+                    {file.type.startsWith('image/') ? (
+                      <Image 
+                        src={previewUrl} 
+                        alt="Preview" 
+                        maxH="100px" 
+                        borderRadius="md"
+                        objectFit="cover"
+                      />
+                    ) : file.type.startsWith('video/') ? (
+                      <Box 
+                        as="video" 
+                        src={previewUrl} 
+                        maxH="100px" 
+                        borderRadius="md"
+                        controls
+                        muted
+                      />
+                    ) : (
+                      <Icon as={FaUpload} fontSize="3xl" color="blue.400" />
+                    )}
+                    <VStack spacing={2}>
+                      <Text color="white" fontWeight="medium" textAlign="center">
+                        {file.name}
+                      </Text>
+                      <Text fontSize="sm" color="gray.300" textAlign="center">
+                        {(file.size / 1024 / 1024).toFixed(2)} MB
+                      </Text>
+                      <Button
+                        size="sm"
+                        variant="ghost"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleRemoveFile();
+                        }}
+                        color="red.300"
+                        _hover={{ color: "red.200", bg: "rgba(255, 0, 0, 0.1)" }}
+                        leftIcon={<FaTimes />}
+                      >
+                        移除文件
+                      </Button>
+                    </VStack>
+                  </VStack>
+                ) : (
+                  // 未选择文件状态
+                  <VStack spacing={4} justify="center" align="center" h="full">
+                    <Icon as={FaUpload} fontSize="4xl" color="gray.400" />
+                    <VStack spacing={2}>
+                      <Text color="white" fontWeight="medium" textAlign="center">
+                        {selectedApp ? "点击或拖拽文件到此处上传" : "请先选择下方应用"}
+                      </Text>
+                      <Text fontSize="sm" color="gray.400" textAlign="center">
+                        支持图片和视频格式
+                      </Text>
+                    </VStack>
+                  </VStack>
+                )}
+              </Box>
+
+              {/* 生成按钮区域 */}
+              <Flex justify="flex-end">
                 <Button
                   colorScheme="blue"
                   size="lg"
                   onClick={handleGenerate}
                   isLoading={tasks.some(t => t.status === 'running' || t.status === 'queued')}
                   leftIcon={<FaPlus />}
-                  isDisabled={!selectedApp || (!file && !selectedApp.nodeInfoList.every(n => n.fieldName !== 'image'))}
+                  isDisabled={!selectedApp || (!file && !selectedApp?.nodeInfoList?.every(n => n.fieldName !== 'image'))}
+                  _hover={{ transform: 'translateY(-2px)', shadow: 'lg' }}
+                  transition="all 0.2s ease"
                 >
                   {t('creationCenter.generateButton')}
                 </Button>
-              </HStack>
+              </Flex>
             </VStack>
           </Box>
 
