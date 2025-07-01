@@ -529,8 +529,39 @@ export default function Create() {
 
 
   const handleGenerate = async () => {
-    if (!selectedApp || !file || !session) {
-      toast({ title: '准备工作未就绪', description: '请先选择应用、上传文件并确保您已登录。', status: 'warning', duration: 5000, isClosable: true });
+    // 遵循网站开发规范指南 - 详细的错误检查和用户提示
+    if (!session) {
+      toast({ 
+        title: t('toast.loginRequired', '需要登录'), 
+        description: t('toast.loginToSave', '登录后您的作品将自动保存'), 
+        status: 'warning', 
+        duration: 5000, 
+        isClosable: true 
+      });
+      return;
+    }
+    
+    if (!selectedApp) {
+      toast({ 
+        title: t('toast.selectApp', '请先选择一个应用'), 
+        description: '请在下方选择一个AI应用开始创作', 
+        status: 'warning', 
+        duration: 5000, 
+        isClosable: true 
+      });
+      return;
+    }
+
+    // 检查是否需要文件上传 - 某些应用可能不需要文件输入
+    const requiresFile = selectedApp?.nodeInfoList?.some(n => n.fieldName === 'image' || n.fieldValue === 'user_upload');
+    if (requiresFile && !file) {
+      toast({ 
+        title: '请上传文件', 
+        description: '该应用需要您上传图片或视频文件', 
+        status: 'warning', 
+        duration: 5000, 
+        isClosable: true 
+      });
       return;
     }
 
@@ -545,6 +576,15 @@ export default function Create() {
 
     setTasks(prev => [newTask, ...prev]);
     setTaskQueueOpen(true);
+    
+    // 成功提示
+    toast({ 
+      title: '任务已创建', 
+      description: '您的创作任务已加入队列，请稍等...', 
+      status: 'success', 
+      duration: 3000, 
+      isClosable: true 
+    });
   };
   
   const runTask = async (task) => {
@@ -881,7 +921,11 @@ export default function Create() {
                 bg={file ? "rgba(59, 130, 246, 0.1)" : "rgba(255, 255, 255, 0.1)"}
                 p={6}
                 cursor={selectedApp ? "pointer" : "not-allowed"}
-                onClick={selectedApp ? handleUploadClick : undefined}
+                onClick={selectedApp ? (e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  handleUploadClick();
+                } : undefined}
                 onDragOver={handleDragOver}
                 onDrop={handleDrop}
                 transition="all 0.3s ease"
@@ -892,6 +936,14 @@ export default function Create() {
                 } : {}}
                 opacity={selectedApp ? 1 : 0.6}
                 position="relative"
+                role="button"
+                tabIndex={selectedApp ? 0 : -1}
+                onKeyDown={selectedApp ? (e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    handleUploadClick();
+                  }
+                } : undefined}
               >
                 {file ? (
                   // 文件已选择状态
@@ -962,11 +1014,11 @@ export default function Create() {
                   onClick={handleGenerate}
                   isLoading={tasks.some(t => t.status === 'running' || t.status === 'queued')}
                   leftIcon={<FaPlus />}
-                  isDisabled={!selectedApp || (!file && !selectedApp?.nodeInfoList?.every(n => n.fieldName !== 'image'))}
+                  isDisabled={!session || !selectedApp || (selectedApp?.nodeInfoList?.some(n => n.fieldName === 'image' || n.fieldValue === 'user_upload') && !file)}
                   _hover={{ transform: 'translateY(-2px)', shadow: 'lg' }}
                   transition="all 0.2s ease"
                 >
-                  {t('creationCenter.generateButton')}
+                  {t('creationCenter.generateButton', '生成我的作品')}
                 </Button>
               </Flex>
             </VStack>
