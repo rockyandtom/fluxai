@@ -90,7 +90,6 @@
         "case1": "教育新体验：启用数字人教师录课，教学满意度直线飙升至 90%+！",
         "case2": "电商直播新利器：数字人主播登场，点击率猛增 25%，转化率疯涨 15%！"
       }
-      
     },
     "artStyles": {
       "title": "最佳AI艺术风格用于社交媒体",
@@ -304,7 +303,7 @@
     "generateImageDesc": "使用AI生成独特的图片",
     "editImageDesc": "使用AI编辑和优化图片",
     "generateSuccessTitle": "生成成功",
-    "generateSuccessDesc": "您的新作品已添加到\"最近作品\"中！",
+    "generateSuccessDesc": "您的新作品已添加到\\\"最近作品\\\"中！",
     "viewAll": "查看全部"
   },
   "projects": {
@@ -335,12 +334,12 @@
     "error": {
       "fetchResultFailed": "获取结果失败",
       "executionFailed": "任务执行失败",
-      "timeout": "任务执行超时，但可能仍在后台处理中，请稍后在"我的项目"页面查看结果",
-      "timeoutDescription": "长时间未获取到任务结果，但任务可能仍在后台处理，请稍后在"我的项目"中查看。"
+      "timeout": "任务执行超时，但可能仍在后台处理中，请稍后在\"我的项目\"页面查看结果",
+      "timeoutDescription": "长时间未获取到任务结果，但任务可能仍在后台处理，请稍后在\"我的项目\"中查看。"
     },
     "generating": "生成中",
     "timeout": "任务超时",
-    "worksSaved": "您的作品已自动保存到"我的项目"中！",
+    "worksSaved": "您的作品已自动保存到\"我的项目\"中！",
     "taskRemoved": "任务已移除",
     "taskRemovedDescription": "该任务已从您的列表中移除。",
     "uploadPrompt": "点击或拖拽文件到此处上传",
@@ -405,6 +404,5 @@
     "about": "关于我们",
     "contact": "联系我们",
     "privacy": "隐私政策"
-  },
-  "download": "下载"
+  }
 } 

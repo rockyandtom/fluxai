@@ -5,7 +5,7 @@ module.exports = {
   i18n: {
     defaultLocale: 'zh',
     locales: ['en', 'zh'],
-    localeDetection: true, // 启用自动语言检测
+    localeDetection: false, // 设置为false以避免自动检测冲突
   },
   defaultNS: 'common',
   localePath: path.resolve('./public/locales'),
