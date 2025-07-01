@@ -41,7 +41,23 @@ export default function Navbar() {
 
   const handleLanguageChange = (newLocale) => {
     const { pathname, asPath, query } = router;
-    router.push({ pathname, query }, asPath, { locale: newLocale });
+    
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('preferred-language', newLocale);
+    }
+    
+    router.push(
+      {
+        pathname: pathname,
+        query: query,
+      },
+      asPath,
+      { 
+        locale: newLocale,
+        shallow: false
+      }
+    );
+    
     onClose();
   };
 

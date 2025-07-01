@@ -478,9 +478,20 @@
     "expired": "Expired",
     "error": {
       "fetchResultFailed": "Failed to fetch result",
-      "executionFailed": "Task execution failed"
+      "executionFailed": "Task execution failed",
+      "timeout": "Task execution timeout, but it may still be processing in the background, please check the results later in 'My Projects'",
+      "timeoutDescription": "Unable to get task results for a long time, but the task may still be processing in the background, please check later in 'My Projects'."
     },
-    "generating": "Generating"
+    "generating": "Generating",
+    "timeout": "Task Timeout",
+    "worksSaved": "Your work has been automatically saved to 'My Projects'!",
+    "taskRemoved": "Task Removed",
+    "taskRemovedDescription": "This task has been removed from your list.",
+    "uploadPrompt": "Click or drag files here to upload",
+    "selectAppFirst": "Please select an app below first",
+    "generationResult": "Generation Result",
+    "close": "Close",
+    "download": "Download"
   },
   "apps": {
     "animeStyleTransfer": "Anime Style Transfer",

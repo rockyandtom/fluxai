@@ -639,11 +639,11 @@ export default function Create() {
       setTasks(prev => prev.map(t => t.id === taskId ? { 
         ...t, 
         status: 'failed', 
-        error: '任务执行超时，但可能仍在后台处理中，请稍后在"我的项目"页面查看结果' 
+        error: t('task.error.timeout'),
       } : t));
       toast({ 
-        title: '任务超时', 
-        description: '长时间未获取到任务结果，但任务可能仍在后台处理，请稍后在"我的项目"中查看。', 
+        title: t('task.timeout'), 
+        description: t('task.error.timeoutDescription'), 
         status: 'warning', 
         duration: 10000, 
         isClosable: true 
@@ -721,7 +721,7 @@ export default function Create() {
                 // 保存成功
                 toast({ 
                   title: '🎉 作品已保存', 
-                  description: '您的作品已自动保存到"我的项目"中！', 
+                  description: t('task.worksSaved'), 
                   status: 'success', 
                   duration: 4000, 
                   isClosable: true 
@@ -857,8 +857,8 @@ export default function Create() {
     setTasks(prev => prev.filter(t => t.id !== taskId));
     
     toast({
-        title: "任务已移除",
-        description: "该任务已从您的列表中移除。",
+        title: t('task.taskRemoved'),
+        description: t('task.taskRemovedDescription'),
         status: 'info',
         duration: 3000,
         isClosable: true,
@@ -1013,7 +1013,7 @@ export default function Create() {
                     <Icon as={FaUpload} fontSize="4xl" color="gray.400" />
                     <VStack spacing={2}>
                       <Text color="white" fontWeight="medium" textAlign="center">
-                        {selectedApp ? "点击或拖拽文件到此处上传" : "请先选择下方应用"}
+                        {selectedApp ? t('task.uploadPrompt') : t('task.selectAppFirst')}
                       </Text>
                       <Text fontSize="sm" color="gray.400" textAlign="center">
                         支持图片和视频格式
@@ -1070,14 +1070,14 @@ export default function Create() {
       <Modal isOpen={isResultModalOpen} onClose={onResultModalClose} isCentered size="xl">
         <ModalOverlay bg="blackAlpha.800" />
         <ModalContent bg="rgba(26, 26, 46, 0.95)" color="white" border="1px solid rgba(255, 255, 255, 0.1)" backdropFilter="blur(10px)">
-          <ModalHeader color="white">生成结果</ModalHeader>
+          <ModalHeader color="white">{t('task.generationResult')}</ModalHeader>
           <ModalCloseButton color="white" _hover={{ bg: 'rgba(255, 255, 255, 0.1)' }} />
           <ModalBody>
             {resultImage ? (
                resultImage.toLowerCase().endsWith('.mp4') || resultImage.toLowerCase().endsWith('.webm') ? (
                 <Box as="video" src={resultImage} controls autoPlay borderRadius="md" w="100%" />
               ) : (
-                <Image src={resultImage} alt="生成结果" borderRadius="md" w="100%" />
+                <Image src={resultImage} alt={t('task.generationResult')} borderRadius="md" w="100%" />
               )
             ) : (
               <Flex justify="center" align="center" h="300px">
@@ -1093,7 +1093,7 @@ export default function Create() {
               color="white"
               _hover={{ bg: 'rgba(255, 255, 255, 0.1)' }}
             >
-              关闭
+              {t('task.close')}
             </Button>
             <Button 
               as="a" 
@@ -1102,7 +1102,7 @@ export default function Create() {
               colorScheme="blue"
               _hover={{ transform: 'translateY(-1px)', shadow: 'lg' }}
             >
-              下载
+              {t('task.download')}
             </Button>
           </ModalFooter>
         </ModalContent>

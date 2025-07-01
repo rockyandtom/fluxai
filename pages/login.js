@@ -512,7 +512,7 @@ export default function Login() {
                 >
                   <Image
                     src="/flux-ai-promo.jpg"
-                    alt="Flux AI 功能展示"
+                    alt={t('home.hero.title')}
                     objectFit="cover"
                     w="100%"
                     h="100%"

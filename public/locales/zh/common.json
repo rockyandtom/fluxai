@@ -334,9 +334,20 @@
     "expired": "已过期",
     "error": {
       "fetchResultFailed": "获取结果失败",
-      "executionFailed": "任务执行失败"
+      "executionFailed": "任务执行失败",
+      "timeout": "任务执行超时，但可能仍在后台处理中，请稍后在"我的项目"页面查看结果",
+      "timeoutDescription": "长时间未获取到任务结果，但任务可能仍在后台处理，请稍后在"我的项目"中查看。"
     },
-    "generating": "生成中"
+    "generating": "生成中",
+    "timeout": "任务超时",
+    "worksSaved": "您的作品已自动保存到"我的项目"中！",
+    "taskRemoved": "任务已移除",
+    "taskRemovedDescription": "该任务已从您的列表中移除。",
+    "uploadPrompt": "点击或拖拽文件到此处上传",
+    "selectAppFirst": "请先选择下方应用",
+    "generationResult": "生成结果",
+    "close": "关闭",
+    "download": "下载"
   },
   "apps": {
     "animeStyleTransfer": "动漫风格转换",
