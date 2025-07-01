@@ -4,8 +4,6 @@ import { SessionProvider } from 'next-auth/react';
 import { ChakraProvider, extendTheme } from '@chakra-ui/react';
 import Navbar from '../components/Navbar';
 import Head from 'next/head';
-import { useRouter } from 'next/router';
-import { useEffect } from 'react';
 
 const theme = extendTheme({
   styles: {
@@ -32,21 +30,6 @@ const theme = extendTheme({
 });
 
 function MyApp({ Component, pageProps: { session, ...pageProps } }) {
-  const router = useRouter();
-
-  // 语言持久化处理
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const savedLanguage = localStorage.getItem('preferred-language');
-      const currentLocale = router.locale;
-      
-      // 如果有保存的语言偏好且与当前语言不同，则切换
-      if (savedLanguage && savedLanguage !== currentLocale && ['en', 'zh'].includes(savedLanguage)) {
-        router.push(router.asPath, router.asPath, { locale: savedLanguage });
-      }
-    }
-  }, []);
-
   return (
     <SessionProvider session={session} refetchInterval={5 * 60}>
       <ChakraProvider theme={theme}>

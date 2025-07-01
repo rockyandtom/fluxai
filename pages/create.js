@@ -1003,7 +1003,7 @@ export default function Create() {
                         _hover={{ color: "red.200", bg: "rgba(255, 0, 0, 0.1)" }}
                         leftIcon={<FaTimes />}
                       >
-                        移除文件
+                        {t('task.removeFile')}
                       </Button>
                     </VStack>
                   </VStack>
@@ -1016,7 +1016,7 @@ export default function Create() {
                         {selectedApp ? t('task.uploadPrompt') : t('task.selectAppFirst')}
                       </Text>
                       <Text fontSize="sm" color="gray.400" textAlign="center">
-                        支持图片和视频格式
+                        {t('task.fileFormats')}
                       </Text>
                     </VStack>
                   </VStack>

@@ -347,7 +347,9 @@
     "selectAppFirst": "请先选择下方应用",
     "generationResult": "生成结果",
     "close": "关闭",
-    "download": "下载"
+    "download": "下载",
+    "fileFormats": "支持图片和视频格式",
+    "removeFile": "移除文件"
   },
   "apps": {
     "animeStyleTransfer": "动漫风格转换",
@@ -403,5 +405,6 @@
     "about": "关于我们",
     "contact": "联系我们",
     "privacy": "隐私政策"
-  }
+  },
+  "download": "下载"
 } 

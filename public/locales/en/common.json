@@ -491,7 +491,9 @@
     "selectAppFirst": "Please select an app below first",
     "generationResult": "Generation Result",
     "close": "Close",
-    "download": "Download"
+    "download": "Download",
+    "fileFormats": "Supports image and video formats",
+    "removeFile": "Remove File"
   },
   "apps": {
     "animeStyleTransfer": "Anime Style Transfer",
