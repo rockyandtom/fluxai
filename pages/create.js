@@ -369,35 +369,35 @@ export default function Create() {
 
   // 遵循网站开发规范指南 - 统一的错误提示函数
   const showErrorToast = (message) => {
-    let title = '任务失败';
+    let title = t('error.taskFailed');
     let description = message;
     let status = 'error';
     let duration = 9000;
 
     // 区分不同类型的错误，提供合适的用户提示
     if (message?.includes('后端执行失败:')) {
-      title = 'AI处理失败';
+      title = t('error.aiProcessingFailed');
       description = message.replace('后端执行失败:', '').trim();
       if (description.includes('显存不足') || description.includes('memory')) {
-        description = 'AI模型处理失败：显存不足。建议您降低输入文件的分辨率或缩短视频时长，然后重试。';
+        description = t('error.memoryInsufficient');
       } else if (description.includes('timeout') || description.includes('超时')) {
-        description = 'AI处理超时，可能是由于任务复杂度较高。建议您简化输入内容后重试。';
+        description = t('error.processingTimeout');
       } else if (description.includes('格式') || description.includes('format')) {
-        description = '输入文件格式不支持或文件损坏，请检查文件格式后重试。';
+        description = t('error.formatError');
       }
     } else if (message?.includes('后端错误:')) {
-      title = '服务错误';
+      title = t('error.serviceError');
       description = message.replace('后端错误:', '').trim();
       if (description.includes('任务不存在')) {
-        description = '任务已过期或不存在，请重新开始创作。';
+        description = t('error.taskNotExists');
       }
     } else if (message?.includes('上传失败')) {
-      title = '文件上传失败';
-      description = '文件上传遇到问题，请检查网络连接或文件大小后重试。';
+      title = t('error.fileUploadFailed');
+      description = t('error.uploadError');
       status = 'warning';
     } else if (message?.includes('任务启动失败')) {
-      title = '任务启动失败';
-      description = '任务启动遇到问题，请稍后重试。如果问题持续存在，请联系客服。';
+      title = t('error.taskStartFailed');
+      description = t('error.startupError');
       status = 'warning';
     }
 
