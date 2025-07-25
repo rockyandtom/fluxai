@@ -36,6 +36,18 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
         <Head>
           <title>Flux AI</title>
           <meta name="description" content="Flux AI - Your Intelligent Creative Partner" />
+          {/* Google tag (gtag.js) */}
+          <script async src="https://www.googletagmanager.com/gtag/js?id=G-D1MZFL0J94"></script>
+          <script
+            dangerouslySetInnerHTML={{
+              __html: `
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){dataLayer.push(arguments);}
+                gtag('js', new Date());
+                gtag('config', 'G-D1MZFL0J94');
+              `,
+            }}
+          />
         </Head>
         <Navbar />
         <Component {...pageProps} />

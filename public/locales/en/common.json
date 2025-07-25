@@ -570,5 +570,18 @@
       "title": "Server Busy",
       "description": "Server is currently under high load, task is still running in background, please wait..."
     }
+  },
+  "error": {
+    "taskFailed": "Task Failed",
+    "aiProcessingFailed": "AI Processing Failed",
+    "serviceError": "Service Error",
+    "fileUploadFailed": "File Upload Failed",
+    "taskStartFailed": "Task Start Failed",
+    "memoryInsufficient": "AI model processing failed: Insufficient memory. Please reduce input file resolution or shorten video duration and try again.",
+    "processingTimeout": "AI processing timeout, possibly due to high task complexity. Please simplify input content and try again.",
+    "formatError": "Input file format not supported or file corrupted, please check file format and try again.",
+    "taskNotExists": "Task has expired or does not exist, please start creating again.",
+    "uploadError": "File upload encountered issues, please check network connection or file size and try again.",
+    "startupError": "Task startup encountered issues, please try again later. If the problem persists, please contact customer service."
   }
 } 

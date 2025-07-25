@@ -169,10 +169,10 @@ export default function Navbar() {
         align="center"
         maxW="1400px"
         mx="auto"
-        justify="space-between"
+        position="relative"
       >
         {/* Left Side - Mobile Menu + Logo */}
-        <Flex align="center" minW="200px">
+        <Flex align="center" position="absolute" left={{ base: 6, md: 8 }} zIndex={2}>
           {/* Mobile Hamburger Menu */}
           <IconButton
             icon={isOpen ? <CloseIcon /> : <HamburgerIcon />}
@@ -201,18 +201,21 @@ export default function Navbar() {
           </Link>
         </Flex>
 
-        {/* Center - Desktop Navigation */}
+        {/* Center - Desktop Navigation - 完全居中 */}
         <Flex
           display={{ base: 'none', md: 'flex' }}
-          flex="1"
           justify="center"
           align="center"
+          position="absolute"
+          left="50%"
+          transform="translateX(-50%)"
+          zIndex={1}
         >
           <DesktopNav navItems={navLinks} />
         </Flex>
 
         {/* Right Side - Language + Auth */}
-        <HStack spacing={3} minW="200px" justify="flex-end">
+        <HStack spacing={3} position="absolute" right={{ base: 6, md: 8 }} zIndex={2} justify="flex-end">
           {/* Language Switcher */}
           <Menu>
             <MenuButton
